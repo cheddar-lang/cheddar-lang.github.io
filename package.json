@@ -1,0 +1,17 @@
+{
+  "name": "cheddar-website",
+  "version": "1.0.0",
+  "description": "The website for Cheddar",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "gem install sass"
+  },
+  "author": "Vihan B <vihan@vihan.org> (vihan.org)",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-sass": "^1.0.0",
+    "load-grunt-tasks": "^3.5.0"
+  }
+}
