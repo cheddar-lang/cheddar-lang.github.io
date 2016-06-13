@@ -10,6 +10,11 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/railscasts.min.css">
+        <script src="assets/js/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
@@ -76,7 +81,41 @@
 				<!-- Two -->
 					<section id="two" class="wrapper alt style2">
 						<section class="spotlight">
-							<div class="image"><img src="images/pic01.jpg" alt="" /></div><div class="content">
+							<div class="image">
+                                <div>
+                                    <pre><code class="cheddar">
+IO.printf(
+  "Hello, %s!",
+  IO.prompt(
+    "Name:",
+    "Please enter your name"
+  )
+)
+                                    </code></pre>
+                                </div>
+                                <div>
+                                    <pre><code class="cheddar">
+class Greeter(String: name?) {
+  ask -> self.name = IO.prompt("Name:")
+  say -> IO.printf(
+    "Hello, %s!",
+    self.name
+  )
+}
+
+export main() {
+  const Hello := Greeter::()
+  
+  while !Hello.ask() {
+    print "Please enter your name"
+    Hello.ask()
+  }
+  
+  Hello.say()
+}
+                                    </code></pre>
+                                </div>
+                            </div><div class="content">
 								<h2>Magna primis lobortis<br />
 								sed ullamcorper</h2>
 								<p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla nullam aenean mi ligula.</p>

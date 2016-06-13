@@ -1211,7 +1211,7 @@ pre {
   -webkit-overflow-scrolling: touch;
   font-family: "Courier New", monospace;
   font-size: 0.9em;
-  margin: 0 0 2em 0; }
+  margin: 2em 0 2em 0; }
   pre code {
     display: block;
     line-height: 1.75em;
@@ -1484,11 +1484,14 @@ input[type="radio"] + label:before {
 .image {
   border-radius: 3px;
   border: 0;
-  display: inline-block;
+  display: table;
   position: relative; }
   .image img {
     border-radius: 3px;
     display: block; }
+  .image div {
+    width: 50%;
+    display: table-cell; }
   .image.left {
     float: left;
     margin: 0 2em 2em 0;

@@ -181,7 +181,7 @@
 		-webkit-overflow-scrolling: touch;
 		font-family: _font(family-fixed);
 		font-size: 0.9em;
-		margin: 0 0 _size(element-margin) 0;
+		margin: _size(element-margin) 0 _size(element-margin) 0;
 
 		code {
 			display: block;
@@ -502,13 +502,18 @@
 	.image {
 		border-radius: 3px;
 		border: 0;
-		display: inline-block;
+		display: table;
 		position: relative;
 
 		img {
 			border-radius: 3px;
 			display: block;
 		}
+
+        div {
+            width: 50%;
+            display: table-cell;
+        }
 
 		&.left {
 			float: left;
