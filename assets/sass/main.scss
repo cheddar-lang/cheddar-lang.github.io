@@ -1493,6 +1493,8 @@
 			position: relative;
 			z-index: 1;
 
+            color: #FCE241;
+
 			&:before, &:after {
 				@include vendor('transition', 'width 0.85s ease');
 				@include vendor('transition-delay', '0.25s');
