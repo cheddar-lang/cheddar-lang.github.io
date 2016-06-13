@@ -1484,17 +1484,10 @@ input[type="radio"] + label:before {
 .image {
   border-radius: 3px;
   border: 0;
-  display: table;
   position: relative; }
   .image img {
     border-radius: 3px;
     display: block; }
-  .image > div {
-    margin: 0 auto; }
-    .image > div > div {
-      display: table-cell; }
-      .image > div > div:first-child {
-        width: 50%; }
   .image.left {
     float: left;
     margin: 0 2em 2em 0;
@@ -1861,7 +1854,11 @@ button,
     -ms-order: 1;
     order: 1;
     border-radius: 0;
-    max-width: 55%; }
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center; }
     .spotlight .image img {
       border-radius: 0;
       width: 100%; }

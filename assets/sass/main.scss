@@ -502,7 +502,6 @@
 	.image {
 		border-radius: 3px;
 		border: 0;
-		display: table;
 		position: relative;
 
 		img {
@@ -511,12 +510,6 @@
 		}
 
         > div {
-            margin: 0 auto;
-
-            > div {
-                &:first-child { width: 50% }
-                display: table-cell;
-            }
         }
 
 		&.left {
@@ -970,8 +963,14 @@
 		.image {
 			@include vendor('order', '1');
 			border-radius: 0;
-			max-width: 55%;
+			// max-width: 55%;
             // min-width: 40%;
+
+            display: -moz-flex;
+            display: -ms-flex;
+            display: -webkit-flex;
+            display: flex;
+            justify-content: center;
 
 			img {
 				border-radius: 0;
