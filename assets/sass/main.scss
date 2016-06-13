@@ -510,9 +510,13 @@
 			display: block;
 		}
 
-        div {
-            width: 50%;
-            display: table-cell;
+        > div {
+            margin: 0 auto;
+
+            > div {
+                &:first-child { width: 50% }
+                display: table-cell;
+            }
         }
 
 		&.left {
@@ -529,7 +533,7 @@
 
 		&.left,
 		&.right {
-			max-width: 40%;
+			max-width: 60%;
 
 			img {
 				width: 100%;
@@ -966,7 +970,8 @@
 		.image {
 			@include vendor('order', '1');
 			border-radius: 0;
-			width: 40%;
+			max-width: 55%;
+            // min-width: 40%;
 
 			img {
 				border-radius: 0;
@@ -977,8 +982,9 @@
 		.content {
 			@include padding(2em, 4em);
 			@include vendor('order', '2');
-			max-width: 48em;
-			width: 60%;
+			// max-width: 32em;
+			max-width: 45%;
+			// min-width: 40%;
 		}
 
 		&:nth-child(2n) {

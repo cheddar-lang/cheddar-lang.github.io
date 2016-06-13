@@ -1489,9 +1489,12 @@ input[type="radio"] + label:before {
   .image img {
     border-radius: 3px;
     display: block; }
-  .image div {
-    width: 50%;
-    display: table-cell; }
+  .image > div {
+    margin: 0 auto; }
+    .image > div > div {
+      display: table-cell; }
+      .image > div > div:first-child {
+        width: 50%; }
   .image.left {
     float: left;
     margin: 0 2em 2em 0;
@@ -1501,7 +1504,7 @@ input[type="radio"] + label:before {
     margin: 0 0 2em 2em;
     top: 0.25em; }
   .image.left, .image.right {
-    max-width: 40%; }
+    max-width: 60%; }
     .image.left img, .image.right img {
       width: 100%; }
   .image.fit {
@@ -1858,7 +1861,7 @@ button,
     -ms-order: 1;
     order: 1;
     border-radius: 0;
-    width: 40%; }
+    max-width: 55%; }
     .spotlight .image img {
       border-radius: 0;
       width: 100%; }
@@ -1868,8 +1871,7 @@ button,
     -webkit-order: 2;
     -ms-order: 2;
     order: 2;
-    max-width: 48em;
-    width: 60%; }
+    max-width: 45%; }
   .spotlight:nth-child(2n) {
     -moz-flex-direction: row-reverse;
     -webkit-flex-direction: row-reverse;
