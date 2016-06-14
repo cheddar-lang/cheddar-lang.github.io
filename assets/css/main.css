@@ -1946,7 +1946,7 @@ button,
       border-color: rgba(0, 0, 0, 0.125); }
     .wrapper.style1 blockquote {
       border-color: rgba(0, 0, 0, 0.125); }
-    .wrapper.style1 code {
+    .wrapper.style1 code:not(.hljs) {
       background: rgba(255, 255, 255, 0.075); }
     .wrapper.style1 header p {
       color: #f7dba9; }
@@ -2035,7 +2035,7 @@ button,
       border-color: rgba(0, 0, 0, 0.125); }
     .wrapper.style3 blockquote {
       border-color: rgba(0, 0, 0, 0.125); }
-    .wrapper.style3 code {
+    .wrapper.style3 code:not(.hljs) {
       background: rgba(255, 255, 255, 0.075); }
     .wrapper.style3 header p {
       color: #99e1e1; }
@@ -2124,7 +2124,7 @@ button,
       border-color: #dfdfdf; }
     .wrapper.style5 blockquote {
       border-color: #dfdfdf; }
-    .wrapper.style5 code {
+    .wrapper.style5 code:not(.hljs) {
       background: rgba(0, 0, 0, 0.0375); }
     .wrapper.style5 header p {
       color: #8E8892; }
@@ -2590,7 +2590,8 @@ body.is-loading #banner:after {
   text-align: center; }
   #main > header h2 {
     font-size: 1.75em;
-    margin: 0 0 0.5em 0; }
+    margin: 0 0 0.5em 0;
+    color: #FCE241; }
   #main > header p {
     color: inherit;
     letter-spacing: 0.225em;
