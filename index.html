@@ -34,8 +34,8 @@
 									<div id="menu">
 										<ul>
 											<li><a href="index.html">Home</a></li>
-											<li><a href="generic.html">Generic</a></li>
-											<li><a href="elements.html">Elements</a></li>
+											<li><a href="generic.html">Features</a></li>
+											<li><a href="index.html#download">Download</a></li>
 											<li><a href="#">Sign Up</a></li>
 											<li><a href="#">Log In</a></li>
 										</ul>
@@ -55,7 +55,7 @@
 							<p>The language<br />
 						    that works for you</p>
 							<ul class="actions">
-								<li><a href="#" class="button special">Download</a></li>
+								<li><a href="#download" class="button special">Download</a></li>
 							</ul>
 						</div>
 						<a href="#one" class="more scrolly">Learn More</a>
@@ -83,18 +83,15 @@
 						<section class="spotlight">
 							<div class="image">
                                 <div>
-                                    <pre><code class="cheddar">
-IO.printf("Hello, %s!",
+                                    <pre><code class="cheddar">IO.printf("Hello, %s!",
   IO.prompt(
     "Name:",
     "Please enter your name"
   )
-)
-                                    </code></pre>
+)</code></pre>
                                 </div>
                                 <div>
-                                    <pre><code class="cheddar">
-class Greeter(String: name?) {
+                                    <pre><code class="cheddar">class Greeter(String: name?) {
   ask -> self.name = IO.prompt("Name:", true)
   say -> IO.printf("Hello, %s!", self.name)
 }
@@ -103,15 +100,14 @@ export main() {
   const Hello := Greeter::()
   Hello.ask(true)
   Hello.say()
-}
-                                    </code></pre>
+}</code></pre>
                                 </div>
                             </div><div class="content">
 								<h2>Freedom.<br/>Flexiblity.</h2>
 								<p>When you code, you get the freedom and flexiblity to code how you want, in whatever paradigm you like. Whether you prefer object-oriented code, or you like functional design, Cheddar suits you.</p>
 							</div>
 						</section>
-						<section class="spotlight">
+						<!--<section class="spotlight">
 							<div class="image"><img src="images/pic02.jpg" alt="" /></div><div class="content">
 								<h2>Tortor dolore feugiat<br />
 								elementum magna</h2>
@@ -124,43 +120,45 @@ export main() {
 								sed condimentum</h2>
 								<p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla nullam aenean mi ligula.</p>
 							</div>
-						</section>
+						</section>-->
 					</section>
 
 				<!-- Three -->
-					<section id="three" class="wrapper style3 special">
+					<section id="download" class="wrapper style3 special">
 						<div class="inner">
 							<header class="major">
-								<h2>Accumsan mus tortor nunc aliquet</h2>
-								<p>Aliquam ut ex ut augue consectetur interdum. Donec amet imperdiet eleifend<br />
-								fringilla tincidunt. Nullam dui leo Aenean mi ligula, rhoncus ullamcorper.</p>
+								<h2>Download</h2>
+								<p>Cheddar is available on a wide variety of platforms; simply, choose your platform and run the command.<br/>
+                                If you'd like to do a custom install. You'll have to install Cheddar from <a href="https://github.com/cheddar-lang/Cheddar">source</a>.</p>
 							</header>
 							<ul class="features">
-								<li class="icon fa-paper-plane-o">
-									<h3>Arcu accumsan</h3>
-									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
+								<li class="icon fa-windows">
+									<h3>Windows</h3>
+									<p style="text-align: center">
+                                        <br/>
+                                        <a class="button" href="http://cheddar.vihan.org/install/windows/cheddar">
+                                            Install Script
+                                        </a>
+                                    </p>
 								</li>
-								<li class="icon fa-laptop">
-									<h3>Ac Augue Eget</h3>
-									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
+								<li class="icon fa-apple">
+									<h3>Mac OS</h3>
+									<p>Ensure <a href="http://brew.sh">brew</a> is installed
+                                    <pre><code class="sh">$ brew install coreutils
+$ bash &lt;(curl -fsSL cheddar.vihan.org/install/nix/cheddar)</code></pre></p>
 								</li>
-								<li class="icon fa-code">
-									<h3>Mus Scelerisque</h3>
-									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
+								<li class="icon fa-linux">
+									<h3>Linux</h3>
+									<p>If you are on a BSD platform, ensure the <code>realpath</code> command exists.
+                                    <pre><code class="sh">$ sh &lt;(curl -fsSL cheddar.vihan.org/install/nix/cheddar)</code></pre></p>
 								</li>
-								<li class="icon fa-headphones">
-									<h3>Mauris Imperdiet</h3>
-									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
-								</li>
-								<li class="icon fa-heart-o">
-									<h3>Aenean Primis</h3>
-									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
-								</li>
-								<li class="icon fa-flag-o">
-									<h3>Tortor Ut</h3>
-									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
-								</li>
-							</ul>
+                                <li class="icon fa-question-circle">
+                                    <h3>Other?</h3>
+                                    <p>Changes are that you are on a *nix system and you don't know it. If you're sure, then <a href="https://github.com/cheddar-lang/install/issues/new">leave an issue</a> on the <a href="https://github.com">GitHub</a></p>
+                                </li><Paste>
+                            </ul>
+                            <hr>
+                            Remove the <code>bash &lt;</code> or <code>sh &lt;</code> to ensure you are not a victim of a <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">MitM</a> attack
 						</div>
 					</section>
 
@@ -204,4 +202,4 @@ export main() {
 			<script src="assets/js/main.js"></script>
 
 	</body>
-</html>
+</html> 
