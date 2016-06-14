@@ -1821,7 +1821,7 @@ button,
     .features li:nth-last-child(2) {
       border-bottom-left-radius: 3px; }
     .features li pre {
-      margin: 0 -10% 0 -10%; }
+      margin: 0 -5%; }
     @media screen and (max-width: 980px) {
       .features li {
         padding: 3em 2em 1em 2em ;
@@ -1864,7 +1864,8 @@ button,
     -webkit-flex-flow: row wrap;
     -moz-flex-flow: row wrap;
     -ms-flex-flow: row wrap;
-    flex-flow: row wrap; }
+    flex-flow: row wrap;
+    margin-left: auto; }
     .spotlight .image img {
       border-radius: 0;
       width: 100%; }
@@ -1925,7 +1926,7 @@ button,
 .wrapper {
   padding: 6em 0 4em 0 ; }
   .wrapper > .inner {
-    width: 60em;
+    width: 70em;
     margin: 0 auto; }
     @media screen and (max-width: 1280px) {
       .wrapper > .inner {

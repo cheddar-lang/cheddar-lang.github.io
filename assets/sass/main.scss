@@ -930,7 +930,7 @@
 			}
 
             pre {
-                margin: 0 -10% 0 -10%;
+                margin: 0 -5%;
             }
 
 			@include breakpoint(medium) {
@@ -978,6 +978,8 @@
             -moz-flex-flow: row wrap;
             -ms-flex-flow: row wrap;
             flex-flow: row wrap;
+
+            margin-left: auto;
 
 			img {
 				border-radius: 0;
@@ -1236,7 +1238,7 @@
 		@include padding(6em, 0);
 
 		> .inner {
-			width: 60em;
+			width: 70em;
 			margin: 0 auto;
 
 			@include breakpoint(large) {
