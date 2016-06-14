@@ -1065,8 +1065,10 @@
 				border-color: _palette($p, border);
 			}
 
-            code:not(.hljs) {
-				background: _palette($p, border-bg);
+            code {
+				&.def {
+                    background: _palette($p, border-bg);
+                }
 			}
 
 		// Section/Article
