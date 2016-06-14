@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+if ! type node > /dev/null || ! type npm > /dev/null; then
+  echo "No node or NPM found... installing..."
+  if type brew > /dev/null; then
+    brew install node
+  elif type port > /dev/null; then
+    port install nodejs
+  elif type pacman > /dev/null; then
+    pacman -S nodejs npm
+  elif type yum > /dev/null; then
+    sudo yum install nodejs npm
+  elif type apt-get > /dev/null; then
+    curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+  elif type emerge > /dev/null; then
+    emerge nodejs
+  else
+    echo "Could not detect system for node installation"
+    echo "Please install node before running this script"
+  fi
+fi
+
+echo "Downloading cheddar..."
+cdrtmpdir="cdrtmp-`date +%s`"
+git clone https://github.com/cheddar-lang/Cheddar.git $cdrtmpdir
+echo "Configuring installation..."
+chmod -R 777 $cdrtmpdir/
+cd $cdrtmpdir
+echo "Beginning install..."
+sudo ./bin/install
+echo "Installation appears to be successful!"
+echo "Cleaning remains..."
+cd ..
+sudo rm -rf $cdrtmpdir
