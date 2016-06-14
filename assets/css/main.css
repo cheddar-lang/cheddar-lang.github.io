@@ -1821,7 +1821,7 @@ button,
     .features li:nth-last-child(2) {
       border-bottom-left-radius: 3px; }
     .features li pre {
-      margin: 0 -10% 0 -20%; }
+      margin: 0 -10% 0 -10%; }
     @media screen and (max-width: 980px) {
       .features li {
         padding: 3em 2em 1em 2em ;
