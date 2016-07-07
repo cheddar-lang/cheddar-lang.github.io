@@ -22,9 +22,9 @@ fi
 
 echo "Downloading cheddar..."
 cdrtmpdir="cdrtmp-`date +%s`"
-git clone https://github.com/cheddar-lang/Cheddar.git $cdrtmpdir
+sudo git clone https://github.com/cheddar-lang/Cheddar.git $cdrtmpdir
 echo "Configuring installation..."
-chmod -R 777 $cdrtmpdir/
+sudo chmod -R 777 $cdrtmpdir/
 cd $cdrtmpdir
 echo "Beginning install..."
 sudo ./bin/install
