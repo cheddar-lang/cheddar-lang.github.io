@@ -1,4 +1,5 @@
 /*global Chedz, _console*/
+var VERSION = /*@VERSION*/"0.3.0"/*/@VERSION*/;
 window.onload = function() {
 
     document.getElementById("code").onclick = function() {
@@ -80,8 +81,6 @@ window.onload = function() {
     window._console = window.console;
     window.console = REPL;
     // No need, fixed
-
-    var VERSION = "0.3.0";
 
     REPL.log("\nCheddar v" + VERSION + " (interactive)\n" +
         "run `help` to get started" + "\n", 'prepend');
