@@ -1,5 +1,5 @@
 /*global Chedz, _console*/
-var VERSION = /*@VERSION*/"0.3.0"/*/@VERSION*/;
+var VERSION = "1.0.0";
 window.onload = function() {
 
     document.getElementById("code").onclick = function() {
