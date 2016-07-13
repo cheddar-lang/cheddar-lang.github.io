@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":30,"../stdlib/stdlib":61,"../tokenizer/tok":90,"colors":99,"readline":93}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":30,"../stdlib/stdlib":61,"../tokenizer/tok":90,"colors":98,"readline":93}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -134,7 +134,7 @@ function caret(Code, Index, highlight) {
 }
 module.exports = exports['default'];
 
-},{"./loc":4,"colors":99}],3:[function(require,module,exports){
+},{"./loc":4,"colors":98}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1522,6 +1522,13 @@ var CheddarArray = function (_CheddarClass) {
 
             return true;
         }
+
+        // TODO: replace with Cheddar generator
+        // send a `yield` signal probably
+
+    }, {
+        key: 'iterator',
+        value: function iterator() {}
     }, {
         key: 'reverse',
         value: function reverse() {
@@ -2580,57 +2587,149 @@ var CheddarFor = function () {
     _createClass(CheddarFor, [{
         key: 'exec',
         value: function exec() {
-            // Create `for`'s scope
+            // Create `for`'s scope, inherits from parent
             var SCOPE = new _scope2.default(this.scope);
 
-            var pool0 = void 0,
-                poola = void 0,
-                poolb = void 0,
-                poolc = void 0,
-                // Token caching
-            res = void 0,
-                bool = void 0,
-                // Storage
-            ralloc = void 0,
-                // Pending result
-            trs = void 0; // Temp
+            // Determine whether for..in or for (a; b; c)
+            // 4 tokens === for..in
+            if (this.toks._Tokens.length === 4) {
+                var vars = void 0,
+                    // Variable array for destructuring
+                target = void 0,
+                    // Item to loop over
+                codeblock = void 0; // Codeblock to execute
 
-            this.toks.shift(); // Dispose `for` guarantee token
-            // Execute the initial setup
-            pool0 = this.toks.shift();
+                // First token is the variable(s) name(s)
+                vars = this.toks._Tokens[1];
 
-            if (pool0.constructor.name === "StatementAssign") {
-                trs = new _assign2.default(pool0, SCOPE).exec();
-            } else {
-                trs = new _eval2.default(pool0, SCOPE).exec();
-            }
-
-            // Cache tokens to avoid new lookup
-            poola = this.toks.shift();
-            poolb = this.toks.shift();
-            poolc = this.toks.shift();
-
-            while (true) {
-                res = new _eval2.default(poola, SCOPE);
-                res = res.exec();
-
-                bool = new _Bool2.default(SCOPE);
-
-                if (bool.init(res) && bool.value === true) {
-                    ralloc = new _exec2.default(poolc._Tokens[0], SCOPE);
-
-                    ralloc = ralloc.exec();
-
-                    trs = new _eval2.default(poolb, SCOPE);
-                    trs.exec();
-
-                    if (typeof ralloc === "string") break;
+                // Handle destructuring
+                if (vars.constructor.name === "CheddarArrayToken") {
+                    // Extract the variable name from inside the tokens
+                    vars = vars._Tokens.map(function (variable) {
+                        return variable._Tokens[0];
+                    });
                 } else {
-                    break;
+                    // It's just a normal variable
+                    // wrap it as an array
+                    vars = [vars._Tokens[0]];
                 }
-            }
 
-            return ralloc;
+                // Evaluate the expression
+                target = new _eval2.default(this.toks._Tokens[2], // The target token
+                SCOPE // The generated scope
+                ).exec();
+
+                // Propogate errors
+                if (typeof target === 'string') return target;
+
+                // Iterate over the result
+                if (target.value) {
+                    var CheddarString = require('../core/primitives/String');
+                    var init = require('../../helpers/init');
+                    var cvar = require('../core/env/var');
+                    // TODO: Actually make generators
+                    // Currently just extract value and iterate over that
+                    for (var i = 0; i < target.value.length; i++) {
+                        // Check if destructuring properly
+                        if (i === 0 && vars.length > 1) {
+                            return 'Unused variables in for destructuring: `' + vars.slice(1).join(", ") + '`';
+                        }
+
+                        // If it has the variable and it's not writable
+                        if (SCOPE.has(vars[0]) && SCOPE.accessor(vars[0]).Writeable === false) {
+                            return 'Cannot overwrite constant `' + vars[0] + '`';
+                        }
+
+                        if (typeof target.value === 'string') {
+                            // It is an array
+                            SCOPE.manage( // The setter
+                            vars[0], // set it to the first variable
+                            // Convert the item to a CheddarString, wrap in a
+                            // CheddarVariable
+                            new cvar(init(CheddarString, target.value[i])));
+                        } else {
+                            // It's an array
+                            SCOPE.manage( // the setter
+                            vars[0], // the variable name, the first one
+                            // Wrap the array item in a CheddarVariable
+                            new cvar(target.value[i]));
+                        }
+
+                        // Execute the codeblock
+                        codeblock = new _exec2.default(
+                        // The codeblock is at the 3rd token
+                        // Actual tokens are wrapped
+                        // Can be accessed through ._Tokens[0]
+                        this.toks._Tokens[3]._Tokens[0], SCOPE // Pass the generated scope
+                        ).exec();
+
+                        // If it errored, it returned a string, error.
+                        if (typeof codeblock === "string") return codeblock;
+                    }
+
+                    // Return the result of codeblock
+                    // The implicit output will become
+                    // the last iteration response
+                    return codeblock;
+                } else {
+                    return 'Cannot iterate over ' + (target.constructor.Name || target.Name || "object");
+                }
+            } else {
+
+                var pool0 = void 0,
+                    poola = void 0,
+                    poolb = void 0,
+                    poolc = void 0,
+                    // Token caching
+                res = void 0,
+                    bool = void 0,
+                    // Storage
+                ralloc = void 0,
+                    // Pending result
+                trs = void 0; // Temp
+
+                // Execute the initial setup
+                pool0 = this.toks._Tokens[1];
+
+                if (pool0.constructor.name === "StatementAssign") {
+                    trs = new _assign2.default(pool0, SCOPE).exec();
+                } else {
+                    trs = new _eval2.default(pool0, SCOPE).exec();
+                }
+
+                if (typeof trs === 'string') return trs;
+
+                // Cache tokens to avoid new lookup
+                poola = this.toks._Tokens[2];
+                poolb = this.toks._Tokens[3];
+                poolc = this.toks._Tokens[4];
+
+                while (true) {
+                    res = new _eval2.default(poola, SCOPE);
+                    res = res.exec();
+
+                    if (typeof res === 'string') return res;
+
+                    bool = new _Bool2.default(SCOPE);
+
+                    if (bool.init(res) && bool.value === true) {
+                        ralloc = new _exec2.default(poolc._Tokens[0], SCOPE);
+
+                        ralloc = ralloc.exec();
+
+                        if (typeof ralloc === "string") break;
+
+                        trs = new _eval2.default(poolb, SCOPE);
+                        trs.exec();
+
+                        if (typeof trs === 'string') return trs;
+                    } else {
+                        break;
+                    }
+                }
+
+                return ralloc;
+            }
         }
     }]);
 
@@ -2640,7 +2739,7 @@ var CheddarFor = function () {
 exports.default = CheddarFor;
 module.exports = exports['default'];
 
-},{"../core/consts/err":7,"../core/consts/err_msg":8,"../core/consts/nil":9,"../core/env/scope":13,"../core/eval/eval":16,"../core/primitives/Bool":18,"../exec":30,"./assign":32}],34:[function(require,module,exports){
+},{"../../helpers/init":3,"../core/consts/err":7,"../core/consts/err_msg":8,"../core/consts/nil":9,"../core/env/scope":13,"../core/env/var":14,"../core/eval/eval":16,"../core/primitives/Bool":18,"../core/primitives/String":20,"../exec":30,"./assign":32}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5377,6 +5476,18 @@ var _err = require('../consts/err');
 
 var CheddarError = _interopRequireWildcard(_err);
 
+var _var = require('../literals/var');
+
+var _var2 = _interopRequireDefault(_var);
+
+var _custom = require('../parsers/custom');
+
+var _custom2 = _interopRequireDefault(_custom);
+
+var _array = require('../parsers/array');
+
+var _array2 = _interopRequireDefault(_array);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -5386,6 +5497,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DECONSTRUCT = (0, _custom2.default)(_array2.default, '[', ']', _var2.default, true);
 
 var StatementFor = function (_CheddarLexer) {
     _inherits(StatementFor, _CheddarLexer);
@@ -5403,7 +5516,9 @@ var StatementFor = function (_CheddarLexer) {
 
             if (!this.lookAhead("for")) return CheddarError.EXIT_NOTFOUND;
 
-            var FOR = this.grammar(true, ['for', '(', [_assign2.default, _expr2.default], ';', _expr2.default, ';', _expr2.default, ')', _block2.default]);
+            this.jumpLiteral("for");
+
+            var FOR = this.grammar(true, ['(', [DECONSTRUCT, _var2.default], 'in', _expr2.default, ')', _block2.default], ['(', [_assign2.default, _expr2.default], ';', _expr2.default, ';', _expr2.default, ')', _block2.default]);
 
             if (FOR === CheddarError.EXIT_NOTFOUND) {
                 return CheddarError.UNEXPECTED_TOKEN;
@@ -5419,7 +5534,7 @@ var StatementFor = function (_CheddarLexer) {
 exports.default = StatementFor;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../patterns/EXPLICIT":84,"../patterns/block":85,"./assign":86,"./expr":87}],89:[function(require,module,exports){
+},{"../consts/err":63,"../literals/var":74,"../parsers/array":77,"../parsers/custom":78,"../patterns/EXPLICIT":84,"../patterns/block":85,"./assign":86,"./expr":87}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5931,7 +6046,7 @@ var CheddarLexer = function () {
                             var _oldIndex3 = this.Index;
                             for (var k = 0; k < defs[i][j].length; k++) {
                                 this.Index = index;
-                                if (defs[i][j][k].prototype instanceof CheddarLexer) {
+                                if (defs[i][j][k].prototype instanceof CheddarLexer || defs[i][j][k] instanceof CheddarLexer) {
                                     result = this.initParser(defs[i][j][k]).exec();
                                     if (result instanceof CheddarLexer) {
                                         match = result;
@@ -6256,127 +6371,6 @@ module.exports = exports['default'];
 },{"../consts/err":63,"../consts/ops":65,"../literals/op":71,"./lex":91}],93:[function(require,module,exports){
 
 },{}],94:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-(function () {
-  try {
-    cachedSetTimeout = setTimeout;
-  } catch (e) {
-    cachedSetTimeout = function () {
-      throw new Error('setTimeout is not defined');
-    }
-  }
-  try {
-    cachedClearTimeout = clearTimeout;
-  } catch (e) {
-    cachedClearTimeout = function () {
-      throw new Error('clearTimeout is not defined');
-    }
-  }
-} ())
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = cachedSetTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    cachedClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        cachedSetTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],95:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -6564,7 +6558,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":96,"./custom/zalgo":97,"./maps/america":100,"./maps/rainbow":101,"./maps/random":102,"./maps/zebra":103,"./styles":104,"./system/supports-colors":105}],96:[function(require,module,exports){
+},{"./custom/trap":95,"./custom/zalgo":96,"./maps/america":99,"./maps/rainbow":100,"./maps/random":101,"./maps/zebra":102,"./styles":103,"./system/supports-colors":104}],95:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -6611,7 +6605,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],97:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -6717,7 +6711,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],98:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -6831,7 +6825,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":95}],99:[function(require,module,exports){
+},{"./colors":94}],98:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -6844,7 +6838,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":95,"./extendStringPrototype":98}],100:[function(require,module,exports){
+},{"./colors":94,"./extendStringPrototype":97}],99:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -6857,7 +6851,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":95}],101:[function(require,module,exports){
+},{"../colors":94}],100:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -6872,7 +6866,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":95}],102:[function(require,module,exports){
+},{"../colors":94}],101:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -6881,13 +6875,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":95}],103:[function(require,module,exports){
+},{"../colors":94}],102:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":95}],104:[function(require,module,exports){
+},{"../colors":94}],103:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -6965,7 +6959,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],105:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -7029,4 +7023,125 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require('_process'))
-},{"_process":94}]},{},[1]);
+},{"_process":105}],105:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+(function () {
+  try {
+    cachedSetTimeout = setTimeout;
+  } catch (e) {
+    cachedSetTimeout = function () {
+      throw new Error('setTimeout is not defined');
+    }
+  }
+  try {
+    cachedClearTimeout = clearTimeout;
+  } catch (e) {
+    cachedClearTimeout = function () {
+      throw new Error('clearTimeout is not defined');
+    }
+  }
+} ())
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = cachedSetTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    cachedClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        cachedSetTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}]},{},[1]);
