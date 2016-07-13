@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":30,"../stdlib/stdlib":61,"../tokenizer/tok":90,"colors":99,"readline":93}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":30,"../stdlib/stdlib":61,"../tokenizer/tok":90,"colors":98,"readline":93}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -134,7 +134,7 @@ function caret(Code, Index, highlight) {
 }
 module.exports = exports['default'];
 
-},{"./loc":4,"colors":99}],3:[function(require,module,exports){
+},{"./loc":4,"colors":98}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -503,13 +503,18 @@ var DEFAULT_OP = exports.DEFAULT_OP = new Map([
     var CheddarClass = require('./class');
     var CAST_ALIAS = require('../config/alias');
 
-    if (!(LHS.prototype instanceof CheddarClass)) return _err2.default.CAST_FAILED;
+    if (!(LHS.prototype instanceof CheddarClass)) {
+        // ERROR INTEGRATE
+        return 'Cast target must be class';
+    }
+
+    if (RHS.constructor === LHS) return RHS;
 
     var res = void 0;
     if (res = RHS.constructor.Cast.get(LHS.Name) || RHS.constructor.Cast.get(LHS) || RHS.constructor.Cast.get(CAST_ALIAS.get(LHS))) {
         return res(RHS);
     } else {
-        return _err2.default.NO_OP_BEHAVIOR;
+        return 'Cannot cast to given target `' + (LHS.Name || "object") + '`';
     }
 }], ['==', function (LHS, RHS) {
     return (0, _init2.default)(require("../primitives/Bool"), RHS && LHS instanceof RHS.constructor && LHS.value === RHS.value);
@@ -1297,7 +1302,9 @@ var CheddarEval = function (_CheddarCallStack) {
                 // Advance variable tree
                 for (var i = 1; i < Operation._Tokens.length; i++) {
                     // if it is a function call, call the function
-                    if (Operation._Tokens[i] instanceof _array2.default) {
+                    // we know this if the marker is a (
+                    if (Operation._Tokens[i] === "(") {
+                        ++i; // Go to the actual function token
 
                         if (!(OPERATOR instanceof _func2.default)) {
                             // ERROR INTEGRATE
@@ -1320,50 +1327,88 @@ var CheddarEval = function (_CheddarCallStack) {
                         }
 
                         OPERATOR = OPERATOR.exec(DATA, REFERENCE);
-                    } else {
-                        if (Operation._Tokens[i] === "[]") {
-                            // it is [ ... ]
-                            ++i; // Go to expression
-
-                            // Execute the expression
-                            var res = new CheddarEval({ _Tokens: [Operation._Tokens[i]] }, this.Scope).exec();
-
-                            // If response is a string, it's errored
-                            if (typeof res === "string") {
-                                return res;
-                            }
-
-                            // The response should be:
-                            //  A) number
-                            //  B) string
-
-                            if (res.constructor.Name === "String" || res.constructor.Name === "Number" && Number.isInteger(res.value)) {
-                                TARGET = res.value + "";
-                            } else {
-                                return 'Evaluated accessors must evaluate to a string or integer';
-                            }
-                        } else {
-                            TARGET = Operation._Tokens[i]._Tokens[0];
-                        }
-
-                        // Else it is a property
-
-                        // Attempt to access the accessor
-                        // then use the accessor to get the token
-                        if (!OPERATOR.accessor || !(DATA = OPERATOR.accessor(TARGET))) {
-                            // ERROR INTEGRATE
-                            return NAME + ' has no property ' + TARGET;
-                        }
-
-                        NAME = TARGET;
-
-                        // Set the previous item to the REFERENCE
-                        REFERENCE = OPERATOR;
-
-                        OPERATOR = to_value(DATA, REFERENCE);
-
-                        if (typeof OPERATOR === "string") return OPERATOR;
                     }
+                    // if it is a class call, initalize it
+                    // we know this if the marker is a {
+                    else if (Operation._Tokens[i] === "{") {
+                            // Go to the token...
+                            ++i;
+
+                            // Make sure it's a class
+                            if (!(OPERATOR.prototype instanceof _class2.default)) {
+                                // ERROR INTEGRATE
+                                return NAME + ' is not a class';
+                            }
+
+                            // Create the JS version of it
+                            var bg = new OPERATOR(this.Scope // Pass current scope
+                            );
+
+                            // Evaluate each argument
+                            DATA = []; // Stores the results
+
+                            // Get the array of args from the token
+                            TOKEN = Operation._Tokens[i]._Tokens;
+                            var _evalres = void 0; // Evaluation result
+                            for (var _i2 = 0; _i2 < TOKEN.length; _i2++) {
+                                _evalres = new CheddarEval({ _Tokens: [TOKEN[_i2]] }, this.Scope);
+                                _evalres = _evalres.exec();
+                                if (typeof _evalres === "string") {
+                                    return _evalres;
+                                } else {
+                                    DATA.push(_evalres);
+                                }
+                            }
+
+                            // Construct the item
+                            OPERATOR = bg.init.apply(bg, _toConsumableArray(DATA));
+
+                            // If it's sucessful, set it to the calss
+                            if (OPERATOR === true) OPERATOR = bg;
+                        } else {
+                            if (Operation._Tokens[i] === "[]") {
+                                // it is [ ... ]
+                                ++i; // Go to expression
+
+                                // Execute the expression
+                                var res = new CheddarEval({ _Tokens: [Operation._Tokens[i]] }, this.Scope).exec();
+
+                                // If response is a string, it's errored
+                                if (typeof res === "string") {
+                                    return res;
+                                }
+
+                                // The response should be:
+                                //  A) number
+                                //  B) string
+
+                                if (res.constructor.Name === "String" || res.constructor.Name === "Number" && Number.isInteger(res.value)) {
+                                    TARGET = res.value + "";
+                                } else {
+                                    return 'Evaluated accessors must evaluate to a string or integer';
+                                }
+                            } else {
+                                TARGET = Operation._Tokens[i]._Tokens[0];
+                            }
+
+                            // Else it is a property
+
+                            // Attempt to access the accessor
+                            // then use the accessor to get the token
+                            if (!OPERATOR.accessor || !(DATA = OPERATOR.accessor(TARGET))) {
+                                // ERROR INTEGRATE
+                                return NAME + ' has no property ' + TARGET;
+                            }
+
+                            NAME = TARGET;
+
+                            // Set the previous item to the REFERENCE
+                            REFERENCE = OPERATOR;
+
+                            OPERATOR = to_value(DATA, REFERENCE);
+
+                            if (typeof OPERATOR === "string") return OPERATOR;
+                        }
                 }
 
                 this.put(OPERATOR);
@@ -4922,6 +4967,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var ARGLISTS = new Map([['(', ')'], ['{', '}']]);
+
 var CheddarPropertyToken = function (_CheddarLexer) {
     _inherits(CheddarPropertyToken, _CheddarLexer);
 
@@ -4982,18 +5029,24 @@ var CheddarPropertyToken = function (_CheddarLexer) {
                     this.Tokens = expr;
                 }
 
-                if (this.curchar === '(') {
-                    this.jumpWhite();
+                var argd = void 0; // Argument list delimiter
+                var id = this.Index; // delta-index
+                this.jumpWhite();
+                if (ARGLISTS.has(argd = this.curchar)) {
+                    this.Tokens = argd; // Specify what arg type this is
+
                     this.Type = _types.PropertyType.Method;
 
                     var _expr = this.initParser(_array2.default);
-                    var _res = _expr.exec('(', ')');
+                    var _res = _expr.exec(argd, ARGLISTS.get(argd));
 
                     this.Index = _expr.Index;
 
                     if (!(_res instanceof _lex2.default)) return this.error(_res);
 
                     this.Tokens = _expr;
+                } else {
+                    this.Index = id;
                 }
 
                 var marker = this.Index;
@@ -5426,7 +5479,7 @@ var StatementIf = function (_CheddarLexer) {
             var EXPRESSION = (0, _custom2.default)(_expr2.default, true);
 
             // Match the `expr { block }` format
-            var FORMAT = [EXPRESSION, _block2.default, CheddarError.EXPECTED_BLOCK];
+            var FORMAT = ['(', EXPRESSION, ')', _block2.default, CheddarError.EXPECTED_BLOCK];
 
             // Match initial `if`
             var IF = this.grammar(true, FORMAT);
@@ -6203,127 +6256,6 @@ module.exports = exports['default'];
 },{"../consts/err":63,"../consts/ops":65,"../literals/op":71,"./lex":91}],93:[function(require,module,exports){
 
 },{}],94:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-(function () {
-  try {
-    cachedSetTimeout = setTimeout;
-  } catch (e) {
-    cachedSetTimeout = function () {
-      throw new Error('setTimeout is not defined');
-    }
-  }
-  try {
-    cachedClearTimeout = clearTimeout;
-  } catch (e) {
-    cachedClearTimeout = function () {
-      throw new Error('clearTimeout is not defined');
-    }
-  }
-} ())
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = cachedSetTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    cachedClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        cachedSetTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],95:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -6511,7 +6443,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":96,"./custom/zalgo":97,"./maps/america":100,"./maps/rainbow":101,"./maps/random":102,"./maps/zebra":103,"./styles":104,"./system/supports-colors":105}],96:[function(require,module,exports){
+},{"./custom/trap":95,"./custom/zalgo":96,"./maps/america":99,"./maps/rainbow":100,"./maps/random":101,"./maps/zebra":102,"./styles":103,"./system/supports-colors":104}],95:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -6558,7 +6490,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],97:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -6664,7 +6596,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],98:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -6778,7 +6710,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":95}],99:[function(require,module,exports){
+},{"./colors":94}],98:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -6791,7 +6723,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":95,"./extendStringPrototype":98}],100:[function(require,module,exports){
+},{"./colors":94,"./extendStringPrototype":97}],99:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -6804,7 +6736,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":95}],101:[function(require,module,exports){
+},{"../colors":94}],100:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -6819,7 +6751,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":95}],102:[function(require,module,exports){
+},{"../colors":94}],101:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -6828,13 +6760,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":95}],103:[function(require,module,exports){
+},{"../colors":94}],102:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":95}],104:[function(require,module,exports){
+},{"../colors":94}],103:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -6912,7 +6844,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],105:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -6976,4 +6908,125 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require('_process'))
-},{"_process":94}]},{},[1]);
+},{"_process":105}],105:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+(function () {
+  try {
+    cachedSetTimeout = setTimeout;
+  } catch (e) {
+    cachedSetTimeout = function () {
+      throw new Error('setTimeout is not defined');
+    }
+  }
+  try {
+    cachedClearTimeout = clearTimeout;
+  } catch (e) {
+    cachedClearTimeout = function () {
+      throw new Error('clearTimeout is not defined');
+    }
+  }
+} ())
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = cachedSetTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    cachedClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        cachedSetTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}]},{},[1]);
