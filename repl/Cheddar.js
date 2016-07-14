@@ -531,6 +531,18 @@ var DEFAULT_OP = exports.DEFAULT_OP = new Map([
 // Defaults
 ['!', function (LHS, RHS) {
     if (LHS === null && RHS && RHS.constructor.Cast && RHS.constructor.Cast.has('Bool')) return (0, _init2.default)(require("../primitives/Bool"), !RHS.constructor.Cast.get('Bool')(RHS).value);else return _err2.default.NO_OP_BEHAVIOR;
+}],
+
+// TODO: short-circuiting
+['&&', function (LHS, RHS) {
+    var bool = require("../primitives/Bool");
+    if (LHS && RHS) return (0, _init2.default)(bool, (0, _init2.default)(bool, LHS).value && (0, _init2.default)(bool, RHS).value);else return _err2.default.NO_OP_BEHAVIOR;
+}],
+
+// TODO: short-circuiting
+['||', function (LHS, RHS) {
+    var bool = require("../primitives/Bool");
+    if (LHS && RHS) return (0, _init2.default)(bool, (0, _init2.default)(bool, LHS).value || (0, _init2.default)(bool, RHS).value);else return _err2.default.NO_OP_BEHAVIOR;
 }]]);
 
 var DEFAULT_CAST = exports.DEFAULT_CAST = new Map([['Bool', function (self) {
@@ -2233,7 +2245,7 @@ exports.default = new Map([
 ['/', function (LHS, RHS) {
 
     if (RHS instanceof LHS.constructor) return (0, _init2.default)(LHS.constructor, 10, 0, LHS.value / RHS.value);else return CheddarError.NO_OP_BEHAVIOR;
-}], ['^', function (LHS, RHS) {
+}], ['**', function (LHS, RHS) {
     if (RHS instanceof LHS.constructor) return (0, _init2.default)(LHS.constructor, 10, 0, Math.pow(LHS.value, RHS.value));else return CheddarError.NO_OP_BEHAVIOR;
 }], ['%', function (LHS, RHS) {
     if (RHS instanceof LHS.constructor) return (0, _init2.default)(LHS.constructor, 10, 0, LHS.value % RHS.value);else return CheddarError.NO_OP_BEHAVIOR;
@@ -2257,7 +2269,7 @@ exports.default = new Map([
     if (RHS instanceof LHS.constructor) return (0, _init2.default)(LHS.constructor, 10, 0, LHS.value & RHS.value);else return CheddarError.NO_OP_BEHAVIOR;
 }], ['|', function (LHS, RHS) {
     if (RHS instanceof LHS.constructor) return (0, _init2.default)(LHS.constructor, 10, 0, LHS.value | RHS.value);else return CheddarError.NO_OP_BEHAVIOR;
-}], ['xor', function (LHS, RHS) {
+}], ['^', function (LHS, RHS) {
     if (RHS instanceof LHS.constructor) return (0, _init2.default)(LHS.constructor, 10, 0, LHS.value ^ RHS.value);else return CheddarError.NO_OP_BEHAVIOR;
 }], ['<<', function (LHS, RHS) {
     if (RHS instanceof LHS.constructor) return (0, _init2.default)(LHS.constructor, 10, 0, LHS.value << RHS.value);else return CheddarError.NO_OP_BEHAVIOR;
@@ -4562,7 +4574,7 @@ var RESERVED_KEYWORDS = exports.RESERVED_KEYWORDS = new Set(['sqrt', 'cbrt', 'ro
 
 var EXCLUDE_META_ASSIGNMENT = exports.EXCLUDE_META_ASSIGNMENT = new Set(['==', '!=', '<=', '>=']);
 
-var OP = exports.OP = ['^', '*', '/', '%', '+', '-', '<=', '>=', '<', '>', '==', '&', '|', '!=', '=', '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=', '|>', '::', '@"', 'has', 'and', 'or', 'xor', 'log', 'sign', 'root'];
+var OP = exports.OP = ['**', '*', '/', '%', '+', '-', '<=', '>=', '<', '>', '==', '&', '|', '^', '&&', '||', '!=', '=', '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=', '|>', '::', '@"', 'has', 'and', 'or', 'xor', 'log', 'sign', 'root'];
 
 // Unary operators
 var UOP = exports.UOP = ['-', '+', '!', '|>', 'sqrt', 'cbrt', 'sin', 'cos', 'tan', 'acos', 'asin', 'atan', 'floor', 'ceil', 'round', 'len', 'reverse', 'abs', 'repr', 'print', 'log', 'sign', 'new', '@"'];
@@ -4573,7 +4585,7 @@ var UNARY_PRECEDENCE = exports.UNARY_PRECEDENCE = new Map([['new', 21000], ['!',
 
 var PRECEDENCE = exports.PRECEDENCE = new Map([['::', 15000], ['log', 14000], ['root', 14000], ['*', 13000], ['/', 13000], ['%', 13000], ['+', 12000], ['-', 12000], ['@"', 12000], ['<<', 11000], ['>>', 11000], ['<', 10000], ['>', 10000], ['<=', 10000], ['>=', 10000], ['sign', 10000], ['has', 90000], ['==', 9000], ['!=', 9000], ['&', 8000], ['xor', 7000], ['|', 6000], ['and', 5000], ['or', 4000], ['+=', 1000], ['-=', 1000], ['*=', 1000], ['/=', 1000], ['%=', 1000], ['&=', 1000], ['|=', 1000], ['^=', 1000], ['<<=', 1000], ['>>=', 1000]]);
 
-var RA_PRECEDENCE = exports.RA_PRECEDENCE = new Map([['^', 14000], ['=', 1000]]);
+var RA_PRECEDENCE = exports.RA_PRECEDENCE = new Map([['**', 14000], ['=', 1000]]);
 
 var TYPE = exports.TYPE = {
     UNARY: Symbol('Unary Operator'),
