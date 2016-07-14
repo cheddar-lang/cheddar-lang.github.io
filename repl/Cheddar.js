@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":31,"../stdlib/stdlib":77,"../tokenizer/tok":107,"colors":120,"readline":110}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":31,"../stdlib/stdlib":77,"../tokenizer/tok":107,"colors":117,"readline":111}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -134,7 +134,7 @@ function caret(Code, Index, highlight) {
 }
 module.exports = exports['default'];
 
-},{"./loc":4,"colors":120}],3:[function(require,module,exports){
+},{"./loc":4,"colors":117}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1419,6 +1419,24 @@ var CheddarEval = function (_CheddarCallStack) {
                 }
 
                 this.put(OPERATOR);
+            } else if (Operation.constructor.name === "CheddarExpressionTernary") {
+                var condition = Operation._Tokens[0];
+                var if_true = Operation._Tokens[1];
+                var if_false = Operation._Tokens[2];
+
+                condition = new CheddarEval({ _Tokens: condition }, this.Scope).exec();
+
+                if (typeof condition === 'string') return condition;
+
+                var condition_result = new (_link.PRIMITIVE_LINKS.get("CheddarBooleanToken"))(this.Scope);
+
+                var to_run = condition_result.init(condition) && condition_result.value === true ? if_true : if_false;
+
+                to_run = new CheddarEval({ _Tokens: [to_run] }, this.Scope).exec();
+
+                if (typeof to_run === 'string') return to_run;
+
+                this.put(to_run);
             } else {
                 return "An unhandled token was encountered";
             }
@@ -3437,7 +3455,7 @@ function create(config) {
 module.exports = create;
 
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":115,"buffer":111,"fs":110}],43:[function(require,module,exports){
+},{"_process":126,"buffer":112,"fs":111}],43:[function(require,module,exports){
 (function (process){
 "use strict";
 
@@ -3471,7 +3489,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 module.exports = exports['default'];
 
 }).call(this,require('_process'))
-},{"./sprintf":45,"_process":115}],44:[function(require,module,exports){
+},{"./sprintf":45,"_process":126}],44:[function(require,module,exports){
 (function (process){
 "use strict";
 
@@ -3509,7 +3527,7 @@ var read = require('./lib/prompt')({ sigint: true });
 module.exports = exports['default'];
 
 }).call(this,require('_process'))
-},{"./lib/prompt":42,"_process":115}],45:[function(require,module,exports){
+},{"./lib/prompt":42,"_process":126}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5591,8 +5609,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _op = require('../literals/op');
 
 var _op2 = _interopRequireDefault(_op);
@@ -5611,9 +5627,15 @@ var _lex2 = _interopRequireDefault(_lex);
 
 var _ops = require('../consts/ops');
 
+var _err = require('../consts/err');
+
+var CheddarError = _interopRequireWildcard(_err);
+
 var _custom = require('./custom');
 
 var _custom2 = _interopRequireDefault(_custom);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5656,10 +5678,9 @@ E -> (OE|(E)|P|L|B)[OE|O]
 where groups are only nested to a depth of one
 
 === Forget the above ===
-With thanks to [@orlp](http://chat.stackexchange.com/transcript/message/29080854#29080854),
- errors in the above have been fixed and now the following grammar should work
+The following grammar should work
 
-Obfuscated because I'm an idiot
+ternary -> α β ? E : E
 expr -> α β
 start -> ( E )     // parenthesis
      L         // number
@@ -5686,64 +5707,46 @@ E -> α β
 
 */
 
-/*A -> '(' expr ')'
-A -> op expr
-A -> (indentifier | bool | literal)
+var UNARY = (0, _custom2.default)(_op2.default, true, true);
 
-B -> op expr?
-
-expr -> A B*/
-
-var UNARY = (0, _custom2.default)(_op2.default, true);
+// Class Prototypes
 
 var CheddarExpressionToken = function (_CheddarLexer) {
     _inherits(CheddarExpressionToken, _CheddarLexer);
 
     function CheddarExpressionToken() {
+        var _Object$getPrototypeO;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, CheddarExpressionToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarExpressionToken).apply(this, arguments));
-    }
-
-    _createClass(CheddarExpressionToken, [{
-        key: 'isExpression',
-        get: function get() {
-            return true;
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
         }
-    }]);
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CheddarExpressionToken)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.isExpression = true, _temp), _possibleConstructorReturn(_this, _ret);
+    }
 
     return CheddarExpressionToken;
 }(_lex2.default);
-
-var E = (0, _custom2.default)(CheddarExpressionToken, true);
 
 var CheddarExpressionTokenAlpha = function (_CheddarLexer2) {
     _inherits(CheddarExpressionTokenAlpha, _CheddarLexer2);
 
     function CheddarExpressionTokenAlpha() {
+        var _Object$getPrototypeO2;
+
+        var _temp2, _this2, _ret2;
+
         _classCallCheck(this, CheddarExpressionTokenAlpha);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarExpressionTokenAlpha).apply(this, arguments));
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            args[_key2] = arguments[_key2];
+        }
+
+        return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO2 = Object.getPrototypeOf(CheddarExpressionTokenAlpha)).call.apply(_Object$getPrototypeO2, [this].concat(args))), _this2), _this2.isExpression = true, _temp2), _possibleConstructorReturn(_this2, _ret2);
     }
-
-    _createClass(CheddarExpressionTokenAlpha, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            this.jumpWhite();
-
-            return this.grammar(true, [_function2.default],
-            // ['(', E, ')'],
-            [UNARY, E], // Prefix
-            [_property2.default]);
-        }
-    }, {
-        key: 'isExpression',
-        get: function get() {
-            return true;
-        }
-    }]);
 
     return CheddarExpressionTokenAlpha;
 }(_lex2.default);
@@ -5752,52 +5755,136 @@ var CheddarExpressionTokenBeta = function (_CheddarLexer3) {
     _inherits(CheddarExpressionTokenBeta, _CheddarLexer3);
 
     function CheddarExpressionTokenBeta() {
+        var _Object$getPrototypeO3;
+
+        var _temp3, _this3, _ret3;
+
         _classCallCheck(this, CheddarExpressionTokenBeta);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarExpressionTokenBeta).apply(this, arguments));
+        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+            args[_key3] = arguments[_key3];
+        }
+
+        return _ret3 = (_temp3 = (_this3 = _possibleConstructorReturn(this, (_Object$getPrototypeO3 = Object.getPrototypeOf(CheddarExpressionTokenBeta)).call.apply(_Object$getPrototypeO3, [this].concat(args))), _this3), _this3.isExpression = true, _temp3), _possibleConstructorReturn(_this3, _ret3);
     }
-
-    _createClass(CheddarExpressionTokenBeta, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            this.jumpWhite();
-
-            var E = CheddarExpressionToken;
-
-            return this.grammar(true, [_op2.default, E], //infix
-            // [O], // postfix
-            [] // ε
-            );
-        }
-    }, {
-        key: 'isExpression',
-        get: function get() {
-            return true;
-        }
-    }]);
 
     return CheddarExpressionTokenBeta;
 }(_lex2.default);
 
-CheddarExpressionToken.prototype.exec = function (empty) {
+var E = (0, _custom2.default)(CheddarExpressionToken, false);
+
+// Ternary
+// Solely for reference
+
+var CheddarExpressionTernary = function (_CheddarLexer4) {
+    _inherits(CheddarExpressionTernary, _CheddarLexer4);
+
+    function CheddarExpressionTernary() {
+        _classCallCheck(this, CheddarExpressionTernary);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarExpressionTernary).apply(this, arguments));
+    }
+
+    return CheddarExpressionTernary;
+}(_lex2.default);
+
+// ALPHA
+
+
+CheddarExpressionTokenAlpha.prototype.exec = function () {
     this.open(false);
 
     this.jumpWhite();
 
-    var GRAMMAR = [CheddarExpressionTokenAlpha, CheddarExpressionTokenBeta];
-    if (empty) {
-        return this.grammar(true, GRAMMAR);
+    return this.grammar(true, [_function2.default],
+    // ['(', E, ')'],
+    [UNARY, E], // Prefix
+    [_property2.default]);
+};
+
+// BETA
+CheddarExpressionTokenBeta.prototype.exec = function () {
+    this.open(false);
+
+    this.jumpWhite();
+
+    return this.grammar(true, [_op2.default, E], //infix
+    // [O], // postfix
+    [] // ε
+    );
+};
+
+// MASTER
+CheddarExpressionToken.prototype.exec = function () {
+    var DISALLOW_EMPTY = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+    var ALLOW_TERNARY = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+    this.open(false);
+
+    this.jumpWhite();
+
+    var expression = void 0;
+    if (DISALLOW_EMPTY) {
+        expression = this.grammar(true, [CheddarExpressionTokenAlpha, CheddarExpressionTokenBeta]);
     } else {
-        return this.grammar(true, GRAMMAR, [/* ε */]);
+        expression = this.grammar(true, [CheddarExpressionTokenAlpha, CheddarExpressionTokenBeta], [/** epsilon */]);
+    }
+
+    /** == Ternary Handling == **/
+    if (ALLOW_TERNARY) {
+        // Lookahead for ternary `?`
+        if (!this.lookAhead("?")) {
+            // If it doesn't exist, just exit
+            return expression;
+        }
+        // Increase index past the `?`
+        this.Index++;
+
+        // Now we know it's a ternary
+        // parse the tail, `E : E`
+
+        // Parse the first expression
+        var TAIL_TRUE = this.initParser(CheddarExpressionToken);
+        var IFT = TAIL_TRUE.exec();
+
+        // Set the index of the expression
+        this.Index = IFT.Index || TAIL_TRUE.Index;
+
+        // Error if applicable
+        if (!(IFT instanceof _lex2.default)) return this.error(IFT);
+
+        // IF True
+        if (!this.lookAhead(":")) {
+            // Expected a `:`
+            return this.error(CheddarError.UNEXPECTED_TOKEN);
+        }
+        // Increase past the `:`
+        this.Index++;
+
+        // Parse the second expression
+        var TAIL_FALSE = this.initParser(CheddarExpressionToken);
+        var IFF = TAIL_FALSE.exec();
+
+        this.Index = IFF.Index || TAIL_FALSE.Index;
+        if (!(IFF instanceof _lex2.default)) return this.error(IFF);
+
+        var Ternary = new CheddarExpressionTernary();
+        Ternary.Index = this.Index;
+        Ternary._Tokens = [this._Tokens.slice(0), // Token from this.grammar
+        IFT, IFF];
+
+        this._Tokens = [Ternary];
+
+        return this.close();
+    } else {
+        return expression;
     }
 };
 
 exports.default = CheddarExpressionToken;
 module.exports = exports['default'];
 
-},{"../consts/ops":81,"../literals/op":88,"../tok/lex":108,"./custom":95,"./function":97,"./property":99}],97:[function(require,module,exports){
+},{"../consts/err":79,"../consts/ops":81,"../literals/op":88,"../tok/lex":108,"./custom":95,"./function":97,"./property":99}],97:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6751,6 +6838,8 @@ var CheddarLexer = function () {
     function CheddarLexer(Code, Index) {
         _classCallCheck(this, CheddarLexer);
 
+        this.isExpression = false;
+
         this.Code = Code;
         this.Index = Index;
 
@@ -6839,7 +6928,7 @@ var CheddarLexer = function () {
                 parseClass.Code = this.Code;
                 parseClass.Index = i;
                 return parseClass;
-            } else if (parseClass.prototype instanceof CheddarLexer) {
+            } else {
                 return new parseClass(this.Code, i);
             }
         }
@@ -6867,6 +6956,7 @@ var CheddarLexer = function () {
             }
 
             main: for (i = 0; i < defs.length; i++) {
+
                 index = this.Index;
                 tokens = [];
 
@@ -7144,11 +7234,6 @@ var CheddarLexer = function () {
             return this.Index === this.Code.length;
         }
     }, {
-        key: 'isExpression',
-        get: function get() {
-            return false;
-        }
-    }, {
         key: 'isPrimitive',
         get: function get() {
             return false;
@@ -7298,8 +7383,119 @@ exports.default = CheddarShuntingYard;
 module.exports = exports['default'];
 
 },{"../consts/err":79,"../consts/ops":81,"../literals/op":88,"./lex":108}],110:[function(require,module,exports){
+'use strict'
+
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+function init () {
+  var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+  for (var i = 0, len = code.length; i < len; ++i) {
+    lookup[i] = code[i]
+    revLookup[code.charCodeAt(i)] = i
+  }
+
+  revLookup['-'.charCodeAt(0)] = 62
+  revLookup['_'.charCodeAt(0)] = 63
+}
+
+init()
+
+function toByteArray (b64) {
+  var i, j, l, tmp, placeHolders, arr
+  var len = b64.length
+
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  placeHolders = b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+
+  // base64 is 4/3 + up to two characters of the original data
+  arr = new Arr(len * 3 / 4 - placeHolders)
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
+  }
+
+  parts.push(output)
+
+  return parts.join('')
+}
 
 },{}],111:[function(require,module,exports){
+
+},{}],112:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -9014,332 +9210,7 @@ function isnan (val) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":112,"ieee754":113,"isarray":114}],112:[function(require,module,exports){
-'use strict'
-
-exports.toByteArray = toByteArray
-exports.fromByteArray = fromByteArray
-
-var lookup = []
-var revLookup = []
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
-
-function init () {
-  var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-  for (var i = 0, len = code.length; i < len; ++i) {
-    lookup[i] = code[i]
-    revLookup[code.charCodeAt(i)] = i
-  }
-
-  revLookup['-'.charCodeAt(0)] = 62
-  revLookup['_'.charCodeAt(0)] = 63
-}
-
-init()
-
-function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
-  var len = b64.length
-
-  if (len % 4 > 0) {
-    throw new Error('Invalid string. Length must be a multiple of 4')
-  }
-
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  placeHolders = b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
-
-  // base64 is 4/3 + up to two characters of the original data
-  arr = new Arr(len * 3 / 4 - placeHolders)
-
-  // if there are placeholders, only get up to the last complete 4 chars
-  l = placeHolders > 0 ? len - 4 : len
-
-  var L = 0
-
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  return arr
-}
-
-function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
-}
-
-function encodeChunk (uint8, start, end) {
-  var tmp
-  var output = []
-  for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-    output.push(tripletToBase64(tmp))
-  }
-  return output.join('')
-}
-
-function fromByteArray (uint8) {
-  var tmp
-  var len = uint8.length
-  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
-  var parts = []
-  var maxChunkLength = 16383 // must be multiple of 3
-
-  // go through the array every three bytes, we'll deal with trailing stuff later
-  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
-  }
-
-  // pad the end with zeros, but make sure to not forget the extra bytes
-  if (extraBytes === 1) {
-    tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
-  } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
-  }
-
-  parts.push(output)
-
-  return parts.join('')
-}
-
-},{}],113:[function(require,module,exports){
-exports.read = function (buffer, offset, isLE, mLen, nBytes) {
-  var e, m
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var nBits = -7
-  var i = isLE ? (nBytes - 1) : 0
-  var d = isLE ? -1 : 1
-  var s = buffer[offset + i]
-
-  i += d
-
-  e = s & ((1 << (-nBits)) - 1)
-  s >>= (-nBits)
-  nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  m = e & ((1 << (-nBits)) - 1)
-  e >>= (-nBits)
-  nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  if (e === 0) {
-    e = 1 - eBias
-  } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity)
-  } else {
-    m = m + Math.pow(2, mLen)
-    e = e - eBias
-  }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
-}
-
-exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
-  var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
-  var i = isLE ? 0 : (nBytes - 1)
-  var d = isLE ? 1 : -1
-  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
-
-  value = Math.abs(value)
-
-  if (isNaN(value) || value === Infinity) {
-    m = isNaN(value) ? 1 : 0
-    e = eMax
-  } else {
-    e = Math.floor(Math.log(value) / Math.LN2)
-    if (value * (c = Math.pow(2, -e)) < 1) {
-      e--
-      c *= 2
-    }
-    if (e + eBias >= 1) {
-      value += rt / c
-    } else {
-      value += rt * Math.pow(2, 1 - eBias)
-    }
-    if (value * c >= 2) {
-      e++
-      c /= 2
-    }
-
-    if (e + eBias >= eMax) {
-      m = 0
-      e = eMax
-    } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
-      e = e + eBias
-    } else {
-      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
-      e = 0
-    }
-  }
-
-  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
-
-  e = (e << mLen) | m
-  eLen += mLen
-  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
-
-  buffer[offset + i - d] |= s * 128
-}
-
-},{}],114:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],115:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-(function () {
-  try {
-    cachedSetTimeout = setTimeout;
-  } catch (e) {
-    cachedSetTimeout = function () {
-      throw new Error('setTimeout is not defined');
-    }
-  }
-  try {
-    cachedClearTimeout = clearTimeout;
-  } catch (e) {
-    cachedClearTimeout = function () {
-      throw new Error('clearTimeout is not defined');
-    }
-  }
-} ())
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = cachedSetTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    cachedClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        cachedSetTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],116:[function(require,module,exports){
+},{"base64-js":110,"ieee754":124,"isarray":125}],113:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -9527,7 +9398,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":117,"./custom/zalgo":118,"./maps/america":121,"./maps/rainbow":122,"./maps/random":123,"./maps/zebra":124,"./styles":125,"./system/supports-colors":126}],117:[function(require,module,exports){
+},{"./custom/trap":114,"./custom/zalgo":115,"./maps/america":118,"./maps/rainbow":119,"./maps/random":120,"./maps/zebra":121,"./styles":122,"./system/supports-colors":123}],114:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -9574,7 +9445,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],118:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -9680,7 +9551,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],119:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -9794,7 +9665,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":116}],120:[function(require,module,exports){
+},{"./colors":113}],117:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -9807,7 +9678,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":116,"./extendStringPrototype":119}],121:[function(require,module,exports){
+},{"./colors":113,"./extendStringPrototype":116}],118:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -9820,7 +9691,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":116}],122:[function(require,module,exports){
+},{"../colors":113}],119:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -9835,7 +9706,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":116}],123:[function(require,module,exports){
+},{"../colors":113}],120:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -9844,13 +9715,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":116}],124:[function(require,module,exports){
+},{"../colors":113}],121:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":116}],125:[function(require,module,exports){
+},{"../colors":113}],122:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -9928,7 +9799,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],126:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -9992,4 +9863,218 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require('_process'))
-},{"_process":115}]},{},[1]);
+},{"_process":126}],124:[function(require,module,exports){
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+},{}],125:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],126:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+(function () {
+  try {
+    cachedSetTimeout = setTimeout;
+  } catch (e) {
+    cachedSetTimeout = function () {
+      throw new Error('setTimeout is not defined');
+    }
+  }
+  try {
+    cachedClearTimeout = clearTimeout;
+  } catch (e) {
+    cachedClearTimeout = function () {
+      throw new Error('clearTimeout is not defined');
+    }
+  }
+} ())
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = cachedSetTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    cachedClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        cachedSetTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}]},{},[1]);
