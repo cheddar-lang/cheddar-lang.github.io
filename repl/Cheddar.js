@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":31,"../stdlib/stdlib":77,"../tokenizer/tok":107,"colors":123,"readline":110}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":31,"../stdlib/stdlib":75,"../tokenizer/tok":105,"colors":115,"readline":109}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -134,7 +134,7 @@ function caret(Code, Index, highlight) {
 }
 module.exports = exports['default'];
 
-},{"./loc":4,"colors":123}],3:[function(require,module,exports){
+},{"./loc":4,"colors":115}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -841,7 +841,7 @@ exports.default = CheddarScope;
 CheddarScope.prototype.Scope = new Map();
 module.exports = exports['default'];
 
-},{"../../../tokenizer/consts/ops":81,"../consts/err":7,"./var":14}],14:[function(require,module,exports){
+},{"../../../tokenizer/consts/ops":79,"../consts/err":7,"./var":14}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -967,7 +967,7 @@ var CheddarCallStack = function () {
 exports.default = CheddarCallStack;
 module.exports = exports['default'];
 
-},{"../../../tokenizer/tok/shunting_yard":109,"../env/scope":13}],16:[function(require,module,exports){
+},{"../../../tokenizer/tok/shunting_yard":107,"../env/scope":13}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1464,7 +1464,7 @@ var CheddarEval = function (_CheddarCallStack) {
 exports.default = CheddarEval;
 module.exports = exports['default'];
 
-},{"../../../tokenizer/consts/ops":81,"../../../tokenizer/literals/literal":85,"../../../tokenizer/literals/op":88,"../../../tokenizer/literals/var":91,"../../../tokenizer/parsers/array":94,"../../../tokenizer/parsers/paren_expr":98,"../../../tokenizer/parsers/property":99,"../config/link":6,"../consts/err":7,"../consts/err_msg":8,"../consts/nil":9,"../env/class":10,"../env/func":12,"../env/scope":13,"../env/var":14,"./callstack":15}],17:[function(require,module,exports){
+},{"../../../tokenizer/consts/ops":79,"../../../tokenizer/literals/literal":83,"../../../tokenizer/literals/op":86,"../../../tokenizer/literals/var":89,"../../../tokenizer/parsers/array":92,"../../../tokenizer/parsers/paren_expr":96,"../../../tokenizer/parsers/property":97,"../config/link":6,"../consts/err":7,"../consts/err_msg":8,"../consts/nil":9,"../env/class":10,"../env/func":12,"../env/scope":13,"../env/var":14,"./callstack":15}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1641,7 +1641,7 @@ exports.default = CheddarArray;
 CheddarArray.Scope = require('../../../stdlib/primitive/Array/static');
 module.exports = exports['default'];
 
-},{"../../../stdlib/primitive/Array/lib":52,"../../../stdlib/primitive/Array/static":65,"../consts/err":7,"../consts/nil":9,"../env/class":10,"../env/var":14,"../eval/eval":16,"./cast/array":22,"./op/array":27}],19:[function(require,module,exports){
+},{"../../../stdlib/primitive/Array/lib":50,"../../../stdlib/primitive/Array/static":63,"../consts/err":7,"../consts/nil":9,"../env/class":10,"../env/var":14,"../eval/eval":16,"./cast/array":22,"./op/array":27}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1893,7 +1893,7 @@ CheddarString.Scope = require('../../../stdlib/primitive/String/static');
 CheddarString.prototype.Scope = require('../../../stdlib/primitive/String/lib');
 module.exports = exports['default'];
 
-},{"../../../stdlib/primitive/String/lib":66,"../../../stdlib/primitive/String/static":76,"../consts/nil":9,"../env/class":10,"../env/var":14,"./cast/string":25,"./op/string":30}],22:[function(require,module,exports){
+},{"../../../stdlib/primitive/String/lib":64,"../../../stdlib/primitive/String/static":74,"../consts/nil":9,"../env/class":10,"../env/var":14,"./cast/string":25,"./op/string":30}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2035,7 +2035,7 @@ ITEM  ::= init <codeblock> |
 
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../../../tokenizer/literals/number":87,"../../../../tokenizer/tok/lex":108,"../../consts/err":7,"../Number":20}],26:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../../../tokenizer/literals/number":85,"../../../../tokenizer/tok/lex":106,"../../consts/err":7,"../Number":20}],26:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3042,107 +3042,6 @@ exports.default = API;
 module.exports = exports['default'];
 
 },{"../helpers/init":3,"../interpreter/core/consts/err":7,"../interpreter/core/consts/nil":9,"../interpreter/core/env/class":10,"../interpreter/core/env/func":12,"../interpreter/core/env/scope":13,"../interpreter/core/env/var":14,"../interpreter/core/primitives/Array":18,"../interpreter/core/primitives/Bool":19,"../interpreter/core/primitives/Number":20,"../interpreter/core/primitives/String":21}],37:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-exports.default = function (cheddar) {
-    var _class, _temp2;
-
-    return _temp2 = _class = function (_cheddar$class) {
-        _inherits(Buffer, _cheddar$class);
-
-        function Buffer() {
-            var _Object$getPrototypeO;
-
-            var _temp, _this, _ret;
-
-            _classCallCheck(this, Buffer);
-
-            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-            }
-
-            return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Buffer)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.accessor = cheddar.class.merge.accessor(function (pointer) {
-                return Number.isInteger(+pointer) ? cheddar.var(this.value[pointer] || new cheddar.nil()) : false;
-            }), _temp), _possibleConstructorReturn(_this, _ret);
-        }
-
-        _createClass(Buffer, [{
-            key: "init",
-            value: function init(bytestream) {
-
-                // If the buffer is not a buffer
-                //  assume it is a Cheddar object
-                //  therefore throw an error as a
-                //  buffer cannot directly be
-                //  created from a Cheddar Object
-                if (!(bytestream instanceof Buffer)) {
-                    return "Cannot directly construct buffer, use `Buffer.create`";
-                }
-
-                this.value = bytestream;
-            }
-        }]);
-
-        return Buffer;
-    }(cheddar.class), _class.Name = "Buffer", _temp2;
-};
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-module.exports = exports['default'];
-
-},{}],38:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-exports.default = function (cheddar) {
-    var _class, _temp;
-
-    return _temp = _class = function (_cheddar$class) {
-        _inherits(Encoding, _cheddar$class);
-
-        function Encoding() {
-            _classCallCheck(this, Encoding);
-
-            return _possibleConstructorReturn(this, Object.getPrototypeOf(Encoding).apply(this, arguments));
-        }
-
-        _createClass(Encoding, [{
-            key: "init",
-            value: function init(encode, decode) {
-                this.Scope.setter("encode", cheddar.var(encode));
-                this.Scope.setter("decode", cheddar.var(decode));
-            }
-        }]);
-
-        return Encoding;
-    }(cheddar.class), _class.Name = "Encoding", _temp;
-};
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-module.exports = exports['default'];
-
-},{}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3155,7 +3054,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports['default'];
 
-},{"./HTTP/get":40}],40:[function(require,module,exports){
+},{"./HTTP/get":38}],38:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3171,7 +3070,7 @@ function factor(cheddar) {
 }
 module.exports = exports['default'];
 
-},{}],41:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3184,7 +3083,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports['default'];
 
-},{"./IO/printf":43,"./IO/prompt":44,"./IO/sprintf":45}],42:[function(require,module,exports){
+},{"./IO/printf":41,"./IO/prompt":42,"./IO/sprintf":43}],40:[function(require,module,exports){
 (function (process,Buffer){
 /**
  * The MIT License (MIT)
@@ -3455,7 +3354,7 @@ function create(config) {
 module.exports = create;
 
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":116,"buffer":111,"fs":110}],43:[function(require,module,exports){
+},{"_process":125,"buffer":110,"fs":109}],41:[function(require,module,exports){
 (function (process){
 "use strict";
 
@@ -3489,7 +3388,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 module.exports = exports['default'];
 
 }).call(this,require('_process'))
-},{"./sprintf":45,"_process":116}],44:[function(require,module,exports){
+},{"./sprintf":43,"_process":125}],42:[function(require,module,exports){
 (function (process){
 "use strict";
 
@@ -3527,7 +3426,7 @@ var read = require('./lib/prompt')({ sigint: true });
 module.exports = exports['default'];
 
 }).call(this,require('_process'))
-},{"./lib/prompt":42,"_process":116}],45:[function(require,module,exports){
+},{"./lib/prompt":40,"_process":125}],43:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3712,7 +3611,7 @@ module.exports = exports['default']; /**
                                       *  c      char, first char of string
                                       **/
 
-},{}],46:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3725,7 +3624,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports['default'];
 
-},{"./Math/factor":47,"./Math/fib":48,"./Math/prime":50,"./Math/rand":51}],47:[function(require,module,exports){
+},{"./Math/factor":45,"./Math/fib":46,"./Math/prime":48,"./Math/rand":49}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3763,7 +3662,7 @@ function factor(cheddar) {
 }
 module.exports = exports['default'];
 
-},{"./helpers/factor":49}],48:[function(require,module,exports){
+},{"./helpers/factor":47}],46:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3787,7 +3686,7 @@ function fib(cheddar) {
 }
 module.exports = exports['default'];
 
-},{}],49:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3808,7 +3707,7 @@ function factor(n) {
 }
 module.exports = exports['default'];
 
-},{}],50:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3832,7 +3731,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = exports['default'];
 
-},{"./helpers/factor":49}],51:[function(require,module,exports){
+},{"./helpers/factor":47}],49:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3864,7 +3763,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports['default'];
 
-},{}],52:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3880,7 +3779,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([require('./lib/len')(_api2.default), require('./lib/turn')(_api2.default), require('./lib/fuse')(_api2.default), require('./lib/vfuse')(_api2.default), require('./lib/join')(_api2.default), require('./lib/each')(_api2.default), require('./lib/map')(_api2.default), require('./lib/cycle')(_api2.default), require('./lib/shift')(_api2.default), require('./lib/unshift')(_api2.default), require('./lib/pop')(_api2.default), require('./lib/push')(_api2.default)]);
 module.exports = exports['default'];
 
-},{"../../api":36,"./lib/cycle":53,"./lib/each":54,"./lib/fuse":55,"./lib/join":56,"./lib/len":57,"./lib/map":58,"./lib/pop":59,"./lib/push":60,"./lib/shift":61,"./lib/turn":62,"./lib/unshift":63,"./lib/vfuse":64}],53:[function(require,module,exports){
+},{"../../api":36,"./lib/cycle":51,"./lib/each":52,"./lib/fuse":53,"./lib/join":54,"./lib/len":55,"./lib/map":56,"./lib/pop":57,"./lib/push":58,"./lib/shift":59,"./lib/turn":60,"./lib/unshift":61,"./lib/vfuse":62}],51:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3925,7 +3824,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],54:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3955,7 +3854,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],55:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3991,7 +3890,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],56:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4031,7 +3930,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],57:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4047,7 +3946,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],58:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4080,7 +3979,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],59:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4095,7 +3994,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],60:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4112,7 +4011,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],61:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4127,7 +4026,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],62:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4190,7 +4089,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],63:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4207,7 +4106,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],64:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4243,7 +4142,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],65:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4259,7 +4158,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map();
 module.exports = exports['default'];
 
-},{"../../api":36}],66:[function(require,module,exports){
+},{"../../api":36}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4275,7 +4174,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([require('./lib/slice')(_api2.default), require('./lib/count')(_api2.default), require('./lib/upper')(_api2.default), require('./lib/lower')(_api2.default), require('./lib/split')(_api2.default), require('./lib/ord')(_api2.default), require('./lib/len')(_api2.default), require('./lib/rev')(_api2.default), require('./lib/chars')(_api2.default)]);
 module.exports = exports['default'];
 
-},{"../../api":36,"./lib/chars":67,"./lib/count":68,"./lib/len":69,"./lib/lower":70,"./lib/ord":71,"./lib/rev":72,"./lib/slice":73,"./lib/split":74,"./lib/upper":75}],67:[function(require,module,exports){
+},{"../../api":36,"./lib/chars":65,"./lib/count":66,"./lib/len":67,"./lib/lower":68,"./lib/ord":69,"./lib/rev":70,"./lib/slice":71,"./lib/split":72,"./lib/upper":73}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4294,7 +4193,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],68:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4347,7 +4246,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports['default'];
 
-},{}],69:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4363,7 +4262,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],70:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4378,7 +4277,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],71:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4415,7 +4314,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],72:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4430,7 +4329,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],73:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4451,7 +4350,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],74:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4472,7 +4371,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],75:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4487,7 +4386,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],76:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4507,7 +4406,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([["letters", { Value: (0, _init2.default)(_String2.default, "abcdefghijklmnopqrstuvwxyz") }], ["digits", { Value: (0, _init2.default)(_String2.default, "0123456789") }], ["alphanumeric", { Value: (0, _init2.default)(_String2.default, "abcdefghijklmnopqrstuvwxyz0123456789") }]]);
 module.exports = exports['default'];
 
-},{"../../../helpers/init":3,"../../../interpreter/core/primitives/String":21}],77:[function(require,module,exports){
+},{"../../../helpers/init":3,"../../../interpreter/core/primitives/String":21}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4527,8 +4426,8 @@ STDLIB.Item = function (Name, LIB) {
 
 /** Global Libraries **/
 STDLIB.Item("Math", require('./ns/Math'));
-STDLIB.Item("Encoding", require('./ns/Encoding'));
-STDLIB.Item("Buffer", require('./ns/Buffer'));
+//STDLIB.Item("Encoding", require('./ns/Encoding'));
+//STDLIB.Item("Buffer", require('./ns/Buffer'));
 STDLIB.Item("IO", require('./ns/IO'));
 STDLIB.Item("HTTP", require('./ns/HTTP'));
 
@@ -4541,7 +4440,7 @@ STDLIB.set("Boolean", _api2.default.var(_api2.default.bool));
 exports.default = STDLIB;
 module.exports = exports['default'];
 
-},{"./api":36,"./ns/Buffer":37,"./ns/Encoding":38,"./ns/HTTP":39,"./ns/IO":41,"./ns/Math":46}],78:[function(require,module,exports){
+},{"./api":36,"./ns/HTTP":37,"./ns/IO":39,"./ns/Math":44}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4608,7 +4507,7 @@ var BASE_RESPECTIVE_NUMBERS = exports.BASE_RESPECTIVE_NUMBERS = [2, 8, 16];
 /*== Conflict Data ==*/
 var RESERVED = exports.RESERVED = ['sqrt', 'cos', 'sin', 'sign'];
 
-},{}],79:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4627,7 +4526,7 @@ var UNEXPECTED_TOKEN = exports.UNEXPECTED_TOKEN = Symbol('er_UNEXPECTED_TOKEN');
 var UNMATCHED_DELIMITER = exports.UNMATCHED_DELIMITER = Symbol('er_UNMATCHED_DELIMITER');
 var EXPECTED_BLOCK = exports.EXPECTED_BLOCK = Symbol('er_EXPECTED_BLOCK');
 
-},{}],80:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4643,7 +4542,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 exports.default = new Map([[_SyntaxError.EXIT_NOTFOUND, "Abnormal syntax at $LOC"], [_SyntaxError.UNEXPECTED_TOKEN, "Unexpected token at $LOC"], [_SyntaxError.UNMATCHED_DELIMITER, "Expected a matching delimiter for `$1` at $LOC"], [_SyntaxError.EXPECTED_BLOCK, "Expected a code block at $LOC"]]);
 module.exports = exports['default'];
 
-},{"./err":79}],81:[function(require,module,exports){
+},{"./err":77}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4682,7 +4581,7 @@ var TYPE = exports.TYPE = {
     RTL: Symbol('RTL Operator')
 };
 
-},{}],82:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4700,7 +4599,7 @@ var ClassType = exports.ClassType = {
     Array: Symbol('Array')
 };
 
-},{}],83:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4768,7 +4667,7 @@ var CheddarBooleanToken = function (_CheddarPrimitive) {
 exports.default = CheddarBooleanToken;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../consts/types":82,"./primitive":89}],84:[function(require,module,exports){
+},{"../consts/err":77,"../consts/types":80,"./primitive":87}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4814,7 +4713,7 @@ var CheddarFunctionizedOperatorToken = function (_CheddarPrimitive) {
 exports.default = CheddarFunctionizedOperatorToken;
 module.exports = exports['default'];
 
-},{"../consts/ops":81,"./primitive":89}],85:[function(require,module,exports){
+},{"../consts/ops":79,"./primitive":87}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4883,7 +4782,7 @@ var CheddarLiteral = function (_CheddarLexer) {
 exports.default = CheddarLiteral;
 module.exports = exports['default'];
 
-},{"../consts/chars":78,"../consts/err":79,"../tok/lex":108}],86:[function(require,module,exports){
+},{"../consts/chars":76,"../consts/err":77,"../tok/lex":106}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4944,7 +4843,7 @@ var CheddarNilToken = function (_CheddarPrimitive) {
 exports.default = CheddarNilToken;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../consts/types":82,"./primitive":89}],87:[function(require,module,exports){
+},{"../consts/err":77,"../consts/types":80,"./primitive":87}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5068,7 +4967,7 @@ var CheddarNumberToken = function (_CheddarPrimitive) {
 exports.default = CheddarNumberToken;
 module.exports = exports['default'];
 
-},{"../consts/chars":78,"../consts/err":79,"../consts/types":82,"./primitive":89}],88:[function(require,module,exports){
+},{"../consts/chars":76,"../consts/err":77,"../consts/types":80,"./primitive":87}],86:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5137,7 +5036,7 @@ var CheddarOperatorToken = function (_CheddarLexer) {
 exports.default = CheddarOperatorToken;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../consts/ops":81,"../tok/lex":108}],89:[function(require,module,exports){
+},{"../consts/err":77,"../consts/ops":79,"../tok/lex":106}],87:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5171,7 +5070,7 @@ var CheddarPrimitive = function (_CheddarLiteral) {
 exports.default = CheddarPrimitive;
 module.exports = exports['default'];
 
-},{"./literal":85}],90:[function(require,module,exports){
+},{"./literal":83}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5255,7 +5154,7 @@ var CheddarStringToken = function (_CheddarPrimitive) {
 exports.default = CheddarStringToken;
 module.exports = exports['default'];
 
-},{"../consts/chars":78,"../consts/err":79,"../consts/types":82,"./primitive":89}],91:[function(require,module,exports){
+},{"../consts/chars":76,"../consts/err":77,"../consts/types":80,"./primitive":87}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5325,7 +5224,7 @@ var CheddarVariableToken = function (_CheddarLexer) {
 exports.default = CheddarVariableToken;
 module.exports = exports['default'];
 
-},{"../consts/chars":78,"../consts/err":79,"../tok/lex":108}],92:[function(require,module,exports){
+},{"../consts/chars":76,"../consts/err":77,"../tok/lex":106}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5402,7 +5301,7 @@ var CheddarAnyLiteral = function (_CheddarLexer) {
 exports.default = CheddarAnyLiteral;
 module.exports = exports['default'];
 
-},{"../literals/boolean":83,"../literals/fop":84,"../literals/literal":85,"../literals/nil":86,"../literals/number":87,"../literals/string":90,"./array":94}],93:[function(require,module,exports){
+},{"../literals/boolean":81,"../literals/fop":82,"../literals/literal":83,"../literals/nil":84,"../literals/number":85,"../literals/string":88,"./array":92}],91:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5469,7 +5368,7 @@ var CheddarArgumentToken = function (_CheddarLexer) {
 exports.default = CheddarArgumentToken;
 module.exports = exports['default'];
 
-},{"../literals/var":91,"../tok/lex":108,"./expr":96,"./typed_var":100}],94:[function(require,module,exports){
+},{"../literals/var":89,"../tok/lex":106,"./expr":94,"./typed_var":98}],92:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5573,7 +5472,7 @@ var CheddarArrayToken = function (_CheddarPrimitive) {
 exports.default = CheddarArrayToken;
 module.exports = exports['default'];
 
-},{"../consts/chars":78,"../consts/err":79,"../consts/types":82,"../literals/primitive":89,"../tok/lex":108,"./expr":96}],95:[function(require,module,exports){
+},{"../consts/chars":76,"../consts/err":77,"../consts/types":80,"../literals/primitive":87,"../tok/lex":106,"./expr":94}],93:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5602,7 +5501,7 @@ function CheddarCustomLexer(orig) {
 }
 module.exports = exports['default'];
 
-},{"../tok/lex":108}],96:[function(require,module,exports){
+},{"../tok/lex":106}],94:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5885,7 +5784,7 @@ CheddarExpressionToken.prototype.exec = function () {
 exports.default = CheddarExpressionToken;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../consts/ops":81,"../literals/op":88,"../tok/lex":108,"./custom":95,"./function":97,"./property":99,"util":118}],97:[function(require,module,exports){
+},{"../consts/err":77,"../consts/ops":79,"../literals/op":86,"../tok/lex":106,"./custom":93,"./function":95,"./property":97,"util":127}],95:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5962,7 +5861,7 @@ var CheddarFunctionToken = function (_CheddarPrimitive) {
 exports.default = CheddarFunctionToken;
 module.exports = exports['default'];
 
-},{"../literals/primitive":89,"../patterns/block":102,"../states/expr":104,"./argument":93,"./array":94,"./custom":95}],98:[function(require,module,exports){
+},{"../literals/primitive":87,"../patterns/block":100,"../states/expr":102,"./argument":91,"./array":92,"./custom":93}],96:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6034,7 +5933,7 @@ var CheddarParenthesizedExpression = function (_CheddarLexer) {
 exports.default = CheddarParenthesizedExpression;
 module.exports = exports['default'];
 
-},{"../tok/lex":108,"./expr":96}],99:[function(require,module,exports){
+},{"../tok/lex":106,"./expr":94}],97:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6194,7 +6093,7 @@ var CheddarPropertyToken = function (_CheddarLexer) {
 exports.default = CheddarPropertyToken;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../consts/types":82,"../literals/primitive":89,"../literals/var":91,"../tok/lex":108,"./any":92,"./array":94,"./expr":96,"./paren_expr":98}],100:[function(require,module,exports){
+},{"../consts/err":77,"../consts/types":80,"../literals/primitive":87,"../literals/var":89,"../tok/lex":106,"./any":90,"./array":92,"./expr":94,"./paren_expr":96}],98:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6251,7 +6150,7 @@ var CheddarTypedVariableToken = function (_CheddarLexer) {
 exports.default = CheddarTypedVariableToken;
 module.exports = exports['default'];
 
-},{"../literals/literal":85,"../literals/var":91,"../tok/lex":108}],101:[function(require,module,exports){
+},{"../literals/literal":83,"../literals/var":89,"../tok/lex":106}],99:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6285,7 +6184,7 @@ var CheddarExplicitEnd = function (_CheddarLexer) {
 exports.default = CheddarExplicitEnd;
 module.exports = exports['default'];
 
-},{"../tok/lex":108}],102:[function(require,module,exports){
+},{"../tok/lex":106}],100:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6360,7 +6259,7 @@ var CheddarCodeblock = function (_CheddarLexer) {
 exports.default = CheddarCodeblock;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../parsers/custom":95,"../tok":107,"../tok/lex":108}],103:[function(require,module,exports){
+},{"../consts/err":77,"../parsers/custom":93,"../tok":105,"../tok/lex":106}],101:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6424,7 +6323,7 @@ var StatementAssign = function (_CheddarLexer) {
 exports.default = StatementAssign;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../literals/var":91,"../parsers/expr":96,"../parsers/typed_var":100,"../tok/lex":108}],104:[function(require,module,exports){
+},{"../consts/err":77,"../literals/var":89,"../parsers/expr":94,"../parsers/typed_var":98,"../tok/lex":106}],102:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6473,7 +6372,7 @@ var StatementExpression = function (_CheddarLexer) {
 exports.default = StatementExpression;
 module.exports = exports['default'];
 
-},{"../parsers/expr":96,"../tok/lex":108}],105:[function(require,module,exports){
+},{"../parsers/expr":94,"../tok/lex":106}],103:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6546,11 +6445,7 @@ var StatementFor = function (_CheddarLexer) {
 
             var FOR = this.grammar(true, ['(', [DECONSTRUCT, _var2.default], 'in', _expr2.default, ')', _block2.default], ['(', [_assign2.default, _expr2.default], ';', _expr2.default, ';', _expr2.default, ')', _block2.default]);
 
-            if (FOR === CheddarError.EXIT_NOTFOUND) {
-                return CheddarError.UNEXPECTED_TOKEN;
-            } else {
-                return FOR;
-            }
+            return FOR;
         }
     }]);
 
@@ -6560,7 +6455,7 @@ var StatementFor = function (_CheddarLexer) {
 exports.default = StatementFor;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../literals/var":91,"../parsers/array":94,"../parsers/custom":95,"../patterns/EXPLICIT":101,"../patterns/block":102,"./assign":103,"./expr":104}],106:[function(require,module,exports){
+},{"../consts/err":77,"../literals/var":89,"../parsers/array":92,"../parsers/custom":93,"../patterns/EXPLICIT":99,"../patterns/block":100,"./assign":101,"./expr":102}],104:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6624,7 +6519,7 @@ var StatementIf = function (_CheddarLexer) {
 
             // Match initial `if`
             var IF = this.grammar(true, FORMAT);
-            if (!(IF instanceof _EXPLICIT2.default)) return this.error(IF);
+            if (IF === CheddarError.EXIT_NOTFOUND) return IF;else if (!(IF instanceof _EXPLICIT2.default)) return this.error(IF);
 
             while (this.lookAhead("else")) {
                 this.jumpLiteral("else");
@@ -6668,7 +6563,7 @@ var StatementIf = function (_CheddarLexer) {
 exports.default = StatementIf;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../parsers/custom":95,"../patterns/EXPLICIT":101,"../patterns/block":102,"./expr":104}],107:[function(require,module,exports){
+},{"../consts/err":77,"../parsers/custom":93,"../patterns/EXPLICIT":99,"../patterns/block":100,"./expr":102}],105:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6823,7 +6718,7 @@ var CheddarTokenize = function (_CheddarLexer) {
 exports.default = CheddarTokenize;
 module.exports = exports['default'];
 
-},{"../helpers/loc":4,"./consts/err":79,"./consts/err_msg":80,"./patterns/EXPLICIT":101,"./states/assign":103,"./states/expr":104,"./states/for":105,"./states/if":106,"./tok/lex":108}],108:[function(require,module,exports){
+},{"../helpers/loc":4,"./consts/err":77,"./consts/err_msg":78,"./patterns/EXPLICIT":99,"./states/assign":101,"./states/expr":102,"./states/for":103,"./states/if":104,"./tok/lex":106}],106:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7256,7 +7151,7 @@ var CheddarLexer = function () {
 exports.default = CheddarLexer;
 module.exports = exports['default'];
 
-},{"../consts/err":79}],109:[function(require,module,exports){
+},{"../consts/err":77}],107:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7392,9 +7287,120 @@ var CheddarShuntingYard = function (_CheddarLexer) {
 exports.default = CheddarShuntingYard;
 module.exports = exports['default'];
 
-},{"../consts/err":79,"../consts/ops":81,"../literals/op":88,"./lex":108}],110:[function(require,module,exports){
+},{"../consts/err":77,"../consts/ops":79,"../literals/op":86,"./lex":106}],108:[function(require,module,exports){
+'use strict'
 
-},{}],111:[function(require,module,exports){
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+function init () {
+  var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+  for (var i = 0, len = code.length; i < len; ++i) {
+    lookup[i] = code[i]
+    revLookup[code.charCodeAt(i)] = i
+  }
+
+  revLookup['-'.charCodeAt(0)] = 62
+  revLookup['_'.charCodeAt(0)] = 63
+}
+
+init()
+
+function toByteArray (b64) {
+  var i, j, l, tmp, placeHolders, arr
+  var len = b64.length
+
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  placeHolders = b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+
+  // base64 is 4/3 + up to two characters of the original data
+  arr = new Arr(len * 3 / 4 - placeHolders)
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
+  }
+
+  parts.push(output)
+
+  return parts.join('')
+}
+
+},{}],109:[function(require,module,exports){
+
+},{}],110:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -9109,118 +9115,660 @@ function isnan (val) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":112,"ieee754":113,"isarray":114}],112:[function(require,module,exports){
-'use strict'
+},{"base64-js":108,"ieee754":122,"isarray":124}],111:[function(require,module,exports){
+/*
 
-exports.toByteArray = toByteArray
-exports.fromByteArray = fromByteArray
+The MIT License (MIT)
 
-var lookup = []
-var revLookup = []
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+Original Library 
+  - Copyright (c) Marak Squires
 
-function init () {
-  var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-  for (var i = 0, len = code.length; i < len; ++i) {
-    lookup[i] = code[i]
-    revLookup[code.charCodeAt(i)] = i
-  }
+Additional functionality
+ - Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 
-  revLookup['-'.charCodeAt(0)] = 62
-  revLookup['_'.charCodeAt(0)] = 63
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+var colors = {};
+module['exports'] = colors;
+
+colors.themes = {};
+
+var ansiStyles = colors.styles = require('./styles');
+var defineProps = Object.defineProperties;
+
+colors.supportsColor = require('./system/supports-colors');
+
+if (typeof colors.enabled === "undefined") {
+  colors.enabled = colors.supportsColor;
 }
 
-init()
+colors.stripColors = colors.strip = function(str){
+  return ("" + str).replace(/\x1B\[\d+m/g, '');
+};
 
-function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
-  var len = b64.length
 
-  if (len % 4 > 0) {
-    throw new Error('Invalid string. Length must be a multiple of 4')
+var stylize = colors.stylize = function stylize (str, style) {
+  if (!colors.enabled) {
+    return str+'';
   }
 
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  placeHolders = b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
-
-  // base64 is 4/3 + up to two characters of the original data
-  arr = new Arr(len * 3 / 4 - placeHolders)
-
-  // if there are placeholders, only get up to the last complete 4 chars
-  l = placeHolders > 0 ? len - 4 : len
-
-  var L = 0
-
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  return arr
+  return ansiStyles[style].open + str + ansiStyles[style].close;
 }
 
-function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
+var escapeStringRegexp = function (str) {
+  if (typeof str !== 'string') {
+    throw new TypeError('Expected a string');
+  }
+  return str.replace(matchOperatorsRe,  '\\$&');
 }
 
-function encodeChunk (uint8, start, end) {
-  var tmp
-  var output = []
-  for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-    output.push(tripletToBase64(tmp))
-  }
-  return output.join('')
+function build(_styles) {
+  var builder = function builder() {
+    return applyStyle.apply(builder, arguments);
+  };
+  builder._styles = _styles;
+  // __proto__ is used because we must return a function, but there is
+  // no way to create a function with a different prototype.
+  builder.__proto__ = proto;
+  return builder;
 }
 
-function fromByteArray (uint8) {
-  var tmp
-  var len = uint8.length
-  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
-  var parts = []
-  var maxChunkLength = 16383 // must be multiple of 3
+var styles = (function () {
+  var ret = {};
+  ansiStyles.grey = ansiStyles.gray;
+  Object.keys(ansiStyles).forEach(function (key) {
+    ansiStyles[key].closeRe = new RegExp(escapeStringRegexp(ansiStyles[key].close), 'g');
+    ret[key] = {
+      get: function () {
+        return build(this._styles.concat(key));
+      }
+    };
+  });
+  return ret;
+})();
 
-  // go through the array every three bytes, we'll deal with trailing stuff later
-  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+var proto = defineProps(function colors() {}, styles);
+
+function applyStyle() {
+  var args = arguments;
+  var argsLen = args.length;
+  var str = argsLen !== 0 && String(arguments[0]);
+  if (argsLen > 1) {
+    for (var a = 1; a < argsLen; a++) {
+      str += ' ' + args[a];
+    }
   }
 
-  // pad the end with zeros, but make sure to not forget the extra bytes
-  if (extraBytes === 1) {
-    tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
-  } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
+  if (!colors.enabled || !str) {
+    return str;
   }
 
-  parts.push(output)
+  var nestedStyles = this._styles;
 
-  return parts.join('')
+  var i = nestedStyles.length;
+  while (i--) {
+    var code = ansiStyles[nestedStyles[i]];
+    str = code.open + str.replace(code.closeRe, code.open) + code.close;
+  }
+
+  return str;
+}
+
+function applyTheme (theme) {
+  for (var style in theme) {
+    (function(style){
+      colors[style] = function(str){
+        if (typeof theme[style] === 'object'){
+          var out = str;
+          for (var i in theme[style]){
+            out = colors[theme[style][i]](out);
+          }
+          return out;
+        }
+        return colors[theme[style]](str);
+      };
+    })(style)
+  }
+}
+
+colors.setTheme = function (theme) {
+  if (typeof theme === 'string') {
+    try {
+      colors.themes[theme] = require(theme);
+      applyTheme(colors.themes[theme]);
+      return colors.themes[theme];
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  } else {
+    applyTheme(theme);
+  }
+};
+
+function init() {
+  var ret = {};
+  Object.keys(styles).forEach(function (name) {
+    ret[name] = {
+      get: function () {
+        return build([name]);
+      }
+    };
+  });
+  return ret;
+}
+
+var sequencer = function sequencer (map, str) {
+  var exploded = str.split(""), i = 0;
+  exploded = exploded.map(map);
+  return exploded.join("");
+};
+
+// custom formatter methods
+colors.trap = require('./custom/trap');
+colors.zalgo = require('./custom/zalgo');
+
+// maps
+colors.maps = {};
+colors.maps.america = require('./maps/america');
+colors.maps.zebra = require('./maps/zebra');
+colors.maps.rainbow = require('./maps/rainbow');
+colors.maps.random = require('./maps/random')
+
+for (var map in colors.maps) {
+  (function(map){
+    colors[map] = function (str) {
+      return sequencer(colors.maps[map], str);
+    }
+  })(map)
+}
+
+defineProps(colors, init());
+},{"./custom/trap":112,"./custom/zalgo":113,"./maps/america":116,"./maps/rainbow":117,"./maps/random":118,"./maps/zebra":119,"./styles":120,"./system/supports-colors":121}],112:[function(require,module,exports){
+module['exports'] = function runTheTrap (text, options) {
+  var result = "";
+  text = text || "Run the trap, drop the bass";
+  text = text.split('');
+  var trap = {
+    a: ["\u0040", "\u0104", "\u023a", "\u0245", "\u0394", "\u039b", "\u0414"],
+    b: ["\u00df", "\u0181", "\u0243", "\u026e", "\u03b2", "\u0e3f"],
+    c: ["\u00a9", "\u023b", "\u03fe"],
+    d: ["\u00d0", "\u018a", "\u0500" , "\u0501" ,"\u0502", "\u0503"],
+    e: ["\u00cb", "\u0115", "\u018e", "\u0258", "\u03a3", "\u03be", "\u04bc", "\u0a6c"],
+    f: ["\u04fa"],
+    g: ["\u0262"],
+    h: ["\u0126", "\u0195", "\u04a2", "\u04ba", "\u04c7", "\u050a"],
+    i: ["\u0f0f"],
+    j: ["\u0134"],
+    k: ["\u0138", "\u04a0", "\u04c3", "\u051e"],
+    l: ["\u0139"],
+    m: ["\u028d", "\u04cd", "\u04ce", "\u0520", "\u0521", "\u0d69"],
+    n: ["\u00d1", "\u014b", "\u019d", "\u0376", "\u03a0", "\u048a"],
+    o: ["\u00d8", "\u00f5", "\u00f8", "\u01fe", "\u0298", "\u047a", "\u05dd", "\u06dd", "\u0e4f"],
+    p: ["\u01f7", "\u048e"],
+    q: ["\u09cd"],
+    r: ["\u00ae", "\u01a6", "\u0210", "\u024c", "\u0280", "\u042f"],
+    s: ["\u00a7", "\u03de", "\u03df", "\u03e8"],
+    t: ["\u0141", "\u0166", "\u0373"],
+    u: ["\u01b1", "\u054d"],
+    v: ["\u05d8"],
+    w: ["\u0428", "\u0460", "\u047c", "\u0d70"],
+    x: ["\u04b2", "\u04fe", "\u04fc", "\u04fd"],
+    y: ["\u00a5", "\u04b0", "\u04cb"],
+    z: ["\u01b5", "\u0240"]
+  }
+  text.forEach(function(c){
+    c = c.toLowerCase();
+    var chars = trap[c] || [" "];
+    var rand = Math.floor(Math.random() * chars.length);
+    if (typeof trap[c] !== "undefined") {
+      result += trap[c][rand];
+    } else {
+      result += c;
+    }
+  });
+  return result;
+
 }
 
 },{}],113:[function(require,module,exports){
+// please no
+module['exports'] = function zalgo(text, options) {
+  text = text || "   he is here   ";
+  var soul = {
+    "up" : [
+      '̍', '̎', '̄', '̅',
+      '̿', '̑', '̆', '̐',
+      '͒', '͗', '͑', '̇',
+      '̈', '̊', '͂', '̓',
+      '̈', '͊', '͋', '͌',
+      '̃', '̂', '̌', '͐',
+      '̀', '́', '̋', '̏',
+      '̒', '̓', '̔', '̽',
+      '̉', 'ͣ', 'ͤ', 'ͥ',
+      'ͦ', 'ͧ', 'ͨ', 'ͩ',
+      'ͪ', 'ͫ', 'ͬ', 'ͭ',
+      'ͮ', 'ͯ', '̾', '͛',
+      '͆', '̚'
+    ],
+    "down" : [
+      '̖', '̗', '̘', '̙',
+      '̜', '̝', '̞', '̟',
+      '̠', '̤', '̥', '̦',
+      '̩', '̪', '̫', '̬',
+      '̭', '̮', '̯', '̰',
+      '̱', '̲', '̳', '̹',
+      '̺', '̻', '̼', 'ͅ',
+      '͇', '͈', '͉', '͍',
+      '͎', '͓', '͔', '͕',
+      '͖', '͙', '͚', '̣'
+    ],
+    "mid" : [
+      '̕', '̛', '̀', '́',
+      '͘', '̡', '̢', '̧',
+      '̨', '̴', '̵', '̶',
+      '͜', '͝', '͞',
+      '͟', '͠', '͢', '̸',
+      '̷', '͡', ' ҉'
+    ]
+  },
+  all = [].concat(soul.up, soul.down, soul.mid),
+  zalgo = {};
+
+  function randomNumber(range) {
+    var r = Math.floor(Math.random() * range);
+    return r;
+  }
+
+  function is_char(character) {
+    var bool = false;
+    all.filter(function (i) {
+      bool = (i === character);
+    });
+    return bool;
+  }
+  
+
+  function heComes(text, options) {
+    var result = '', counts, l;
+    options = options || {};
+    options["up"] =   typeof options["up"]   !== 'undefined' ? options["up"]   : true;
+    options["mid"] =  typeof options["mid"]  !== 'undefined' ? options["mid"]  : true;
+    options["down"] = typeof options["down"] !== 'undefined' ? options["down"] : true;
+    options["size"] = typeof options["size"] !== 'undefined' ? options["size"] : "maxi";
+    text = text.split('');
+    for (l in text) {
+      if (is_char(l)) {
+        continue;
+      }
+      result = result + text[l];
+      counts = {"up" : 0, "down" : 0, "mid" : 0};
+      switch (options.size) {
+      case 'mini':
+        counts.up = randomNumber(8);
+        counts.mid = randomNumber(2);
+        counts.down = randomNumber(8);
+        break;
+      case 'maxi':
+        counts.up = randomNumber(16) + 3;
+        counts.mid = randomNumber(4) + 1;
+        counts.down = randomNumber(64) + 3;
+        break;
+      default:
+        counts.up = randomNumber(8) + 1;
+        counts.mid = randomNumber(6) / 2;
+        counts.down = randomNumber(8) + 1;
+        break;
+      }
+
+      var arr = ["up", "mid", "down"];
+      for (var d in arr) {
+        var index = arr[d];
+        for (var i = 0 ; i <= counts[index]; i++) {
+          if (options[index]) {
+            result = result + soul[index][randomNumber(soul[index].length)];
+          }
+        }
+      }
+    }
+    return result;
+  }
+  // don't summon him
+  return heComes(text, options);
+}
+
+},{}],114:[function(require,module,exports){
+var colors = require('./colors');
+
+module['exports'] = function () {
+
+  //
+  // Extends prototype of native string object to allow for "foo".red syntax
+  //
+  var addProperty = function (color, func) {
+    String.prototype.__defineGetter__(color, func);
+  };
+
+  var sequencer = function sequencer (map, str) {
+      return function () {
+        var exploded = this.split(""), i = 0;
+        exploded = exploded.map(map);
+        return exploded.join("");
+      }
+  };
+
+  addProperty('strip', function () {
+    return colors.strip(this);
+  });
+
+  addProperty('stripColors', function () {
+    return colors.strip(this);
+  });
+
+  addProperty("trap", function(){
+    return colors.trap(this);
+  });
+
+  addProperty("zalgo", function(){
+    return colors.zalgo(this);
+  });
+
+  addProperty("zebra", function(){
+    return colors.zebra(this);
+  });
+
+  addProperty("rainbow", function(){
+    return colors.rainbow(this);
+  });
+
+  addProperty("random", function(){
+    return colors.random(this);
+  });
+
+  addProperty("america", function(){
+    return colors.america(this);
+  });
+
+  //
+  // Iterate through all default styles and colors
+  //
+  var x = Object.keys(colors.styles);
+  x.forEach(function (style) {
+    addProperty(style, function () {
+      return colors.stylize(this, style);
+    });
+  });
+
+  function applyTheme(theme) {
+    //
+    // Remark: This is a list of methods that exist
+    // on String that you should not overwrite.
+    //
+    var stringPrototypeBlacklist = [
+      '__defineGetter__', '__defineSetter__', '__lookupGetter__', '__lookupSetter__', 'charAt', 'constructor',
+      'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf', 'charCodeAt',
+      'indexOf', 'lastIndexof', 'length', 'localeCompare', 'match', 'replace', 'search', 'slice', 'split', 'substring',
+      'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'trim', 'trimLeft', 'trimRight'
+    ];
+
+    Object.keys(theme).forEach(function (prop) {
+      if (stringPrototypeBlacklist.indexOf(prop) !== -1) {
+        console.log('warn: '.red + ('String.prototype' + prop).magenta + ' is probably something you don\'t want to override. Ignoring style name');
+      }
+      else {
+        if (typeof(theme[prop]) === 'string') {
+          colors[prop] = colors[theme[prop]];
+          addProperty(prop, function () {
+            return colors[theme[prop]](this);
+          });
+        }
+        else {
+          addProperty(prop, function () {
+            var ret = this;
+            for (var t = 0; t < theme[prop].length; t++) {
+              ret = colors[theme[prop][t]](ret);
+            }
+            return ret;
+          });
+        }
+      }
+    });
+  }
+
+  colors.setTheme = function (theme) {
+    if (typeof theme === 'string') {
+      try {
+        colors.themes[theme] = require(theme);
+        applyTheme(colors.themes[theme]);
+        return colors.themes[theme];
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    } else {
+      applyTheme(theme);
+    }
+  };
+
+};
+},{"./colors":111}],115:[function(require,module,exports){
+var colors = require('./colors');
+module['exports'] = colors;
+
+// Remark: By default, colors will add style properties to String.prototype
+//
+// If you don't wish to extend String.prototype you can do this instead and native String will not be touched
+//
+//   var colors = require('colors/safe);
+//   colors.red("foo")
+//
+//
+require('./extendStringPrototype')();
+},{"./colors":111,"./extendStringPrototype":114}],116:[function(require,module,exports){
+var colors = require('../colors');
+
+module['exports'] = (function() {
+  return function (letter, i, exploded) {
+    if(letter === " ") return letter;
+    switch(i%3) {
+      case 0: return colors.red(letter);
+      case 1: return colors.white(letter)
+      case 2: return colors.blue(letter)
+    }
+  }
+})();
+},{"../colors":111}],117:[function(require,module,exports){
+var colors = require('../colors');
+
+module['exports'] = (function () {
+  var rainbowColors = ['red', 'yellow', 'green', 'blue', 'magenta']; //RoY G BiV
+  return function (letter, i, exploded) {
+    if (letter === " ") {
+      return letter;
+    } else {
+      return colors[rainbowColors[i++ % rainbowColors.length]](letter);
+    }
+  };
+})();
+
+
+},{"../colors":111}],118:[function(require,module,exports){
+var colors = require('../colors');
+
+module['exports'] = (function () {
+  var available = ['underline', 'inverse', 'grey', 'yellow', 'red', 'green', 'blue', 'white', 'cyan', 'magenta'];
+  return function(letter, i, exploded) {
+    return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
+  };
+})();
+},{"../colors":111}],119:[function(require,module,exports){
+var colors = require('../colors');
+
+module['exports'] = function (letter, i, exploded) {
+  return i % 2 === 0 ? letter : colors.inverse(letter);
+};
+},{"../colors":111}],120:[function(require,module,exports){
+/*
+The MIT License (MIT)
+
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+var styles = {};
+module['exports'] = styles;
+
+var codes = {
+  reset: [0, 0],
+
+  bold: [1, 22],
+  dim: [2, 22],
+  italic: [3, 23],
+  underline: [4, 24],
+  inverse: [7, 27],
+  hidden: [8, 28],
+  strikethrough: [9, 29],
+
+  black: [30, 39],
+  red: [31, 39],
+  green: [32, 39],
+  yellow: [33, 39],
+  blue: [34, 39],
+  magenta: [35, 39],
+  cyan: [36, 39],
+  white: [37, 39],
+  gray: [90, 39],
+  grey: [90, 39],
+
+  bgBlack: [40, 49],
+  bgRed: [41, 49],
+  bgGreen: [42, 49],
+  bgYellow: [43, 49],
+  bgBlue: [44, 49],
+  bgMagenta: [45, 49],
+  bgCyan: [46, 49],
+  bgWhite: [47, 49],
+
+  // legacy styles for colors pre v1.0.0
+  blackBG: [40, 49],
+  redBG: [41, 49],
+  greenBG: [42, 49],
+  yellowBG: [43, 49],
+  blueBG: [44, 49],
+  magentaBG: [45, 49],
+  cyanBG: [46, 49],
+  whiteBG: [47, 49]
+
+};
+
+Object.keys(codes).forEach(function (key) {
+  var val = codes[key];
+  var style = styles[key] = [];
+  style.open = '\u001b[' + val[0] + 'm';
+  style.close = '\u001b[' + val[1] + 'm';
+});
+},{}],121:[function(require,module,exports){
+(function (process){
+/*
+The MIT License (MIT)
+
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+var argv = process.argv;
+
+module.exports = (function () {
+  if (argv.indexOf('--no-color') !== -1 ||
+    argv.indexOf('--color=false') !== -1) {
+    return false;
+  }
+
+  if (argv.indexOf('--color') !== -1 ||
+    argv.indexOf('--color=true') !== -1 ||
+    argv.indexOf('--color=always') !== -1) {
+    return true;
+  }
+
+  if (process.stdout && !process.stdout.isTTY) {
+    return false;
+  }
+
+  if (process.platform === 'win32') {
+    return true;
+  }
+
+  if ('COLORTERM' in process.env) {
+    return true;
+  }
+
+  if (process.env.TERM === 'dumb') {
+    return false;
+  }
+
+  if (/^screen|^xterm|^vt100|color|ansi|cygwin|linux/i.test(process.env.TERM)) {
+    return true;
+  }
+
+  return false;
+})();
+}).call(this,require('_process'))
+},{"_process":125}],122:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -9306,14 +9854,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],114:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],115:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -9338,7 +9879,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],116:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],125:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -9459,14 +10007,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],117:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],118:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -10056,657 +10604,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":117,"_process":116,"inherits":115}],119:[function(require,module,exports){
-/*
-
-The MIT License (MIT)
-
-Original Library 
-  - Copyright (c) Marak Squires
-
-Additional functionality
- - Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var colors = {};
-module['exports'] = colors;
-
-colors.themes = {};
-
-var ansiStyles = colors.styles = require('./styles');
-var defineProps = Object.defineProperties;
-
-colors.supportsColor = require('./system/supports-colors');
-
-if (typeof colors.enabled === "undefined") {
-  colors.enabled = colors.supportsColor;
-}
-
-colors.stripColors = colors.strip = function(str){
-  return ("" + str).replace(/\x1B\[\d+m/g, '');
-};
-
-
-var stylize = colors.stylize = function stylize (str, style) {
-  if (!colors.enabled) {
-    return str+'';
-  }
-
-  return ansiStyles[style].open + str + ansiStyles[style].close;
-}
-
-var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
-var escapeStringRegexp = function (str) {
-  if (typeof str !== 'string') {
-    throw new TypeError('Expected a string');
-  }
-  return str.replace(matchOperatorsRe,  '\\$&');
-}
-
-function build(_styles) {
-  var builder = function builder() {
-    return applyStyle.apply(builder, arguments);
-  };
-  builder._styles = _styles;
-  // __proto__ is used because we must return a function, but there is
-  // no way to create a function with a different prototype.
-  builder.__proto__ = proto;
-  return builder;
-}
-
-var styles = (function () {
-  var ret = {};
-  ansiStyles.grey = ansiStyles.gray;
-  Object.keys(ansiStyles).forEach(function (key) {
-    ansiStyles[key].closeRe = new RegExp(escapeStringRegexp(ansiStyles[key].close), 'g');
-    ret[key] = {
-      get: function () {
-        return build(this._styles.concat(key));
-      }
-    };
-  });
-  return ret;
-})();
-
-var proto = defineProps(function colors() {}, styles);
-
-function applyStyle() {
-  var args = arguments;
-  var argsLen = args.length;
-  var str = argsLen !== 0 && String(arguments[0]);
-  if (argsLen > 1) {
-    for (var a = 1; a < argsLen; a++) {
-      str += ' ' + args[a];
-    }
-  }
-
-  if (!colors.enabled || !str) {
-    return str;
-  }
-
-  var nestedStyles = this._styles;
-
-  var i = nestedStyles.length;
-  while (i--) {
-    var code = ansiStyles[nestedStyles[i]];
-    str = code.open + str.replace(code.closeRe, code.open) + code.close;
-  }
-
-  return str;
-}
-
-function applyTheme (theme) {
-  for (var style in theme) {
-    (function(style){
-      colors[style] = function(str){
-        if (typeof theme[style] === 'object'){
-          var out = str;
-          for (var i in theme[style]){
-            out = colors[theme[style][i]](out);
-          }
-          return out;
-        }
-        return colors[theme[style]](str);
-      };
-    })(style)
-  }
-}
-
-colors.setTheme = function (theme) {
-  if (typeof theme === 'string') {
-    try {
-      colors.themes[theme] = require(theme);
-      applyTheme(colors.themes[theme]);
-      return colors.themes[theme];
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-  } else {
-    applyTheme(theme);
-  }
-};
-
-function init() {
-  var ret = {};
-  Object.keys(styles).forEach(function (name) {
-    ret[name] = {
-      get: function () {
-        return build([name]);
-      }
-    };
-  });
-  return ret;
-}
-
-var sequencer = function sequencer (map, str) {
-  var exploded = str.split(""), i = 0;
-  exploded = exploded.map(map);
-  return exploded.join("");
-};
-
-// custom formatter methods
-colors.trap = require('./custom/trap');
-colors.zalgo = require('./custom/zalgo');
-
-// maps
-colors.maps = {};
-colors.maps.america = require('./maps/america');
-colors.maps.zebra = require('./maps/zebra');
-colors.maps.rainbow = require('./maps/rainbow');
-colors.maps.random = require('./maps/random')
-
-for (var map in colors.maps) {
-  (function(map){
-    colors[map] = function (str) {
-      return sequencer(colors.maps[map], str);
-    }
-  })(map)
-}
-
-defineProps(colors, init());
-},{"./custom/trap":120,"./custom/zalgo":121,"./maps/america":124,"./maps/rainbow":125,"./maps/random":126,"./maps/zebra":127,"./styles":128,"./system/supports-colors":129}],120:[function(require,module,exports){
-module['exports'] = function runTheTrap (text, options) {
-  var result = "";
-  text = text || "Run the trap, drop the bass";
-  text = text.split('');
-  var trap = {
-    a: ["\u0040", "\u0104", "\u023a", "\u0245", "\u0394", "\u039b", "\u0414"],
-    b: ["\u00df", "\u0181", "\u0243", "\u026e", "\u03b2", "\u0e3f"],
-    c: ["\u00a9", "\u023b", "\u03fe"],
-    d: ["\u00d0", "\u018a", "\u0500" , "\u0501" ,"\u0502", "\u0503"],
-    e: ["\u00cb", "\u0115", "\u018e", "\u0258", "\u03a3", "\u03be", "\u04bc", "\u0a6c"],
-    f: ["\u04fa"],
-    g: ["\u0262"],
-    h: ["\u0126", "\u0195", "\u04a2", "\u04ba", "\u04c7", "\u050a"],
-    i: ["\u0f0f"],
-    j: ["\u0134"],
-    k: ["\u0138", "\u04a0", "\u04c3", "\u051e"],
-    l: ["\u0139"],
-    m: ["\u028d", "\u04cd", "\u04ce", "\u0520", "\u0521", "\u0d69"],
-    n: ["\u00d1", "\u014b", "\u019d", "\u0376", "\u03a0", "\u048a"],
-    o: ["\u00d8", "\u00f5", "\u00f8", "\u01fe", "\u0298", "\u047a", "\u05dd", "\u06dd", "\u0e4f"],
-    p: ["\u01f7", "\u048e"],
-    q: ["\u09cd"],
-    r: ["\u00ae", "\u01a6", "\u0210", "\u024c", "\u0280", "\u042f"],
-    s: ["\u00a7", "\u03de", "\u03df", "\u03e8"],
-    t: ["\u0141", "\u0166", "\u0373"],
-    u: ["\u01b1", "\u054d"],
-    v: ["\u05d8"],
-    w: ["\u0428", "\u0460", "\u047c", "\u0d70"],
-    x: ["\u04b2", "\u04fe", "\u04fc", "\u04fd"],
-    y: ["\u00a5", "\u04b0", "\u04cb"],
-    z: ["\u01b5", "\u0240"]
-  }
-  text.forEach(function(c){
-    c = c.toLowerCase();
-    var chars = trap[c] || [" "];
-    var rand = Math.floor(Math.random() * chars.length);
-    if (typeof trap[c] !== "undefined") {
-      result += trap[c][rand];
-    } else {
-      result += c;
-    }
-  });
-  return result;
-
-}
-
-},{}],121:[function(require,module,exports){
-// please no
-module['exports'] = function zalgo(text, options) {
-  text = text || "   he is here   ";
-  var soul = {
-    "up" : [
-      '̍', '̎', '̄', '̅',
-      '̿', '̑', '̆', '̐',
-      '͒', '͗', '͑', '̇',
-      '̈', '̊', '͂', '̓',
-      '̈', '͊', '͋', '͌',
-      '̃', '̂', '̌', '͐',
-      '̀', '́', '̋', '̏',
-      '̒', '̓', '̔', '̽',
-      '̉', 'ͣ', 'ͤ', 'ͥ',
-      'ͦ', 'ͧ', 'ͨ', 'ͩ',
-      'ͪ', 'ͫ', 'ͬ', 'ͭ',
-      'ͮ', 'ͯ', '̾', '͛',
-      '͆', '̚'
-    ],
-    "down" : [
-      '̖', '̗', '̘', '̙',
-      '̜', '̝', '̞', '̟',
-      '̠', '̤', '̥', '̦',
-      '̩', '̪', '̫', '̬',
-      '̭', '̮', '̯', '̰',
-      '̱', '̲', '̳', '̹',
-      '̺', '̻', '̼', 'ͅ',
-      '͇', '͈', '͉', '͍',
-      '͎', '͓', '͔', '͕',
-      '͖', '͙', '͚', '̣'
-    ],
-    "mid" : [
-      '̕', '̛', '̀', '́',
-      '͘', '̡', '̢', '̧',
-      '̨', '̴', '̵', '̶',
-      '͜', '͝', '͞',
-      '͟', '͠', '͢', '̸',
-      '̷', '͡', ' ҉'
-    ]
-  },
-  all = [].concat(soul.up, soul.down, soul.mid),
-  zalgo = {};
-
-  function randomNumber(range) {
-    var r = Math.floor(Math.random() * range);
-    return r;
-  }
-
-  function is_char(character) {
-    var bool = false;
-    all.filter(function (i) {
-      bool = (i === character);
-    });
-    return bool;
-  }
-  
-
-  function heComes(text, options) {
-    var result = '', counts, l;
-    options = options || {};
-    options["up"] =   typeof options["up"]   !== 'undefined' ? options["up"]   : true;
-    options["mid"] =  typeof options["mid"]  !== 'undefined' ? options["mid"]  : true;
-    options["down"] = typeof options["down"] !== 'undefined' ? options["down"] : true;
-    options["size"] = typeof options["size"] !== 'undefined' ? options["size"] : "maxi";
-    text = text.split('');
-    for (l in text) {
-      if (is_char(l)) {
-        continue;
-      }
-      result = result + text[l];
-      counts = {"up" : 0, "down" : 0, "mid" : 0};
-      switch (options.size) {
-      case 'mini':
-        counts.up = randomNumber(8);
-        counts.mid = randomNumber(2);
-        counts.down = randomNumber(8);
-        break;
-      case 'maxi':
-        counts.up = randomNumber(16) + 3;
-        counts.mid = randomNumber(4) + 1;
-        counts.down = randomNumber(64) + 3;
-        break;
-      default:
-        counts.up = randomNumber(8) + 1;
-        counts.mid = randomNumber(6) / 2;
-        counts.down = randomNumber(8) + 1;
-        break;
-      }
-
-      var arr = ["up", "mid", "down"];
-      for (var d in arr) {
-        var index = arr[d];
-        for (var i = 0 ; i <= counts[index]; i++) {
-          if (options[index]) {
-            result = result + soul[index][randomNumber(soul[index].length)];
-          }
-        }
-      }
-    }
-    return result;
-  }
-  // don't summon him
-  return heComes(text, options);
-}
-
-},{}],122:[function(require,module,exports){
-var colors = require('./colors');
-
-module['exports'] = function () {
-
-  //
-  // Extends prototype of native string object to allow for "foo".red syntax
-  //
-  var addProperty = function (color, func) {
-    String.prototype.__defineGetter__(color, func);
-  };
-
-  var sequencer = function sequencer (map, str) {
-      return function () {
-        var exploded = this.split(""), i = 0;
-        exploded = exploded.map(map);
-        return exploded.join("");
-      }
-  };
-
-  addProperty('strip', function () {
-    return colors.strip(this);
-  });
-
-  addProperty('stripColors', function () {
-    return colors.strip(this);
-  });
-
-  addProperty("trap", function(){
-    return colors.trap(this);
-  });
-
-  addProperty("zalgo", function(){
-    return colors.zalgo(this);
-  });
-
-  addProperty("zebra", function(){
-    return colors.zebra(this);
-  });
-
-  addProperty("rainbow", function(){
-    return colors.rainbow(this);
-  });
-
-  addProperty("random", function(){
-    return colors.random(this);
-  });
-
-  addProperty("america", function(){
-    return colors.america(this);
-  });
-
-  //
-  // Iterate through all default styles and colors
-  //
-  var x = Object.keys(colors.styles);
-  x.forEach(function (style) {
-    addProperty(style, function () {
-      return colors.stylize(this, style);
-    });
-  });
-
-  function applyTheme(theme) {
-    //
-    // Remark: This is a list of methods that exist
-    // on String that you should not overwrite.
-    //
-    var stringPrototypeBlacklist = [
-      '__defineGetter__', '__defineSetter__', '__lookupGetter__', '__lookupSetter__', 'charAt', 'constructor',
-      'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf', 'charCodeAt',
-      'indexOf', 'lastIndexof', 'length', 'localeCompare', 'match', 'replace', 'search', 'slice', 'split', 'substring',
-      'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'trim', 'trimLeft', 'trimRight'
-    ];
-
-    Object.keys(theme).forEach(function (prop) {
-      if (stringPrototypeBlacklist.indexOf(prop) !== -1) {
-        console.log('warn: '.red + ('String.prototype' + prop).magenta + ' is probably something you don\'t want to override. Ignoring style name');
-      }
-      else {
-        if (typeof(theme[prop]) === 'string') {
-          colors[prop] = colors[theme[prop]];
-          addProperty(prop, function () {
-            return colors[theme[prop]](this);
-          });
-        }
-        else {
-          addProperty(prop, function () {
-            var ret = this;
-            for (var t = 0; t < theme[prop].length; t++) {
-              ret = colors[theme[prop][t]](ret);
-            }
-            return ret;
-          });
-        }
-      }
-    });
-  }
-
-  colors.setTheme = function (theme) {
-    if (typeof theme === 'string') {
-      try {
-        colors.themes[theme] = require(theme);
-        applyTheme(colors.themes[theme]);
-        return colors.themes[theme];
-      } catch (err) {
-        console.log(err);
-        return err;
-      }
-    } else {
-      applyTheme(theme);
-    }
-  };
-
-};
-},{"./colors":119}],123:[function(require,module,exports){
-var colors = require('./colors');
-module['exports'] = colors;
-
-// Remark: By default, colors will add style properties to String.prototype
-//
-// If you don't wish to extend String.prototype you can do this instead and native String will not be touched
-//
-//   var colors = require('colors/safe);
-//   colors.red("foo")
-//
-//
-require('./extendStringPrototype')();
-},{"./colors":119,"./extendStringPrototype":122}],124:[function(require,module,exports){
-var colors = require('../colors');
-
-module['exports'] = (function() {
-  return function (letter, i, exploded) {
-    if(letter === " ") return letter;
-    switch(i%3) {
-      case 0: return colors.red(letter);
-      case 1: return colors.white(letter)
-      case 2: return colors.blue(letter)
-    }
-  }
-})();
-},{"../colors":119}],125:[function(require,module,exports){
-var colors = require('../colors');
-
-module['exports'] = (function () {
-  var rainbowColors = ['red', 'yellow', 'green', 'blue', 'magenta']; //RoY G BiV
-  return function (letter, i, exploded) {
-    if (letter === " ") {
-      return letter;
-    } else {
-      return colors[rainbowColors[i++ % rainbowColors.length]](letter);
-    }
-  };
-})();
-
-
-},{"../colors":119}],126:[function(require,module,exports){
-var colors = require('../colors');
-
-module['exports'] = (function () {
-  var available = ['underline', 'inverse', 'grey', 'yellow', 'red', 'green', 'blue', 'white', 'cyan', 'magenta'];
-  return function(letter, i, exploded) {
-    return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
-  };
-})();
-},{"../colors":119}],127:[function(require,module,exports){
-var colors = require('../colors');
-
-module['exports'] = function (letter, i, exploded) {
-  return i % 2 === 0 ? letter : colors.inverse(letter);
-};
-},{"../colors":119}],128:[function(require,module,exports){
-/*
-The MIT License (MIT)
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var styles = {};
-module['exports'] = styles;
-
-var codes = {
-  reset: [0, 0],
-
-  bold: [1, 22],
-  dim: [2, 22],
-  italic: [3, 23],
-  underline: [4, 24],
-  inverse: [7, 27],
-  hidden: [8, 28],
-  strikethrough: [9, 29],
-
-  black: [30, 39],
-  red: [31, 39],
-  green: [32, 39],
-  yellow: [33, 39],
-  blue: [34, 39],
-  magenta: [35, 39],
-  cyan: [36, 39],
-  white: [37, 39],
-  gray: [90, 39],
-  grey: [90, 39],
-
-  bgBlack: [40, 49],
-  bgRed: [41, 49],
-  bgGreen: [42, 49],
-  bgYellow: [43, 49],
-  bgBlue: [44, 49],
-  bgMagenta: [45, 49],
-  bgCyan: [46, 49],
-  bgWhite: [47, 49],
-
-  // legacy styles for colors pre v1.0.0
-  blackBG: [40, 49],
-  redBG: [41, 49],
-  greenBG: [42, 49],
-  yellowBG: [43, 49],
-  blueBG: [44, 49],
-  magentaBG: [45, 49],
-  cyanBG: [46, 49],
-  whiteBG: [47, 49]
-
-};
-
-Object.keys(codes).forEach(function (key) {
-  var val = codes[key];
-  var style = styles[key] = [];
-  style.open = '\u001b[' + val[0] + 'm';
-  style.close = '\u001b[' + val[1] + 'm';
-});
-},{}],129:[function(require,module,exports){
-(function (process){
-/*
-The MIT License (MIT)
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var argv = process.argv;
-
-module.exports = (function () {
-  if (argv.indexOf('--no-color') !== -1 ||
-    argv.indexOf('--color=false') !== -1) {
-    return false;
-  }
-
-  if (argv.indexOf('--color') !== -1 ||
-    argv.indexOf('--color=true') !== -1 ||
-    argv.indexOf('--color=always') !== -1) {
-    return true;
-  }
-
-  if (process.stdout && !process.stdout.isTTY) {
-    return false;
-  }
-
-  if (process.platform === 'win32') {
-    return true;
-  }
-
-  if ('COLORTERM' in process.env) {
-    return true;
-  }
-
-  if (process.env.TERM === 'dumb') {
-    return false;
-  }
-
-  if (/^screen|^xterm|^vt100|color|ansi|cygwin|linux/i.test(process.env.TERM)) {
-    return true;
-  }
-
-  return false;
-})();
-}).call(this,require('_process'))
-},{"_process":116}]},{},[1]);
+},{"./support/isBuffer":126,"_process":125,"inherits":123}]},{},[1]);
