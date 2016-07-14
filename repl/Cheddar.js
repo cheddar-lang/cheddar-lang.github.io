@@ -2104,18 +2104,21 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-// from Cyoce the almighty platypus modified;
+// from Cyoce the almighty platypus, modified quite heavily.
 // http://chat.stackexchange.com/transcript/message/27392766#27392766
 var range = function range(a, b) {
     var CheddarNumber = require('../Number');
-    if (a > b) return range(b, a).reverse();
-    b = ~~b;
-    var iPart = a - ~~a;
-    a = ~~a;
-    var out = Array(b - a + 1);
-    while (b + iPart >= a) {
-        out[b - a] = (0, _init2.default)(CheddarNumber, 10, 0, b-- + iPart);
-    }if (iPart) out.pop();
+    var out = [];
+    var i = 0;
+    if (b < a) {
+        while (a >= b) {
+            out[i++] = (0, _init2.default)(CheddarNumber, 10, 0, a--);
+        }
+    } else {
+        while (a <= b) {
+            out[i++] = (0, _init2.default)(CheddarNumber, 10, 0, a++);
+        }
+    }
     return out;
 };
 
@@ -2189,9 +2192,9 @@ exports.default = new Map([
 }],
 
 // Special Operators
-[':', function (LHS, RHS) {
+['|>', function (LHS, RHS) {
     var CheddarArray = require("../Array");
-    if (LHS && RHS instanceof LHS.constructor) return _init2.default.apply(undefined, [CheddarArray].concat(_toConsumableArray(range(LHS.value, RHS.value))));else return CheddarError.NO_OP_BEHAVIOR;
+    if (LHS && RHS instanceof LHS.constructor) return _init2.default.apply(undefined, [CheddarArray].concat(_toConsumableArray(range(LHS.value, RHS.value))));else if (LHS === null) return _init2.default.apply(undefined, [CheddarArray].concat(_toConsumableArray(range(0, RHS.value - 1))));else return CheddarError.NO_OP_BEHAVIOR;
 }],
 
 // == Word Operators ==
@@ -2255,7 +2258,6 @@ exports.default = new Map([
 
 /*
 TODO:
-'&', '|', // will do later
 '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=',
 
 'and', 'or', 'xor',
@@ -3764,10 +3766,10 @@ var RESERVED_KEYWORDS = exports.RESERVED_KEYWORDS = new Set(['sqrt', 'cbrt', 'ro
 
 var EXCLUDE_META_ASSIGNMENT = exports.EXCLUDE_META_ASSIGNMENT = new Set(['==', '!=', '<=', '>=']);
 
-var OP = exports.OP = ['^', '*', '/', '%', '+', '-', '<=', '>=', '<', '>', '==', '&', '|', '!=', '=', '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=', ':', '::', '@"', 'has', 'and', 'or', 'xor', 'log', 'sign', 'root'];
+var OP = exports.OP = ['^', '*', '/', '%', '+', '-', '<=', '>=', '<', '>', '==', '&', '|', '!=', '=', '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=', '|>', '::', '@"', 'has', 'and', 'or', 'xor', 'log', 'sign', 'root'];
 
 // Unary operators
-var UOP = exports.UOP = ['-', '+', '!', 'sqrt', 'cbrt', 'sin', 'cos', 'tan', 'acos', 'asin', 'atan', 'floor', 'ceil', 'round', 'len', 'reverse', 'abs', 'repr', 'print', 'log', 'sign', 'new', '@"'];
+var UOP = exports.UOP = ['-', '+', '!', '|>', 'sqrt', 'cbrt', 'sin', 'cos', 'tan', 'acos', 'asin', 'atan', 'floor', 'ceil', 'round', 'len', 'reverse', 'abs', 'repr', 'print', 'log', 'sign', 'new', '@"'];
 
 // TODO: how will the user modify this? no idea
 //TODO: fix precedence
