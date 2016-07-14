@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":30,"../stdlib/stdlib":61,"../tokenizer/tok":90,"colors":99,"readline":93}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":31,"../stdlib/stdlib":62,"../tokenizer/tok":92,"colors":101,"readline":95}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -134,7 +134,7 @@ function caret(Code, Index, highlight) {
 }
 module.exports = exports['default'];
 
-},{"./loc":4,"colors":99}],3:[function(require,module,exports){
+},{"./loc":4,"colors":101}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -207,13 +207,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([[_String2.default, 'String'], [_Number2.default, 'Number'], [_Array2.default, 'Array'], [_Bool2.default, 'Bool']]);
 module.exports = exports['default'];
 
-},{"../primitives/Array":17,"../primitives/Bool":18,"../primitives/Number":19,"../primitives/String":20}],6:[function(require,module,exports){
+},{"../primitives/Array":18,"../primitives/Bool":19,"../primitives/Number":20,"../primitives/String":21}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.PRIMITIVE_LINKS = undefined;
+exports.EVALUATED_LINKS = exports.PRIMITIVE_LINKS = undefined;
 
 var _String = require('../primitives/String');
 
@@ -239,11 +239,17 @@ var _func = require('../env/func');
 
 var _func2 = _interopRequireDefault(_func);
 
+var _fop = require('../evaluated/fop');
+
+var _fop2 = _interopRequireDefault(_fop);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PRIMITIVE_LINKS = exports.PRIMITIVE_LINKS = new Map([["CheddarBooleanToken", _Bool2.default], ["CheddarNilToken", _nil2.default], ["CheddarStringToken", _String2.default], ["CheddarNumberToken", _Number2.default], ["CheddarArrayToken", _Array2.default], ["CheddarFunctionToken", _func2.default]]);
 
-},{"../consts/nil":9,"../env/func":12,"../primitives/Array":17,"../primitives/Bool":18,"../primitives/Number":19,"../primitives/String":20}],7:[function(require,module,exports){
+var EVALUATED_LINKS = exports.EVALUATED_LINKS = new Map([["CheddarFunctionizedOperatorToken", _fop2.default]]);
+
+},{"../consts/nil":9,"../env/func":12,"../evaluated/fop":17,"../primitives/Array":18,"../primitives/Bool":19,"../primitives/Number":20,"../primitives/String":21}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -340,7 +346,7 @@ NIL.Cast = new Map([].concat(_toConsumableArray(_class2.default.Operator), [['St
 exports.default = NIL;
 module.exports = exports['default'];
 
-},{"../../../helpers/init":3,"../env/class":10,"../primitives/Bool":18,"../primitives/String":20}],10:[function(require,module,exports){
+},{"../../../helpers/init":3,"../env/class":10,"../primitives/Bool":19,"../primitives/String":21}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -531,7 +537,7 @@ var DEFAULT_CAST = exports.DEFAULT_CAST = new Map([['Bool', function (self) {
     self;
 }]]);
 
-},{"../../../helpers/init":3,"../config/alias":5,"../consts/err":7,"../primitives/Bool":18,"./class":10}],12:[function(require,module,exports){
+},{"../../../helpers/init":3,"../config/alias":5,"../consts/err":7,"../primitives/Bool":19,"./class":10}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -694,7 +700,7 @@ CheddarFunction.Name = "Function";
 exports.default = CheddarFunction;
 module.exports = exports['default'];
 
-},{"../primitives/Array":17,"../primitives/nil":25,"./class":10,"./scope":13,"./var":14}],13:[function(require,module,exports){
+},{"../primitives/Array":18,"../primitives/nil":26,"./class":10,"./scope":13,"./var":14}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -835,7 +841,7 @@ exports.default = CheddarScope;
 CheddarScope.prototype.Scope = new Map();
 module.exports = exports['default'];
 
-},{"../../../tokenizer/consts/ops":65,"../consts/err":7,"./var":14}],14:[function(require,module,exports){
+},{"../../../tokenizer/consts/ops":66,"../consts/err":7,"./var":14}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -961,7 +967,7 @@ var CheddarCallStack = function () {
 exports.default = CheddarCallStack;
 module.exports = exports['default'];
 
-},{"../../../tokenizer/tok/shunting_yard":92,"../env/scope":13}],16:[function(require,module,exports){
+},{"../../../tokenizer/tok/shunting_yard":94,"../env/scope":13}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1184,7 +1190,7 @@ var CheddarEval = function (_CheddarCallStack) {
                         OPERATOR = _err2.default.NO_OP_BEHAVIOR;
                     }
                 } else {
-                    // Binary operator. DATA is RHS, TOKEN is LHS
+                    // Binary operator. DATA is LHS, TOKEN is RHS
                     DATA = this.shift(); // Get the other arg
 
                     NAME = DATA.constructor.Operator || DATA.Operator;
@@ -1251,8 +1257,7 @@ var CheddarEval = function (_CheddarCallStack) {
                     }
 
                     // Get the class associated with the token
-                    OPERATOR = _link.PRIMITIVE_LINKS.get(TOKEN.constructor.name);
-                    if (OPERATOR) {
+                    if (OPERATOR = _link.PRIMITIVE_LINKS.get(TOKEN.constructor.name)) {
                         var _OPERATOR;
 
                         // Set the name to be used in errors
@@ -1269,6 +1274,8 @@ var CheddarEval = function (_CheddarCallStack) {
                             this.put(OPERATOR);
                             return true;
                         }
+                    } else if (OPERATOR = _link.EVALUATED_LINKS.get(TOKEN.constructor.name)) {
+                        OPERATOR = OPERATOR.apply(undefined, _toConsumableArray(TOKEN.Tokens));
                     } else {
                         return _err2.default.UNLINKED_CLASS;
                     }
@@ -1439,7 +1446,56 @@ var CheddarEval = function (_CheddarCallStack) {
 exports.default = CheddarEval;
 module.exports = exports['default'];
 
-},{"../../../tokenizer/consts/ops":65,"../../../tokenizer/literals/literal":68,"../../../tokenizer/literals/op":71,"../../../tokenizer/literals/var":74,"../../../tokenizer/parsers/array":77,"../../../tokenizer/parsers/paren_expr":81,"../../../tokenizer/parsers/property":82,"../config/link":6,"../consts/err":7,"../consts/err_msg":8,"../consts/nil":9,"../env/class":10,"../env/func":12,"../env/scope":13,"../env/var":14,"./callstack":15}],17:[function(require,module,exports){
+},{"../../../tokenizer/consts/ops":66,"../../../tokenizer/literals/literal":70,"../../../tokenizer/literals/op":73,"../../../tokenizer/literals/var":76,"../../../tokenizer/parsers/array":79,"../../../tokenizer/parsers/paren_expr":83,"../../../tokenizer/parsers/property":84,"../config/link":6,"../consts/err":7,"../consts/err_msg":8,"../consts/nil":9,"../env/class":10,"../env/func":12,"../env/scope":13,"../env/var":14,"./callstack":15}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function (operator) {
+    return new _func2.default([["a", {}], ["b", {}]], function (scope, input) {
+        var LHS = input("a");
+        var RHS = input("b");
+
+        var resp = void 0; // output / response
+        var opfunc = (LHS.constructor.Operator || LHS.Operator).get(operator);
+
+        if (opfunc) {
+            resp = opfunc(LHS, RHS);
+        } else {
+            resp = _err2.default.NO_OP_BEHAVIOR;
+        }
+
+        if (resp === _err2.default.NO_OP_BEHAVIOR) {
+            return _err_msg2.default.get(resp).replace(/\$0/g, operator).replace(/\$1/g, LHS ? LHS.constructor.Name || (LHS.prototype instanceof _class2.default ? "Class" : "nil") : "nil").replace(/\$2/g, RHS ? RHS.constructor.Name || (RHS.prototype instanceof _class2.default ? "Class" : "nil") : "nil");
+        } else {
+            return resp;
+        }
+    });
+};
+
+var _func = require('../env/func');
+
+var _func2 = _interopRequireDefault(_func);
+
+var _err = require('../consts/err');
+
+var _err2 = _interopRequireDefault(_err);
+
+var _class = require('../env/class');
+
+var _class2 = _interopRequireDefault(_class);
+
+var _err_msg = require('../consts/err_msg');
+
+var _err_msg2 = _interopRequireDefault(_err_msg);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = exports['default'];
+
+},{"../consts/err":7,"../consts/err_msg":8,"../env/class":10,"../env/func":12}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1567,7 +1623,7 @@ exports.default = CheddarArray;
 CheddarArray.Scope = require('../../../stdlib/primitive/Array/static');
 module.exports = exports['default'];
 
-},{"../../../stdlib/primitive/Array/lib":36,"../../../stdlib/primitive/Array/static":49,"../consts/err":7,"../consts/nil":9,"../env/class":10,"../env/var":14,"../eval/eval":16,"./cast/array":21,"./op/array":26}],18:[function(require,module,exports){
+},{"../../../stdlib/primitive/Array/lib":37,"../../../stdlib/primitive/Array/static":50,"../consts/err":7,"../consts/nil":9,"../env/class":10,"../env/var":14,"../eval/eval":16,"./cast/array":22,"./op/array":27}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1654,7 +1710,7 @@ CheddarBool.Cast = _bool4.default;
 exports.default = CheddarBool;
 module.exports = exports['default'];
 
-},{"../env/class":10,"./cast/bool":22,"./op/bool":27}],19:[function(require,module,exports){
+},{"../env/class":10,"./cast/bool":23,"./op/bool":28}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1733,7 +1789,7 @@ CheddarNumber.Cast = _number4.default;
 exports.default = CheddarNumber;
 module.exports = exports['default'];
 
-},{"../env/class":10,"./cast/number":23,"./op/number":28}],20:[function(require,module,exports){
+},{"../env/class":10,"./cast/number":24,"./op/number":29}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1819,7 +1875,7 @@ CheddarString.Scope = require('../../../stdlib/primitive/String/static');
 CheddarString.prototype.Scope = require('../../../stdlib/primitive/String/lib');
 module.exports = exports['default'];
 
-},{"../../../stdlib/primitive/String/lib":50,"../../../stdlib/primitive/String/static":60,"../consts/nil":9,"../env/class":10,"../env/var":14,"./cast/string":24,"./op/string":29}],21:[function(require,module,exports){
+},{"../../../stdlib/primitive/String/lib":51,"../../../stdlib/primitive/String/static":61,"../consts/nil":9,"../env/class":10,"../env/var":14,"./cast/string":25,"./op/string":30}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1847,7 +1903,7 @@ exports.default = new Map([['String', function (self) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../String":20}],22:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../String":21}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1877,7 +1933,7 @@ exports.default = new Map([['String', function (RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../consts/err":7,"../Number":19,"../String":20}],23:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":7,"../Number":20,"../String":21}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1899,7 +1955,7 @@ exports.default = new Map([['String', function (LHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../String":20}],24:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../String":21}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1961,7 +2017,7 @@ ITEM  ::= init <codeblock> |
 
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../../../tokenizer/literals/number":70,"../../../../tokenizer/tok/lex":91,"../../consts/err":7,"../Number":19}],25:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../../../tokenizer/literals/number":72,"../../../../tokenizer/tok/lex":93,"../../consts/err":7,"../Number":20}],26:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2014,7 +2070,7 @@ nil.Scope = null;
 exports.default = nil;
 module.exports = exports['default'];
 
-},{"../env/class":10}],26:[function(require,module,exports){
+},{"../env/class":10}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2057,7 +2113,7 @@ exports.default = new Map([['!', function (LHS, RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../consts/err":7,"../Bool":18}],27:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":7,"../Bool":19}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2075,7 +2131,7 @@ exports.default = new Map([['!', function (LHS, RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3}],28:[function(require,module,exports){
+},{"../../../../helpers/init":3}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2265,7 +2321,7 @@ TODO:
 
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../consts/err":7,"../Array":17,"../Bool":18,"../Number":19,"../String":20}],29:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":7,"../Array":18,"../Bool":19,"../Number":20,"../String":21}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2352,7 +2408,7 @@ exports.default = new Map([
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../consts/err":7,"../Array":17,"../Bool":18,"../Number":19}],30:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":7,"../Array":18,"../Bool":19,"../Number":20}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2418,7 +2474,7 @@ var CheddarExec = function () {
 exports.default = CheddarExec;
 module.exports = exports['default'];
 
-},{"./core/consts/nil":9,"./links":31}],31:[function(require,module,exports){
+},{"./core/consts/nil":9,"./links":32}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2451,7 +2507,7 @@ exports.default = {
 };
 module.exports = exports['default'];
 
-},{"./core/eval/eval":16,"./states/assign":32,"./states/for":33,"./states/if":34}],32:[function(require,module,exports){
+},{"./core/eval/eval":16,"./states/assign":33,"./states/for":34,"./states/if":35}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2531,7 +2587,7 @@ var CheddarAssign = function () {
 exports.default = CheddarAssign;
 module.exports = exports['default'];
 
-},{"../core/consts/nil":9,"../core/env/class":10,"../core/env/var":14,"../core/eval/eval":16}],33:[function(require,module,exports){
+},{"../core/consts/nil":9,"../core/env/class":10,"../core/env/var":14,"../core/eval/eval":16}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2741,7 +2797,7 @@ var CheddarFor = function () {
 exports.default = CheddarFor;
 module.exports = exports['default'];
 
-},{"../../helpers/init":3,"../core/consts/err":7,"../core/consts/err_msg":8,"../core/consts/nil":9,"../core/env/scope":13,"../core/env/var":14,"../core/eval/eval":16,"../core/primitives/Bool":18,"../core/primitives/String":20,"../exec":30,"./assign":32}],34:[function(require,module,exports){
+},{"../../helpers/init":3,"../core/consts/err":7,"../core/consts/err_msg":8,"../core/consts/nil":9,"../core/env/scope":13,"../core/env/var":14,"../core/eval/eval":16,"../core/primitives/Bool":19,"../core/primitives/String":21,"../exec":31,"./assign":33}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2845,7 +2901,7 @@ var CheddarIf = function () {
 exports.default = CheddarIf;
 module.exports = exports['default'];
 
-},{"../core/consts/err":7,"../core/consts/err_msg":8,"../core/consts/nil":9,"../core/env/scope":13,"../core/eval/eval":16,"../core/primitives/Bool":18,"../exec":30}],35:[function(require,module,exports){
+},{"../core/consts/err":7,"../core/consts/err_msg":8,"../core/consts/nil":9,"../core/env/scope":13,"../core/eval/eval":16,"../core/primitives/Bool":19,"../exec":31}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2967,7 +3023,7 @@ var API = {
 exports.default = API;
 module.exports = exports['default'];
 
-},{"../helpers/init":3,"../interpreter/core/consts/err":7,"../interpreter/core/consts/nil":9,"../interpreter/core/env/class":10,"../interpreter/core/env/func":12,"../interpreter/core/env/scope":13,"../interpreter/core/env/var":14,"../interpreter/core/primitives/Array":17,"../interpreter/core/primitives/Bool":18,"../interpreter/core/primitives/Number":19,"../interpreter/core/primitives/String":20}],36:[function(require,module,exports){
+},{"../helpers/init":3,"../interpreter/core/consts/err":7,"../interpreter/core/consts/nil":9,"../interpreter/core/env/class":10,"../interpreter/core/env/func":12,"../interpreter/core/env/scope":13,"../interpreter/core/env/var":14,"../interpreter/core/primitives/Array":18,"../interpreter/core/primitives/Bool":19,"../interpreter/core/primitives/Number":20,"../interpreter/core/primitives/String":21}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2983,7 +3039,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([require('./lib/len')(_api2.default), require('./lib/turn')(_api2.default), require('./lib/fuse')(_api2.default), require('./lib/vfuse')(_api2.default), require('./lib/join')(_api2.default), require('./lib/each')(_api2.default), require('./lib/map')(_api2.default), require('./lib/cycle')(_api2.default), require('./lib/shift')(_api2.default), require('./lib/unshift')(_api2.default), require('./lib/pop')(_api2.default), require('./lib/push')(_api2.default)]);
 module.exports = exports['default'];
 
-},{"../../api":35,"./lib/cycle":37,"./lib/each":38,"./lib/fuse":39,"./lib/join":40,"./lib/len":41,"./lib/map":42,"./lib/pop":43,"./lib/push":44,"./lib/shift":45,"./lib/turn":46,"./lib/unshift":47,"./lib/vfuse":48}],37:[function(require,module,exports){
+},{"../../api":36,"./lib/cycle":38,"./lib/each":39,"./lib/fuse":40,"./lib/join":41,"./lib/len":42,"./lib/map":43,"./lib/pop":44,"./lib/push":45,"./lib/shift":46,"./lib/turn":47,"./lib/unshift":48,"./lib/vfuse":49}],38:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3028,7 +3084,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3058,7 +3114,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3094,7 +3150,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3134,7 +3190,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3150,7 +3206,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3183,7 +3239,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3198,7 +3254,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3215,7 +3271,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3230,7 +3286,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3293,7 +3349,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3310,7 +3366,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3346,7 +3402,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3362,7 +3418,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map();
 module.exports = exports['default'];
 
-},{"../../api":35}],50:[function(require,module,exports){
+},{"../../api":36}],51:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3378,7 +3434,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([require('./lib/slice')(_api2.default), require('./lib/count')(_api2.default), require('./lib/upper')(_api2.default), require('./lib/lower')(_api2.default), require('./lib/split')(_api2.default), require('./lib/ord')(_api2.default), require('./lib/len')(_api2.default), require('./lib/rev')(_api2.default), require('./lib/chars')(_api2.default)]);
 module.exports = exports['default'];
 
-},{"../../api":35,"./lib/chars":51,"./lib/count":52,"./lib/len":53,"./lib/lower":54,"./lib/ord":55,"./lib/rev":56,"./lib/slice":57,"./lib/split":58,"./lib/upper":59}],51:[function(require,module,exports){
+},{"../../api":36,"./lib/chars":52,"./lib/count":53,"./lib/len":54,"./lib/lower":55,"./lib/ord":56,"./lib/rev":57,"./lib/slice":58,"./lib/split":59,"./lib/upper":60}],52:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3397,7 +3453,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3450,7 +3506,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports['default'];
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3466,7 +3522,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3481,7 +3537,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3518,7 +3574,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3533,7 +3589,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3554,7 +3610,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3575,7 +3631,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3590,7 +3646,7 @@ exports.default = function (api) {
 
 module.exports = exports['default'];
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3610,7 +3666,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([["letters", { Value: (0, _init2.default)(_String2.default, "abcdefghijklmnopqrstuvwxyz") }], ["digits", { Value: (0, _init2.default)(_String2.default, "0123456789") }], ["alphanumeric", { Value: (0, _init2.default)(_String2.default, "abcdefghijklmnopqrstuvwxyz0123456789") }]]);
 module.exports = exports['default'];
 
-},{"../../../helpers/init":3,"../../../interpreter/core/primitives/String":20}],61:[function(require,module,exports){
+},{"../../../helpers/init":3,"../../../interpreter/core/primitives/String":21}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3644,7 +3700,7 @@ STDLIB.set("Boolean", _api2.default.var(_api2.default.bool));
 exports.default = STDLIB;
 module.exports = exports['default'];
 
-},{"./api":35}],62:[function(require,module,exports){
+},{"./api":36}],63:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3711,7 +3767,7 @@ var BASE_RESPECTIVE_NUMBERS = exports.BASE_RESPECTIVE_NUMBERS = [2, 8, 16];
 /*== Conflict Data ==*/
 var RESERVED = exports.RESERVED = ['sqrt', 'cos', 'sin', 'sign'];
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3730,7 +3786,7 @@ var UNEXPECTED_TOKEN = exports.UNEXPECTED_TOKEN = Symbol('er_UNEXPECTED_TOKEN');
 var UNMATCHED_DELIMITER = exports.UNMATCHED_DELIMITER = Symbol('er_UNMATCHED_DELIMITER');
 var EXPECTED_BLOCK = exports.EXPECTED_BLOCK = Symbol('er_EXPECTED_BLOCK');
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3746,7 +3802,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 exports.default = new Map([[_SyntaxError.EXIT_NOTFOUND, "Abnormal syntax at $LOC"], [_SyntaxError.UNEXPECTED_TOKEN, "Unexpected token at $LOC"], [_SyntaxError.UNMATCHED_DELIMITER, "Expected a matching delimiter for `$1` at $LOC"], [_SyntaxError.EXPECTED_BLOCK, "Expected a code block at $LOC"]]);
 module.exports = exports['default'];
 
-},{"./err":63}],65:[function(require,module,exports){
+},{"./err":64}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3785,7 +3841,7 @@ var TYPE = exports.TYPE = {
     RTL: Symbol('RTL Operator')
 };
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3803,7 +3859,7 @@ var ClassType = exports.ClassType = {
     Array: Symbol('Array')
 };
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3871,7 +3927,53 @@ var CheddarBooleanToken = function (_CheddarPrimitive) {
 exports.default = CheddarBooleanToken;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../consts/types":66,"./primitive":72}],68:[function(require,module,exports){
+},{"../consts/err":64,"../consts/types":67,"./primitive":74}],69:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _ops = require('../consts/ops');
+
+var _primitive = require('./primitive');
+
+var _primitive2 = _interopRequireDefault(_primitive);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Functionized operators
+
+
+var CheddarFunctionizedOperatorToken = function (_CheddarPrimitive) {
+    _inherits(CheddarFunctionizedOperatorToken, _CheddarPrimitive);
+
+    function CheddarFunctionizedOperatorToken() {
+        _classCallCheck(this, CheddarFunctionizedOperatorToken);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarFunctionizedOperatorToken).apply(this, arguments));
+    }
+
+    _createClass(CheddarFunctionizedOperatorToken, [{
+        key: 'exec',
+        value: function exec() {
+            return this.grammar(true, ['(', _ops.OP, ')']);
+        }
+    }]);
+
+    return CheddarFunctionizedOperatorToken;
+}(_primitive2.default);
+
+exports.default = CheddarFunctionizedOperatorToken;
+module.exports = exports['default'];
+
+},{"../consts/ops":66,"./primitive":74}],70:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3940,7 +4042,7 @@ var CheddarLiteral = function (_CheddarLexer) {
 exports.default = CheddarLiteral;
 module.exports = exports['default'];
 
-},{"../consts/chars":62,"../consts/err":63,"../tok/lex":91}],69:[function(require,module,exports){
+},{"../consts/chars":63,"../consts/err":64,"../tok/lex":93}],71:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4001,7 +4103,7 @@ var CheddarNilToken = function (_CheddarPrimitive) {
 exports.default = CheddarNilToken;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../consts/types":66,"./primitive":72}],70:[function(require,module,exports){
+},{"../consts/err":64,"../consts/types":67,"./primitive":74}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4125,7 +4227,7 @@ var CheddarNumberToken = function (_CheddarPrimitive) {
 exports.default = CheddarNumberToken;
 module.exports = exports['default'];
 
-},{"../consts/chars":62,"../consts/err":63,"../consts/types":66,"./primitive":72}],71:[function(require,module,exports){
+},{"../consts/chars":63,"../consts/err":64,"../consts/types":67,"./primitive":74}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4165,8 +4267,6 @@ var CheddarOperatorToken = function (_CheddarLexer) {
 
     _createClass(CheddarOperatorToken, [{
         key: 'exec',
-
-        // Chatse
         value: function exec(UNARY) {
             var ops = UNARY ? _ops.UOP : _ops.OP;
             // this.Code is the code
@@ -4196,7 +4296,7 @@ var CheddarOperatorToken = function (_CheddarLexer) {
 exports.default = CheddarOperatorToken;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../consts/ops":65,"../tok/lex":91}],72:[function(require,module,exports){
+},{"../consts/err":64,"../consts/ops":66,"../tok/lex":93}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4230,7 +4330,7 @@ var CheddarPrimitive = function (_CheddarLiteral) {
 exports.default = CheddarPrimitive;
 module.exports = exports['default'];
 
-},{"./literal":68}],73:[function(require,module,exports){
+},{"./literal":70}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4314,7 +4414,7 @@ var CheddarStringToken = function (_CheddarPrimitive) {
 exports.default = CheddarStringToken;
 module.exports = exports['default'];
 
-},{"../consts/chars":62,"../consts/err":63,"../consts/types":66,"./primitive":72}],74:[function(require,module,exports){
+},{"../consts/chars":63,"../consts/err":64,"../consts/types":67,"./primitive":74}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4384,7 +4484,7 @@ var CheddarVariableToken = function (_CheddarLexer) {
 exports.default = CheddarVariableToken;
 module.exports = exports['default'];
 
-},{"../consts/chars":62,"../consts/err":63,"../tok/lex":91}],75:[function(require,module,exports){
+},{"../consts/chars":63,"../consts/err":64,"../tok/lex":93}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4417,6 +4517,10 @@ var _array = require('./array');
 
 var _array2 = _interopRequireDefault(_array);
 
+var _fop = require('../literals/fop');
+
+var _fop2 = _interopRequireDefault(_fop);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4439,7 +4543,7 @@ var CheddarAnyLiteral = function (_CheddarLexer) {
         value: function exec() {
             this.open(false);
 
-            var attempt = this.attempt(_string2.default, _number2.default, _boolean2.default, _nil2.default, _array2.default);
+            var attempt = this.attempt(_fop2.default, _string2.default, _number2.default, _boolean2.default, _nil2.default, _array2.default);
 
             if (attempt instanceof _literal2.default) {
                 this.Index = attempt.Index;
@@ -4457,7 +4561,7 @@ var CheddarAnyLiteral = function (_CheddarLexer) {
 exports.default = CheddarAnyLiteral;
 module.exports = exports['default'];
 
-},{"../literals/boolean":67,"../literals/literal":68,"../literals/nil":69,"../literals/number":70,"../literals/string":73,"./array":77}],76:[function(require,module,exports){
+},{"../literals/boolean":68,"../literals/fop":69,"../literals/literal":70,"../literals/nil":71,"../literals/number":72,"../literals/string":75,"./array":79}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4524,7 +4628,7 @@ var CheddarArgumentToken = function (_CheddarLexer) {
 exports.default = CheddarArgumentToken;
 module.exports = exports['default'];
 
-},{"../literals/var":74,"../tok/lex":91,"./expr":79,"./typed_var":83}],77:[function(require,module,exports){
+},{"../literals/var":76,"../tok/lex":93,"./expr":81,"./typed_var":85}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4628,7 +4732,7 @@ var CheddarArrayToken = function (_CheddarPrimitive) {
 exports.default = CheddarArrayToken;
 module.exports = exports['default'];
 
-},{"../consts/chars":62,"../consts/err":63,"../consts/types":66,"../literals/primitive":72,"../tok/lex":91,"./expr":79}],78:[function(require,module,exports){
+},{"../consts/chars":63,"../consts/err":64,"../consts/types":67,"../literals/primitive":74,"../tok/lex":93,"./expr":81}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4657,7 +4761,7 @@ function CheddarCustomLexer(orig) {
 }
 module.exports = exports['default'];
 
-},{"../tok/lex":91}],79:[function(require,module,exports){
+},{"../tok/lex":93}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4870,7 +4974,7 @@ CheddarExpressionToken.prototype.exec = function (empty) {
 exports.default = CheddarExpressionToken;
 module.exports = exports['default'];
 
-},{"../consts/ops":65,"../literals/op":71,"../tok/lex":91,"./custom":78,"./function":80,"./property":82}],80:[function(require,module,exports){
+},{"../consts/ops":66,"../literals/op":73,"../tok/lex":93,"./custom":80,"./function":82,"./property":84}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4947,7 +5051,7 @@ var CheddarFunctionToken = function (_CheddarPrimitive) {
 exports.default = CheddarFunctionToken;
 module.exports = exports['default'];
 
-},{"../literals/primitive":72,"../patterns/block":85,"../states/expr":87,"./argument":76,"./array":77,"./custom":78}],81:[function(require,module,exports){
+},{"../literals/primitive":74,"../patterns/block":87,"../states/expr":89,"./argument":78,"./array":79,"./custom":80}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5019,7 +5123,7 @@ var CheddarParenthesizedExpression = function (_CheddarLexer) {
 exports.default = CheddarParenthesizedExpression;
 module.exports = exports['default'];
 
-},{"../tok/lex":91,"./expr":79}],82:[function(require,module,exports){
+},{"../tok/lex":93,"./expr":81}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5170,7 +5274,7 @@ var CheddarPropertyToken = function (_CheddarLexer) {
 exports.default = CheddarPropertyToken;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../consts/types":66,"../literals/primitive":72,"../literals/var":74,"../tok/lex":91,"./any":75,"./array":77,"./expr":79,"./paren_expr":81}],83:[function(require,module,exports){
+},{"../consts/err":64,"../consts/types":67,"../literals/primitive":74,"../literals/var":76,"../tok/lex":93,"./any":77,"./array":79,"./expr":81,"./paren_expr":83}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5227,7 +5331,7 @@ var CheddarTypedVariableToken = function (_CheddarLexer) {
 exports.default = CheddarTypedVariableToken;
 module.exports = exports['default'];
 
-},{"../literals/literal":68,"../literals/var":74,"../tok/lex":91}],84:[function(require,module,exports){
+},{"../literals/literal":70,"../literals/var":76,"../tok/lex":93}],86:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5261,7 +5365,7 @@ var CheddarExplicitEnd = function (_CheddarLexer) {
 exports.default = CheddarExplicitEnd;
 module.exports = exports['default'];
 
-},{"../tok/lex":91}],85:[function(require,module,exports){
+},{"../tok/lex":93}],87:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5336,7 +5440,7 @@ var CheddarCodeblock = function (_CheddarLexer) {
 exports.default = CheddarCodeblock;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../parsers/custom":78,"../tok":90,"../tok/lex":91}],86:[function(require,module,exports){
+},{"../consts/err":64,"../parsers/custom":80,"../tok":92,"../tok/lex":93}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5400,7 +5504,7 @@ var StatementAssign = function (_CheddarLexer) {
 exports.default = StatementAssign;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../literals/var":74,"../parsers/expr":79,"../parsers/typed_var":83,"../tok/lex":91}],87:[function(require,module,exports){
+},{"../consts/err":64,"../literals/var":76,"../parsers/expr":81,"../parsers/typed_var":85,"../tok/lex":93}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5449,7 +5553,7 @@ var StatementExpression = function (_CheddarLexer) {
 exports.default = StatementExpression;
 module.exports = exports['default'];
 
-},{"../parsers/expr":79,"../tok/lex":91}],88:[function(require,module,exports){
+},{"../parsers/expr":81,"../tok/lex":93}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5536,7 +5640,7 @@ var StatementFor = function (_CheddarLexer) {
 exports.default = StatementFor;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../literals/var":74,"../parsers/array":77,"../parsers/custom":78,"../patterns/EXPLICIT":84,"../patterns/block":85,"./assign":86,"./expr":87}],89:[function(require,module,exports){
+},{"../consts/err":64,"../literals/var":76,"../parsers/array":79,"../parsers/custom":80,"../patterns/EXPLICIT":86,"../patterns/block":87,"./assign":88,"./expr":89}],91:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5644,7 +5748,7 @@ var StatementIf = function (_CheddarLexer) {
 exports.default = StatementIf;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../parsers/custom":78,"../patterns/EXPLICIT":84,"../patterns/block":85,"./expr":87}],90:[function(require,module,exports){
+},{"../consts/err":64,"../parsers/custom":80,"../patterns/EXPLICIT":86,"../patterns/block":87,"./expr":89}],92:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5799,7 +5903,7 @@ var CheddarTokenize = function (_CheddarLexer) {
 exports.default = CheddarTokenize;
 module.exports = exports['default'];
 
-},{"../helpers/loc":4,"./consts/err":63,"./consts/err_msg":64,"./patterns/EXPLICIT":84,"./states/assign":86,"./states/expr":87,"./states/for":88,"./states/if":89,"./tok/lex":91}],91:[function(require,module,exports){
+},{"../helpers/loc":4,"./consts/err":64,"./consts/err_msg":65,"./patterns/EXPLICIT":86,"./states/assign":88,"./states/expr":89,"./states/for":90,"./states/if":91,"./tok/lex":93}],93:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6234,7 +6338,7 @@ var CheddarLexer = function () {
 exports.default = CheddarLexer;
 module.exports = exports['default'];
 
-},{"../consts/err":63}],92:[function(require,module,exports){
+},{"../consts/err":64}],94:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6370,9 +6474,9 @@ var CheddarShuntingYard = function (_CheddarLexer) {
 exports.default = CheddarShuntingYard;
 module.exports = exports['default'];
 
-},{"../consts/err":63,"../consts/ops":65,"../literals/op":71,"./lex":91}],93:[function(require,module,exports){
+},{"../consts/err":64,"../consts/ops":66,"../literals/op":73,"./lex":93}],95:[function(require,module,exports){
 
-},{}],94:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -6493,7 +6597,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],95:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -6681,7 +6785,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":96,"./custom/zalgo":97,"./maps/america":100,"./maps/rainbow":101,"./maps/random":102,"./maps/zebra":103,"./styles":104,"./system/supports-colors":105}],96:[function(require,module,exports){
+},{"./custom/trap":98,"./custom/zalgo":99,"./maps/america":102,"./maps/rainbow":103,"./maps/random":104,"./maps/zebra":105,"./styles":106,"./system/supports-colors":107}],98:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -6728,7 +6832,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],97:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -6834,7 +6938,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],98:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -6948,7 +7052,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":95}],99:[function(require,module,exports){
+},{"./colors":97}],101:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -6961,7 +7065,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":95,"./extendStringPrototype":98}],100:[function(require,module,exports){
+},{"./colors":97,"./extendStringPrototype":100}],102:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -6974,7 +7078,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":95}],101:[function(require,module,exports){
+},{"../colors":97}],103:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -6989,7 +7093,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":95}],102:[function(require,module,exports){
+},{"../colors":97}],104:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -6998,13 +7102,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":95}],103:[function(require,module,exports){
+},{"../colors":97}],105:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":95}],104:[function(require,module,exports){
+},{"../colors":97}],106:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -7082,7 +7186,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],105:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -7146,4 +7250,4 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require('_process'))
-},{"_process":94}]},{},[1]);
+},{"_process":96}]},{},[1]);
