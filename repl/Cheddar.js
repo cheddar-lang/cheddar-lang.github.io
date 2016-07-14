@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":31,"../stdlib/stdlib":75,"../tokenizer/tok":105,"colors":121,"readline":108}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":9,"../interpreter/core/env/scope":13,"../interpreter/exec":31,"../stdlib/stdlib":75,"../tokenizer/tok":105,"colors":115,"readline":109}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -134,7 +134,7 @@ function caret(Code, Index, highlight) {
 }
 module.exports = exports['default'];
 
-},{"./loc":4,"colors":121}],3:[function(require,module,exports){
+},{"./loc":4,"colors":115}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3354,7 +3354,7 @@ function create(config) {
 module.exports = create;
 
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":114,"buffer":109,"fs":108}],41:[function(require,module,exports){
+},{"_process":125,"buffer":110,"fs":109}],41:[function(require,module,exports){
 (function (process){
 "use strict";
 
@@ -3388,7 +3388,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 module.exports = exports['default'];
 
 }).call(this,require('_process'))
-},{"./sprintf":43,"_process":114}],42:[function(require,module,exports){
+},{"./sprintf":43,"_process":125}],42:[function(require,module,exports){
 (function (process){
 "use strict";
 
@@ -3426,7 +3426,7 @@ var read = require('./lib/prompt')({ sigint: true });
 module.exports = exports['default'];
 
 }).call(this,require('_process'))
-},{"./lib/prompt":40,"_process":114}],43:[function(require,module,exports){
+},{"./lib/prompt":40,"_process":125}],43:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5784,7 +5784,7 @@ CheddarExpressionToken.prototype.exec = function () {
 exports.default = CheddarExpressionToken;
 module.exports = exports['default'];
 
-},{"../consts/err":77,"../consts/ops":79,"../literals/op":86,"../tok/lex":106,"./custom":93,"./function":95,"./property":97,"util":116}],95:[function(require,module,exports){
+},{"../consts/err":77,"../consts/ops":79,"../literals/op":86,"../tok/lex":106,"./custom":93,"./function":95,"./property":97,"util":127}],95:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7288,8 +7288,119 @@ exports.default = CheddarShuntingYard;
 module.exports = exports['default'];
 
 },{"../consts/err":77,"../consts/ops":79,"../literals/op":86,"./lex":106}],108:[function(require,module,exports){
+'use strict'
+
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+function init () {
+  var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+  for (var i = 0, len = code.length; i < len; ++i) {
+    lookup[i] = code[i]
+    revLookup[code.charCodeAt(i)] = i
+  }
+
+  revLookup['-'.charCodeAt(0)] = 62
+  revLookup['_'.charCodeAt(0)] = 63
+}
+
+init()
+
+function toByteArray (b64) {
+  var i, j, l, tmp, placeHolders, arr
+  var len = b64.length
+
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  placeHolders = b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+
+  // base64 is 4/3 + up to two characters of the original data
+  arr = new Arr(len * 3 / 4 - placeHolders)
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
+  }
+
+  parts.push(output)
+
+  return parts.join('')
+}
 
 },{}],109:[function(require,module,exports){
+
+},{}],110:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -9004,118 +9115,660 @@ function isnan (val) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":110,"ieee754":111,"isarray":112}],110:[function(require,module,exports){
-'use strict'
+},{"base64-js":108,"ieee754":122,"isarray":124}],111:[function(require,module,exports){
+/*
 
-exports.toByteArray = toByteArray
-exports.fromByteArray = fromByteArray
+The MIT License (MIT)
 
-var lookup = []
-var revLookup = []
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+Original Library 
+  - Copyright (c) Marak Squires
 
-function init () {
-  var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-  for (var i = 0, len = code.length; i < len; ++i) {
-    lookup[i] = code[i]
-    revLookup[code.charCodeAt(i)] = i
-  }
+Additional functionality
+ - Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 
-  revLookup['-'.charCodeAt(0)] = 62
-  revLookup['_'.charCodeAt(0)] = 63
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+var colors = {};
+module['exports'] = colors;
+
+colors.themes = {};
+
+var ansiStyles = colors.styles = require('./styles');
+var defineProps = Object.defineProperties;
+
+colors.supportsColor = require('./system/supports-colors');
+
+if (typeof colors.enabled === "undefined") {
+  colors.enabled = colors.supportsColor;
 }
 
-init()
+colors.stripColors = colors.strip = function(str){
+  return ("" + str).replace(/\x1B\[\d+m/g, '');
+};
 
-function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
-  var len = b64.length
 
-  if (len % 4 > 0) {
-    throw new Error('Invalid string. Length must be a multiple of 4')
+var stylize = colors.stylize = function stylize (str, style) {
+  if (!colors.enabled) {
+    return str+'';
   }
 
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  placeHolders = b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
-
-  // base64 is 4/3 + up to two characters of the original data
-  arr = new Arr(len * 3 / 4 - placeHolders)
-
-  // if there are placeholders, only get up to the last complete 4 chars
-  l = placeHolders > 0 ? len - 4 : len
-
-  var L = 0
-
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  return arr
+  return ansiStyles[style].open + str + ansiStyles[style].close;
 }
 
-function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
+var escapeStringRegexp = function (str) {
+  if (typeof str !== 'string') {
+    throw new TypeError('Expected a string');
+  }
+  return str.replace(matchOperatorsRe,  '\\$&');
 }
 
-function encodeChunk (uint8, start, end) {
-  var tmp
-  var output = []
-  for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-    output.push(tripletToBase64(tmp))
-  }
-  return output.join('')
+function build(_styles) {
+  var builder = function builder() {
+    return applyStyle.apply(builder, arguments);
+  };
+  builder._styles = _styles;
+  // __proto__ is used because we must return a function, but there is
+  // no way to create a function with a different prototype.
+  builder.__proto__ = proto;
+  return builder;
 }
 
-function fromByteArray (uint8) {
-  var tmp
-  var len = uint8.length
-  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
-  var parts = []
-  var maxChunkLength = 16383 // must be multiple of 3
+var styles = (function () {
+  var ret = {};
+  ansiStyles.grey = ansiStyles.gray;
+  Object.keys(ansiStyles).forEach(function (key) {
+    ansiStyles[key].closeRe = new RegExp(escapeStringRegexp(ansiStyles[key].close), 'g');
+    ret[key] = {
+      get: function () {
+        return build(this._styles.concat(key));
+      }
+    };
+  });
+  return ret;
+})();
 
-  // go through the array every three bytes, we'll deal with trailing stuff later
-  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+var proto = defineProps(function colors() {}, styles);
+
+function applyStyle() {
+  var args = arguments;
+  var argsLen = args.length;
+  var str = argsLen !== 0 && String(arguments[0]);
+  if (argsLen > 1) {
+    for (var a = 1; a < argsLen; a++) {
+      str += ' ' + args[a];
+    }
   }
 
-  // pad the end with zeros, but make sure to not forget the extra bytes
-  if (extraBytes === 1) {
-    tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
-  } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
+  if (!colors.enabled || !str) {
+    return str;
   }
 
-  parts.push(output)
+  var nestedStyles = this._styles;
 
-  return parts.join('')
+  var i = nestedStyles.length;
+  while (i--) {
+    var code = ansiStyles[nestedStyles[i]];
+    str = code.open + str.replace(code.closeRe, code.open) + code.close;
+  }
+
+  return str;
 }
 
-},{}],111:[function(require,module,exports){
+function applyTheme (theme) {
+  for (var style in theme) {
+    (function(style){
+      colors[style] = function(str){
+        if (typeof theme[style] === 'object'){
+          var out = str;
+          for (var i in theme[style]){
+            out = colors[theme[style][i]](out);
+          }
+          return out;
+        }
+        return colors[theme[style]](str);
+      };
+    })(style)
+  }
+}
+
+colors.setTheme = function (theme) {
+  if (typeof theme === 'string') {
+    try {
+      colors.themes[theme] = require(theme);
+      applyTheme(colors.themes[theme]);
+      return colors.themes[theme];
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  } else {
+    applyTheme(theme);
+  }
+};
+
+function init() {
+  var ret = {};
+  Object.keys(styles).forEach(function (name) {
+    ret[name] = {
+      get: function () {
+        return build([name]);
+      }
+    };
+  });
+  return ret;
+}
+
+var sequencer = function sequencer (map, str) {
+  var exploded = str.split(""), i = 0;
+  exploded = exploded.map(map);
+  return exploded.join("");
+};
+
+// custom formatter methods
+colors.trap = require('./custom/trap');
+colors.zalgo = require('./custom/zalgo');
+
+// maps
+colors.maps = {};
+colors.maps.america = require('./maps/america');
+colors.maps.zebra = require('./maps/zebra');
+colors.maps.rainbow = require('./maps/rainbow');
+colors.maps.random = require('./maps/random')
+
+for (var map in colors.maps) {
+  (function(map){
+    colors[map] = function (str) {
+      return sequencer(colors.maps[map], str);
+    }
+  })(map)
+}
+
+defineProps(colors, init());
+},{"./custom/trap":112,"./custom/zalgo":113,"./maps/america":116,"./maps/rainbow":117,"./maps/random":118,"./maps/zebra":119,"./styles":120,"./system/supports-colors":121}],112:[function(require,module,exports){
+module['exports'] = function runTheTrap (text, options) {
+  var result = "";
+  text = text || "Run the trap, drop the bass";
+  text = text.split('');
+  var trap = {
+    a: ["\u0040", "\u0104", "\u023a", "\u0245", "\u0394", "\u039b", "\u0414"],
+    b: ["\u00df", "\u0181", "\u0243", "\u026e", "\u03b2", "\u0e3f"],
+    c: ["\u00a9", "\u023b", "\u03fe"],
+    d: ["\u00d0", "\u018a", "\u0500" , "\u0501" ,"\u0502", "\u0503"],
+    e: ["\u00cb", "\u0115", "\u018e", "\u0258", "\u03a3", "\u03be", "\u04bc", "\u0a6c"],
+    f: ["\u04fa"],
+    g: ["\u0262"],
+    h: ["\u0126", "\u0195", "\u04a2", "\u04ba", "\u04c7", "\u050a"],
+    i: ["\u0f0f"],
+    j: ["\u0134"],
+    k: ["\u0138", "\u04a0", "\u04c3", "\u051e"],
+    l: ["\u0139"],
+    m: ["\u028d", "\u04cd", "\u04ce", "\u0520", "\u0521", "\u0d69"],
+    n: ["\u00d1", "\u014b", "\u019d", "\u0376", "\u03a0", "\u048a"],
+    o: ["\u00d8", "\u00f5", "\u00f8", "\u01fe", "\u0298", "\u047a", "\u05dd", "\u06dd", "\u0e4f"],
+    p: ["\u01f7", "\u048e"],
+    q: ["\u09cd"],
+    r: ["\u00ae", "\u01a6", "\u0210", "\u024c", "\u0280", "\u042f"],
+    s: ["\u00a7", "\u03de", "\u03df", "\u03e8"],
+    t: ["\u0141", "\u0166", "\u0373"],
+    u: ["\u01b1", "\u054d"],
+    v: ["\u05d8"],
+    w: ["\u0428", "\u0460", "\u047c", "\u0d70"],
+    x: ["\u04b2", "\u04fe", "\u04fc", "\u04fd"],
+    y: ["\u00a5", "\u04b0", "\u04cb"],
+    z: ["\u01b5", "\u0240"]
+  }
+  text.forEach(function(c){
+    c = c.toLowerCase();
+    var chars = trap[c] || [" "];
+    var rand = Math.floor(Math.random() * chars.length);
+    if (typeof trap[c] !== "undefined") {
+      result += trap[c][rand];
+    } else {
+      result += c;
+    }
+  });
+  return result;
+
+}
+
+},{}],113:[function(require,module,exports){
+// please no
+module['exports'] = function zalgo(text, options) {
+  text = text || "   he is here   ";
+  var soul = {
+    "up" : [
+      '̍', '̎', '̄', '̅',
+      '̿', '̑', '̆', '̐',
+      '͒', '͗', '͑', '̇',
+      '̈', '̊', '͂', '̓',
+      '̈', '͊', '͋', '͌',
+      '̃', '̂', '̌', '͐',
+      '̀', '́', '̋', '̏',
+      '̒', '̓', '̔', '̽',
+      '̉', 'ͣ', 'ͤ', 'ͥ',
+      'ͦ', 'ͧ', 'ͨ', 'ͩ',
+      'ͪ', 'ͫ', 'ͬ', 'ͭ',
+      'ͮ', 'ͯ', '̾', '͛',
+      '͆', '̚'
+    ],
+    "down" : [
+      '̖', '̗', '̘', '̙',
+      '̜', '̝', '̞', '̟',
+      '̠', '̤', '̥', '̦',
+      '̩', '̪', '̫', '̬',
+      '̭', '̮', '̯', '̰',
+      '̱', '̲', '̳', '̹',
+      '̺', '̻', '̼', 'ͅ',
+      '͇', '͈', '͉', '͍',
+      '͎', '͓', '͔', '͕',
+      '͖', '͙', '͚', '̣'
+    ],
+    "mid" : [
+      '̕', '̛', '̀', '́',
+      '͘', '̡', '̢', '̧',
+      '̨', '̴', '̵', '̶',
+      '͜', '͝', '͞',
+      '͟', '͠', '͢', '̸',
+      '̷', '͡', ' ҉'
+    ]
+  },
+  all = [].concat(soul.up, soul.down, soul.mid),
+  zalgo = {};
+
+  function randomNumber(range) {
+    var r = Math.floor(Math.random() * range);
+    return r;
+  }
+
+  function is_char(character) {
+    var bool = false;
+    all.filter(function (i) {
+      bool = (i === character);
+    });
+    return bool;
+  }
+  
+
+  function heComes(text, options) {
+    var result = '', counts, l;
+    options = options || {};
+    options["up"] =   typeof options["up"]   !== 'undefined' ? options["up"]   : true;
+    options["mid"] =  typeof options["mid"]  !== 'undefined' ? options["mid"]  : true;
+    options["down"] = typeof options["down"] !== 'undefined' ? options["down"] : true;
+    options["size"] = typeof options["size"] !== 'undefined' ? options["size"] : "maxi";
+    text = text.split('');
+    for (l in text) {
+      if (is_char(l)) {
+        continue;
+      }
+      result = result + text[l];
+      counts = {"up" : 0, "down" : 0, "mid" : 0};
+      switch (options.size) {
+      case 'mini':
+        counts.up = randomNumber(8);
+        counts.mid = randomNumber(2);
+        counts.down = randomNumber(8);
+        break;
+      case 'maxi':
+        counts.up = randomNumber(16) + 3;
+        counts.mid = randomNumber(4) + 1;
+        counts.down = randomNumber(64) + 3;
+        break;
+      default:
+        counts.up = randomNumber(8) + 1;
+        counts.mid = randomNumber(6) / 2;
+        counts.down = randomNumber(8) + 1;
+        break;
+      }
+
+      var arr = ["up", "mid", "down"];
+      for (var d in arr) {
+        var index = arr[d];
+        for (var i = 0 ; i <= counts[index]; i++) {
+          if (options[index]) {
+            result = result + soul[index][randomNumber(soul[index].length)];
+          }
+        }
+      }
+    }
+    return result;
+  }
+  // don't summon him
+  return heComes(text, options);
+}
+
+},{}],114:[function(require,module,exports){
+var colors = require('./colors');
+
+module['exports'] = function () {
+
+  //
+  // Extends prototype of native string object to allow for "foo".red syntax
+  //
+  var addProperty = function (color, func) {
+    String.prototype.__defineGetter__(color, func);
+  };
+
+  var sequencer = function sequencer (map, str) {
+      return function () {
+        var exploded = this.split(""), i = 0;
+        exploded = exploded.map(map);
+        return exploded.join("");
+      }
+  };
+
+  addProperty('strip', function () {
+    return colors.strip(this);
+  });
+
+  addProperty('stripColors', function () {
+    return colors.strip(this);
+  });
+
+  addProperty("trap", function(){
+    return colors.trap(this);
+  });
+
+  addProperty("zalgo", function(){
+    return colors.zalgo(this);
+  });
+
+  addProperty("zebra", function(){
+    return colors.zebra(this);
+  });
+
+  addProperty("rainbow", function(){
+    return colors.rainbow(this);
+  });
+
+  addProperty("random", function(){
+    return colors.random(this);
+  });
+
+  addProperty("america", function(){
+    return colors.america(this);
+  });
+
+  //
+  // Iterate through all default styles and colors
+  //
+  var x = Object.keys(colors.styles);
+  x.forEach(function (style) {
+    addProperty(style, function () {
+      return colors.stylize(this, style);
+    });
+  });
+
+  function applyTheme(theme) {
+    //
+    // Remark: This is a list of methods that exist
+    // on String that you should not overwrite.
+    //
+    var stringPrototypeBlacklist = [
+      '__defineGetter__', '__defineSetter__', '__lookupGetter__', '__lookupSetter__', 'charAt', 'constructor',
+      'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf', 'charCodeAt',
+      'indexOf', 'lastIndexof', 'length', 'localeCompare', 'match', 'replace', 'search', 'slice', 'split', 'substring',
+      'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'trim', 'trimLeft', 'trimRight'
+    ];
+
+    Object.keys(theme).forEach(function (prop) {
+      if (stringPrototypeBlacklist.indexOf(prop) !== -1) {
+        console.log('warn: '.red + ('String.prototype' + prop).magenta + ' is probably something you don\'t want to override. Ignoring style name');
+      }
+      else {
+        if (typeof(theme[prop]) === 'string') {
+          colors[prop] = colors[theme[prop]];
+          addProperty(prop, function () {
+            return colors[theme[prop]](this);
+          });
+        }
+        else {
+          addProperty(prop, function () {
+            var ret = this;
+            for (var t = 0; t < theme[prop].length; t++) {
+              ret = colors[theme[prop][t]](ret);
+            }
+            return ret;
+          });
+        }
+      }
+    });
+  }
+
+  colors.setTheme = function (theme) {
+    if (typeof theme === 'string') {
+      try {
+        colors.themes[theme] = require(theme);
+        applyTheme(colors.themes[theme]);
+        return colors.themes[theme];
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    } else {
+      applyTheme(theme);
+    }
+  };
+
+};
+},{"./colors":111}],115:[function(require,module,exports){
+var colors = require('./colors');
+module['exports'] = colors;
+
+// Remark: By default, colors will add style properties to String.prototype
+//
+// If you don't wish to extend String.prototype you can do this instead and native String will not be touched
+//
+//   var colors = require('colors/safe);
+//   colors.red("foo")
+//
+//
+require('./extendStringPrototype')();
+},{"./colors":111,"./extendStringPrototype":114}],116:[function(require,module,exports){
+var colors = require('../colors');
+
+module['exports'] = (function() {
+  return function (letter, i, exploded) {
+    if(letter === " ") return letter;
+    switch(i%3) {
+      case 0: return colors.red(letter);
+      case 1: return colors.white(letter)
+      case 2: return colors.blue(letter)
+    }
+  }
+})();
+},{"../colors":111}],117:[function(require,module,exports){
+var colors = require('../colors');
+
+module['exports'] = (function () {
+  var rainbowColors = ['red', 'yellow', 'green', 'blue', 'magenta']; //RoY G BiV
+  return function (letter, i, exploded) {
+    if (letter === " ") {
+      return letter;
+    } else {
+      return colors[rainbowColors[i++ % rainbowColors.length]](letter);
+    }
+  };
+})();
+
+
+},{"../colors":111}],118:[function(require,module,exports){
+var colors = require('../colors');
+
+module['exports'] = (function () {
+  var available = ['underline', 'inverse', 'grey', 'yellow', 'red', 'green', 'blue', 'white', 'cyan', 'magenta'];
+  return function(letter, i, exploded) {
+    return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
+  };
+})();
+},{"../colors":111}],119:[function(require,module,exports){
+var colors = require('../colors');
+
+module['exports'] = function (letter, i, exploded) {
+  return i % 2 === 0 ? letter : colors.inverse(letter);
+};
+},{"../colors":111}],120:[function(require,module,exports){
+/*
+The MIT License (MIT)
+
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+var styles = {};
+module['exports'] = styles;
+
+var codes = {
+  reset: [0, 0],
+
+  bold: [1, 22],
+  dim: [2, 22],
+  italic: [3, 23],
+  underline: [4, 24],
+  inverse: [7, 27],
+  hidden: [8, 28],
+  strikethrough: [9, 29],
+
+  black: [30, 39],
+  red: [31, 39],
+  green: [32, 39],
+  yellow: [33, 39],
+  blue: [34, 39],
+  magenta: [35, 39],
+  cyan: [36, 39],
+  white: [37, 39],
+  gray: [90, 39],
+  grey: [90, 39],
+
+  bgBlack: [40, 49],
+  bgRed: [41, 49],
+  bgGreen: [42, 49],
+  bgYellow: [43, 49],
+  bgBlue: [44, 49],
+  bgMagenta: [45, 49],
+  bgCyan: [46, 49],
+  bgWhite: [47, 49],
+
+  // legacy styles for colors pre v1.0.0
+  blackBG: [40, 49],
+  redBG: [41, 49],
+  greenBG: [42, 49],
+  yellowBG: [43, 49],
+  blueBG: [44, 49],
+  magentaBG: [45, 49],
+  cyanBG: [46, 49],
+  whiteBG: [47, 49]
+
+};
+
+Object.keys(codes).forEach(function (key) {
+  var val = codes[key];
+  var style = styles[key] = [];
+  style.open = '\u001b[' + val[0] + 'm';
+  style.close = '\u001b[' + val[1] + 'm';
+});
+},{}],121:[function(require,module,exports){
+(function (process){
+/*
+The MIT License (MIT)
+
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+var argv = process.argv;
+
+module.exports = (function () {
+  if (argv.indexOf('--no-color') !== -1 ||
+    argv.indexOf('--color=false') !== -1) {
+    return false;
+  }
+
+  if (argv.indexOf('--color') !== -1 ||
+    argv.indexOf('--color=true') !== -1 ||
+    argv.indexOf('--color=always') !== -1) {
+    return true;
+  }
+
+  if (process.stdout && !process.stdout.isTTY) {
+    return false;
+  }
+
+  if (process.platform === 'win32') {
+    return true;
+  }
+
+  if ('COLORTERM' in process.env) {
+    return true;
+  }
+
+  if (process.env.TERM === 'dumb') {
+    return false;
+  }
+
+  if (/^screen|^xterm|^vt100|color|ansi|cygwin|linux/i.test(process.env.TERM)) {
+    return true;
+  }
+
+  return false;
+})();
+}).call(this,require('_process'))
+},{"_process":125}],122:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -9201,14 +9854,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],112:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],113:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -9233,7 +9879,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],114:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],125:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -9354,14 +10007,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],115:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],116:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -9951,657 +10604,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":115,"_process":114,"inherits":113}],117:[function(require,module,exports){
-/*
-
-The MIT License (MIT)
-
-Original Library 
-  - Copyright (c) Marak Squires
-
-Additional functionality
- - Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var colors = {};
-module['exports'] = colors;
-
-colors.themes = {};
-
-var ansiStyles = colors.styles = require('./styles');
-var defineProps = Object.defineProperties;
-
-colors.supportsColor = require('./system/supports-colors');
-
-if (typeof colors.enabled === "undefined") {
-  colors.enabled = colors.supportsColor;
-}
-
-colors.stripColors = colors.strip = function(str){
-  return ("" + str).replace(/\x1B\[\d+m/g, '');
-};
-
-
-var stylize = colors.stylize = function stylize (str, style) {
-  if (!colors.enabled) {
-    return str+'';
-  }
-
-  return ansiStyles[style].open + str + ansiStyles[style].close;
-}
-
-var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
-var escapeStringRegexp = function (str) {
-  if (typeof str !== 'string') {
-    throw new TypeError('Expected a string');
-  }
-  return str.replace(matchOperatorsRe,  '\\$&');
-}
-
-function build(_styles) {
-  var builder = function builder() {
-    return applyStyle.apply(builder, arguments);
-  };
-  builder._styles = _styles;
-  // __proto__ is used because we must return a function, but there is
-  // no way to create a function with a different prototype.
-  builder.__proto__ = proto;
-  return builder;
-}
-
-var styles = (function () {
-  var ret = {};
-  ansiStyles.grey = ansiStyles.gray;
-  Object.keys(ansiStyles).forEach(function (key) {
-    ansiStyles[key].closeRe = new RegExp(escapeStringRegexp(ansiStyles[key].close), 'g');
-    ret[key] = {
-      get: function () {
-        return build(this._styles.concat(key));
-      }
-    };
-  });
-  return ret;
-})();
-
-var proto = defineProps(function colors() {}, styles);
-
-function applyStyle() {
-  var args = arguments;
-  var argsLen = args.length;
-  var str = argsLen !== 0 && String(arguments[0]);
-  if (argsLen > 1) {
-    for (var a = 1; a < argsLen; a++) {
-      str += ' ' + args[a];
-    }
-  }
-
-  if (!colors.enabled || !str) {
-    return str;
-  }
-
-  var nestedStyles = this._styles;
-
-  var i = nestedStyles.length;
-  while (i--) {
-    var code = ansiStyles[nestedStyles[i]];
-    str = code.open + str.replace(code.closeRe, code.open) + code.close;
-  }
-
-  return str;
-}
-
-function applyTheme (theme) {
-  for (var style in theme) {
-    (function(style){
-      colors[style] = function(str){
-        if (typeof theme[style] === 'object'){
-          var out = str;
-          for (var i in theme[style]){
-            out = colors[theme[style][i]](out);
-          }
-          return out;
-        }
-        return colors[theme[style]](str);
-      };
-    })(style)
-  }
-}
-
-colors.setTheme = function (theme) {
-  if (typeof theme === 'string') {
-    try {
-      colors.themes[theme] = require(theme);
-      applyTheme(colors.themes[theme]);
-      return colors.themes[theme];
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-  } else {
-    applyTheme(theme);
-  }
-};
-
-function init() {
-  var ret = {};
-  Object.keys(styles).forEach(function (name) {
-    ret[name] = {
-      get: function () {
-        return build([name]);
-      }
-    };
-  });
-  return ret;
-}
-
-var sequencer = function sequencer (map, str) {
-  var exploded = str.split(""), i = 0;
-  exploded = exploded.map(map);
-  return exploded.join("");
-};
-
-// custom formatter methods
-colors.trap = require('./custom/trap');
-colors.zalgo = require('./custom/zalgo');
-
-// maps
-colors.maps = {};
-colors.maps.america = require('./maps/america');
-colors.maps.zebra = require('./maps/zebra');
-colors.maps.rainbow = require('./maps/rainbow');
-colors.maps.random = require('./maps/random')
-
-for (var map in colors.maps) {
-  (function(map){
-    colors[map] = function (str) {
-      return sequencer(colors.maps[map], str);
-    }
-  })(map)
-}
-
-defineProps(colors, init());
-},{"./custom/trap":118,"./custom/zalgo":119,"./maps/america":122,"./maps/rainbow":123,"./maps/random":124,"./maps/zebra":125,"./styles":126,"./system/supports-colors":127}],118:[function(require,module,exports){
-module['exports'] = function runTheTrap (text, options) {
-  var result = "";
-  text = text || "Run the trap, drop the bass";
-  text = text.split('');
-  var trap = {
-    a: ["\u0040", "\u0104", "\u023a", "\u0245", "\u0394", "\u039b", "\u0414"],
-    b: ["\u00df", "\u0181", "\u0243", "\u026e", "\u03b2", "\u0e3f"],
-    c: ["\u00a9", "\u023b", "\u03fe"],
-    d: ["\u00d0", "\u018a", "\u0500" , "\u0501" ,"\u0502", "\u0503"],
-    e: ["\u00cb", "\u0115", "\u018e", "\u0258", "\u03a3", "\u03be", "\u04bc", "\u0a6c"],
-    f: ["\u04fa"],
-    g: ["\u0262"],
-    h: ["\u0126", "\u0195", "\u04a2", "\u04ba", "\u04c7", "\u050a"],
-    i: ["\u0f0f"],
-    j: ["\u0134"],
-    k: ["\u0138", "\u04a0", "\u04c3", "\u051e"],
-    l: ["\u0139"],
-    m: ["\u028d", "\u04cd", "\u04ce", "\u0520", "\u0521", "\u0d69"],
-    n: ["\u00d1", "\u014b", "\u019d", "\u0376", "\u03a0", "\u048a"],
-    o: ["\u00d8", "\u00f5", "\u00f8", "\u01fe", "\u0298", "\u047a", "\u05dd", "\u06dd", "\u0e4f"],
-    p: ["\u01f7", "\u048e"],
-    q: ["\u09cd"],
-    r: ["\u00ae", "\u01a6", "\u0210", "\u024c", "\u0280", "\u042f"],
-    s: ["\u00a7", "\u03de", "\u03df", "\u03e8"],
-    t: ["\u0141", "\u0166", "\u0373"],
-    u: ["\u01b1", "\u054d"],
-    v: ["\u05d8"],
-    w: ["\u0428", "\u0460", "\u047c", "\u0d70"],
-    x: ["\u04b2", "\u04fe", "\u04fc", "\u04fd"],
-    y: ["\u00a5", "\u04b0", "\u04cb"],
-    z: ["\u01b5", "\u0240"]
-  }
-  text.forEach(function(c){
-    c = c.toLowerCase();
-    var chars = trap[c] || [" "];
-    var rand = Math.floor(Math.random() * chars.length);
-    if (typeof trap[c] !== "undefined") {
-      result += trap[c][rand];
-    } else {
-      result += c;
-    }
-  });
-  return result;
-
-}
-
-},{}],119:[function(require,module,exports){
-// please no
-module['exports'] = function zalgo(text, options) {
-  text = text || "   he is here   ";
-  var soul = {
-    "up" : [
-      '̍', '̎', '̄', '̅',
-      '̿', '̑', '̆', '̐',
-      '͒', '͗', '͑', '̇',
-      '̈', '̊', '͂', '̓',
-      '̈', '͊', '͋', '͌',
-      '̃', '̂', '̌', '͐',
-      '̀', '́', '̋', '̏',
-      '̒', '̓', '̔', '̽',
-      '̉', 'ͣ', 'ͤ', 'ͥ',
-      'ͦ', 'ͧ', 'ͨ', 'ͩ',
-      'ͪ', 'ͫ', 'ͬ', 'ͭ',
-      'ͮ', 'ͯ', '̾', '͛',
-      '͆', '̚'
-    ],
-    "down" : [
-      '̖', '̗', '̘', '̙',
-      '̜', '̝', '̞', '̟',
-      '̠', '̤', '̥', '̦',
-      '̩', '̪', '̫', '̬',
-      '̭', '̮', '̯', '̰',
-      '̱', '̲', '̳', '̹',
-      '̺', '̻', '̼', 'ͅ',
-      '͇', '͈', '͉', '͍',
-      '͎', '͓', '͔', '͕',
-      '͖', '͙', '͚', '̣'
-    ],
-    "mid" : [
-      '̕', '̛', '̀', '́',
-      '͘', '̡', '̢', '̧',
-      '̨', '̴', '̵', '̶',
-      '͜', '͝', '͞',
-      '͟', '͠', '͢', '̸',
-      '̷', '͡', ' ҉'
-    ]
-  },
-  all = [].concat(soul.up, soul.down, soul.mid),
-  zalgo = {};
-
-  function randomNumber(range) {
-    var r = Math.floor(Math.random() * range);
-    return r;
-  }
-
-  function is_char(character) {
-    var bool = false;
-    all.filter(function (i) {
-      bool = (i === character);
-    });
-    return bool;
-  }
-  
-
-  function heComes(text, options) {
-    var result = '', counts, l;
-    options = options || {};
-    options["up"] =   typeof options["up"]   !== 'undefined' ? options["up"]   : true;
-    options["mid"] =  typeof options["mid"]  !== 'undefined' ? options["mid"]  : true;
-    options["down"] = typeof options["down"] !== 'undefined' ? options["down"] : true;
-    options["size"] = typeof options["size"] !== 'undefined' ? options["size"] : "maxi";
-    text = text.split('');
-    for (l in text) {
-      if (is_char(l)) {
-        continue;
-      }
-      result = result + text[l];
-      counts = {"up" : 0, "down" : 0, "mid" : 0};
-      switch (options.size) {
-      case 'mini':
-        counts.up = randomNumber(8);
-        counts.mid = randomNumber(2);
-        counts.down = randomNumber(8);
-        break;
-      case 'maxi':
-        counts.up = randomNumber(16) + 3;
-        counts.mid = randomNumber(4) + 1;
-        counts.down = randomNumber(64) + 3;
-        break;
-      default:
-        counts.up = randomNumber(8) + 1;
-        counts.mid = randomNumber(6) / 2;
-        counts.down = randomNumber(8) + 1;
-        break;
-      }
-
-      var arr = ["up", "mid", "down"];
-      for (var d in arr) {
-        var index = arr[d];
-        for (var i = 0 ; i <= counts[index]; i++) {
-          if (options[index]) {
-            result = result + soul[index][randomNumber(soul[index].length)];
-          }
-        }
-      }
-    }
-    return result;
-  }
-  // don't summon him
-  return heComes(text, options);
-}
-
-},{}],120:[function(require,module,exports){
-var colors = require('./colors');
-
-module['exports'] = function () {
-
-  //
-  // Extends prototype of native string object to allow for "foo".red syntax
-  //
-  var addProperty = function (color, func) {
-    String.prototype.__defineGetter__(color, func);
-  };
-
-  var sequencer = function sequencer (map, str) {
-      return function () {
-        var exploded = this.split(""), i = 0;
-        exploded = exploded.map(map);
-        return exploded.join("");
-      }
-  };
-
-  addProperty('strip', function () {
-    return colors.strip(this);
-  });
-
-  addProperty('stripColors', function () {
-    return colors.strip(this);
-  });
-
-  addProperty("trap", function(){
-    return colors.trap(this);
-  });
-
-  addProperty("zalgo", function(){
-    return colors.zalgo(this);
-  });
-
-  addProperty("zebra", function(){
-    return colors.zebra(this);
-  });
-
-  addProperty("rainbow", function(){
-    return colors.rainbow(this);
-  });
-
-  addProperty("random", function(){
-    return colors.random(this);
-  });
-
-  addProperty("america", function(){
-    return colors.america(this);
-  });
-
-  //
-  // Iterate through all default styles and colors
-  //
-  var x = Object.keys(colors.styles);
-  x.forEach(function (style) {
-    addProperty(style, function () {
-      return colors.stylize(this, style);
-    });
-  });
-
-  function applyTheme(theme) {
-    //
-    // Remark: This is a list of methods that exist
-    // on String that you should not overwrite.
-    //
-    var stringPrototypeBlacklist = [
-      '__defineGetter__', '__defineSetter__', '__lookupGetter__', '__lookupSetter__', 'charAt', 'constructor',
-      'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf', 'charCodeAt',
-      'indexOf', 'lastIndexof', 'length', 'localeCompare', 'match', 'replace', 'search', 'slice', 'split', 'substring',
-      'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'trim', 'trimLeft', 'trimRight'
-    ];
-
-    Object.keys(theme).forEach(function (prop) {
-      if (stringPrototypeBlacklist.indexOf(prop) !== -1) {
-        console.log('warn: '.red + ('String.prototype' + prop).magenta + ' is probably something you don\'t want to override. Ignoring style name');
-      }
-      else {
-        if (typeof(theme[prop]) === 'string') {
-          colors[prop] = colors[theme[prop]];
-          addProperty(prop, function () {
-            return colors[theme[prop]](this);
-          });
-        }
-        else {
-          addProperty(prop, function () {
-            var ret = this;
-            for (var t = 0; t < theme[prop].length; t++) {
-              ret = colors[theme[prop][t]](ret);
-            }
-            return ret;
-          });
-        }
-      }
-    });
-  }
-
-  colors.setTheme = function (theme) {
-    if (typeof theme === 'string') {
-      try {
-        colors.themes[theme] = require(theme);
-        applyTheme(colors.themes[theme]);
-        return colors.themes[theme];
-      } catch (err) {
-        console.log(err);
-        return err;
-      }
-    } else {
-      applyTheme(theme);
-    }
-  };
-
-};
-},{"./colors":117}],121:[function(require,module,exports){
-var colors = require('./colors');
-module['exports'] = colors;
-
-// Remark: By default, colors will add style properties to String.prototype
-//
-// If you don't wish to extend String.prototype you can do this instead and native String will not be touched
-//
-//   var colors = require('colors/safe);
-//   colors.red("foo")
-//
-//
-require('./extendStringPrototype')();
-},{"./colors":117,"./extendStringPrototype":120}],122:[function(require,module,exports){
-var colors = require('../colors');
-
-module['exports'] = (function() {
-  return function (letter, i, exploded) {
-    if(letter === " ") return letter;
-    switch(i%3) {
-      case 0: return colors.red(letter);
-      case 1: return colors.white(letter)
-      case 2: return colors.blue(letter)
-    }
-  }
-})();
-},{"../colors":117}],123:[function(require,module,exports){
-var colors = require('../colors');
-
-module['exports'] = (function () {
-  var rainbowColors = ['red', 'yellow', 'green', 'blue', 'magenta']; //RoY G BiV
-  return function (letter, i, exploded) {
-    if (letter === " ") {
-      return letter;
-    } else {
-      return colors[rainbowColors[i++ % rainbowColors.length]](letter);
-    }
-  };
-})();
-
-
-},{"../colors":117}],124:[function(require,module,exports){
-var colors = require('../colors');
-
-module['exports'] = (function () {
-  var available = ['underline', 'inverse', 'grey', 'yellow', 'red', 'green', 'blue', 'white', 'cyan', 'magenta'];
-  return function(letter, i, exploded) {
-    return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
-  };
-})();
-},{"../colors":117}],125:[function(require,module,exports){
-var colors = require('../colors');
-
-module['exports'] = function (letter, i, exploded) {
-  return i % 2 === 0 ? letter : colors.inverse(letter);
-};
-},{"../colors":117}],126:[function(require,module,exports){
-/*
-The MIT License (MIT)
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var styles = {};
-module['exports'] = styles;
-
-var codes = {
-  reset: [0, 0],
-
-  bold: [1, 22],
-  dim: [2, 22],
-  italic: [3, 23],
-  underline: [4, 24],
-  inverse: [7, 27],
-  hidden: [8, 28],
-  strikethrough: [9, 29],
-
-  black: [30, 39],
-  red: [31, 39],
-  green: [32, 39],
-  yellow: [33, 39],
-  blue: [34, 39],
-  magenta: [35, 39],
-  cyan: [36, 39],
-  white: [37, 39],
-  gray: [90, 39],
-  grey: [90, 39],
-
-  bgBlack: [40, 49],
-  bgRed: [41, 49],
-  bgGreen: [42, 49],
-  bgYellow: [43, 49],
-  bgBlue: [44, 49],
-  bgMagenta: [45, 49],
-  bgCyan: [46, 49],
-  bgWhite: [47, 49],
-
-  // legacy styles for colors pre v1.0.0
-  blackBG: [40, 49],
-  redBG: [41, 49],
-  greenBG: [42, 49],
-  yellowBG: [43, 49],
-  blueBG: [44, 49],
-  magentaBG: [45, 49],
-  cyanBG: [46, 49],
-  whiteBG: [47, 49]
-
-};
-
-Object.keys(codes).forEach(function (key) {
-  var val = codes[key];
-  var style = styles[key] = [];
-  style.open = '\u001b[' + val[0] + 'm';
-  style.close = '\u001b[' + val[1] + 'm';
-});
-},{}],127:[function(require,module,exports){
-(function (process){
-/*
-The MIT License (MIT)
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var argv = process.argv;
-
-module.exports = (function () {
-  if (argv.indexOf('--no-color') !== -1 ||
-    argv.indexOf('--color=false') !== -1) {
-    return false;
-  }
-
-  if (argv.indexOf('--color') !== -1 ||
-    argv.indexOf('--color=true') !== -1 ||
-    argv.indexOf('--color=always') !== -1) {
-    return true;
-  }
-
-  if (process.stdout && !process.stdout.isTTY) {
-    return false;
-  }
-
-  if (process.platform === 'win32') {
-    return true;
-  }
-
-  if ('COLORTERM' in process.env) {
-    return true;
-  }
-
-  if (process.env.TERM === 'dumb') {
-    return false;
-  }
-
-  if (/^screen|^xterm|^vt100|color|ansi|cygwin|linux/i.test(process.env.TERM)) {
-    return true;
-  }
-
-  return false;
-})();
-}).call(this,require('_process'))
-},{"_process":114}]},{},[1]);
+},{"./support/isBuffer":126,"_process":125,"inherits":123}]},{},[1]);
