@@ -29075,7 +29075,7 @@ exports.createContext = Script.createContext = function (context) {
 },{"indexof":222}],265:[function(require,module,exports){
 module.exports={
   "name": "cheddar",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.15",
   "dependencies": {
     "colors": "^1.1.2",
     "commander": "^2.9.0",
