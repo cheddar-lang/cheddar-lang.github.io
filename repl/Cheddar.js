@@ -617,10 +617,14 @@ var CheddarFunction = function (_CheddarClass) {
             this.inherited = this.args;
             this.Reference = this.body;
 
-            if (!body) {
-                body = args;
+            if (args === "") {
                 args = [];
             } else {
+
+                if (args.constructor.name !== "CheddarArrayToken") {
+                    args = { _Tokens: [args] };
+                }
+
                 var argument = void 0,
                     res = Array(args._Tokens.length);
                 for (var i = 0; i < args._Tokens.length; i++) {
@@ -5285,7 +5289,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var RESERVED_KEYWORDS = exports.RESERVED_KEYWORDS = new Set(['sqrt', 'cbrt', 'root', 'sin', 'cos', 'tan', 'acos', 'asin', 'atan', 'log', 'has', 'floor', 'ceil', 'round', 'len', 'reverse', 'abs', 'repr', 'sign', 'print', 'and', 'or', 'xor',
 // States
-'var', 'const', 'if', 'for', 'while', 'func', 'class',
+'var', 'const', 'if', 'for', 'while', 'break', 'func', 'class',
 // Literals
 'true', 'false', 'nil']);
 
@@ -6619,6 +6623,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var A = (0, _custom2.default)(_array2.default, '(', ')', _argument2.default, true);
+var ExpressionToken = (0, _custom2.default)(_expr2.default, true);
+
 var CheddarFunctionToken = function (_CheddarPrimitive) {
     _inherits(CheddarFunctionToken, _CheddarPrimitive);
 
@@ -6636,14 +6643,13 @@ var CheddarFunctionToken = function (_CheddarPrimitive) {
             this.jumpWhite();
 
             var E = _expr2.default;
-            var A = (0, _custom2.default)(_array2.default, '(', ')', _argument2.default, true);
 
             /**
              This basically runs the following:
               "->" ARG_LIST? (CODE BLOCK | EXPRESSION)
               */
 
-            var grammar = this.grammar(true, [[A], "->", [_block2.default, _expr2.default]]);
+            var grammar = this.grammar(true, [[A, _argument2.default, ""], "->", [_block2.default, ExpressionToken]]);
 
             return grammar;
         }
@@ -7831,6 +7837,7 @@ var CheddarLexer = function () {
                             // OR
                             var match = void 0;
                             var _oldIndex3 = this.Index;
+                            var success = false;
                             for (var k = 0; k < defs[i][j].length; k++) {
                                 this.Index = index;
                                 if (defs[i][j][k].prototype instanceof CheddarLexer || defs[i][j][k] instanceof CheddarLexer) {
@@ -7844,6 +7851,7 @@ var CheddarLexer = function () {
                                 } else {
                                     result = this.jumpLiteral(defs[i][j][k]);
                                     if (result) {
+                                        success = true;
                                         match = defs[i][j][k];
                                         index = this.Index;
                                         break;
@@ -7851,7 +7859,7 @@ var CheddarLexer = function () {
                                 }
                             }
                             this.Index = _oldIndex3;
-                            if (match) {
+                            if (match || success) {
                                 if (!((result.constructor.name.endsWith('Alpha') || result.constructor.name.endsWith('Beta')) && result._Tokens.length === 0)) {
                                     tokens.push(match);
                                     continue sub;
@@ -23474,15 +23482,7 @@ utils.intFromLE = intFromLE;
 module.exports={
   "_args": [
     [
-      {
-        "raw": "elliptic@^6.0.0",
-        "scope": null,
-        "escapedName": "elliptic",
-        "name": "elliptic",
-        "rawSpec": "^6.0.0",
-        "spec": ">=6.0.0 <7.0.0",
-        "type": "range"
-      },
+      "elliptic@^6.0.0",
       "/home/travis/build/cheddar-lang/Cheddar/node_modules/browserify-sign"
     ]
   ],
@@ -23497,17 +23497,16 @@ module.exports={
     "tmp": "tmp/elliptic-6.3.1.tgz_1465921413402_0.5202967382501811"
   },
   "_npmUser": {
-    "name": "indutny",
-    "email": "fedor@indutny.com"
+    "email": "fedor@indutny.com",
+    "name": "indutny"
   },
   "_npmVersion": "3.8.6",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "elliptic@^6.0.0",
-    "scope": null,
-    "escapedName": "elliptic",
     "name": "elliptic",
+    "raw": "elliptic@^6.0.0",
     "rawSpec": "^6.0.0",
+    "scope": null,
     "spec": ">=6.0.0 <7.0.0",
     "type": "range"
   },
@@ -23521,8 +23520,8 @@ module.exports={
   "_spec": "elliptic@^6.0.0",
   "_where": "/home/travis/build/cheddar-lang/Cheddar/node_modules/browserify-sign",
   "author": {
-    "name": "Fedor Indutny",
-    "email": "fedor@indutny.com"
+    "email": "fedor@indutny.com",
+    "name": "Fedor Indutny"
   },
   "bugs": {
     "url": "https://github.com/indutny/elliptic/issues"
@@ -23560,10 +23559,10 @@ module.exports={
   "gitHead": "c53f5cf3d832c0073eb4a4ed423a464cbce68f3e",
   "homepage": "https://github.com/indutny/elliptic",
   "keywords": [
+    "Cryptography",
     "EC",
     "Elliptic",
-    "curve",
-    "Cryptography"
+    "curve"
   ],
   "license": "MIT",
   "main": "lib/elliptic.js",
