@@ -1,5 +1,5 @@
 /*global Chedz, _console*/
-var VERSION = "1.0.0-beta.29";
+var VERSION = "1.0.0-beta.30";
 window.onload = function() {
 
     document.getElementById("code").onclick = function() {
