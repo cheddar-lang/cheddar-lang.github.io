@@ -2446,6 +2446,8 @@ body.is-menu-visible #menu {
     text-transform: uppercase; }
     #banner p a {
       color: inherit; }
+  #banner ul.actions > li {
+    padding: 1em 0 0 0 !important; }
   #banner .more {
     -moz-transition: -moz-transform 0.75s ease, opacity 0.75s ease;
     -webkit-transition: -webkit-transform 0.75s ease, opacity 0.75s ease;

@@ -1543,9 +1543,13 @@
 			text-transform: uppercase;
 
 			a {
-				color: inherit;
+			    color: inherit;
 			}
 		}
+
+        ul.actions > li {
+            padding: 1em 0 0 0 !important;
+        }
 
 		.more {
 			@include vendor('transition', ('transform 0.75s ease', 'opacity 0.75s ease'));
