@@ -36977,7 +36977,7 @@ module.exports={
     "cheese",
     "food"
   ],
-  "version": "1.0.0-beta.37",
+  "version": "1.0.0-beta.38",
   "dependencies": {
     "atob": "^2.0.3",
     "bases": "^0.2.1",
