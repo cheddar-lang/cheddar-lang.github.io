@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":42,"../stdlib/stdlib":102,"../tokenizer/tok":139,"colors":149,"readline":143}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":42,"../stdlib/stdlib":102,"../tokenizer/tok":139,"colors":148,"readline":143}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -134,7 +134,7 @@ function caret(Code, Index, highlight) {
 }
 module.exports = exports['default'];
 
-},{"./loc":4,"colors":149}],3:[function(require,module,exports){
+},{"./loc":4,"colors":148}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -343,7 +343,7 @@ var NIL = function (_CheddarClass) {
     _inherits(NIL, _CheddarClass);
 
     function NIL() {
-        var _Object$getPrototypeO;
+        var _ref;
 
         var _temp, _this, _ret;
 
@@ -353,7 +353,7 @@ var NIL = function (_CheddarClass) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(NIL)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.init = function () {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = NIL.__proto__ || Object.getPrototypeOf(NIL)).call.apply(_ref, [this].concat(args))), _this), _this.init = function () {
             return true;
         }, _this.Cast = new Map([].concat(_toConsumableArray(_class2.default.Operator), [['String', function () {
             return (0, _init2.default)(require('../primitives/String'), "nil");
@@ -459,7 +459,7 @@ var CheddarClass = function (_CheddarScope) {
         //  for higher-level classes.
 
         // Provide scope construction interface
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarClass).call(this));
+        var _this = _possibleConstructorReturn(this, (CheddarClass.__proto__ || Object.getPrototypeOf(CheddarClass)).call(this));
 
         _this.scope = Scope;
         _this.Reference = Reference;
@@ -672,7 +672,7 @@ var CheddarFunction = function (_CheddarClass) {
         // Tokens handled by init
         // #generateScope handles
         //  the enforcement
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarFunction).call(this, null));
+        var _this = _possibleConstructorReturn(this, (CheddarFunction.__proto__ || Object.getPrototypeOf(CheddarFunction)).call(this, null));
 
         _initialiseProps.call(_this);
 
@@ -1356,7 +1356,7 @@ var CheddarEval = function (_CheddarCallStack) {
     function CheddarEval() {
         _classCallCheck(this, CheddarEval);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarEval).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarEval.__proto__ || Object.getPrototypeOf(CheddarEval)).apply(this, arguments));
     }
 
     _createClass(CheddarEval, [{
@@ -1921,7 +1921,7 @@ var CheddarArray = function (_CheddarClass) {
     _inherits(CheddarArray, _CheddarClass);
 
     function CheddarArray() {
-        var _Object$getPrototypeO;
+        var _ref;
 
         var _temp, _this, _ret;
 
@@ -1931,7 +1931,7 @@ var CheddarArray = function (_CheddarClass) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CheddarArray)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_array2.default))), _this.Cast = _array4.default, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CheddarArray.__proto__ || Object.getPrototypeOf(CheddarArray)).call.apply(_ref, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_array2.default))), _this.Cast = _array4.default, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(CheddarArray, [{
@@ -2047,7 +2047,7 @@ var CheddarBool = function (_CheddarClass) {
     _inherits(CheddarBool, _CheddarClass);
 
     function CheddarBool() {
-        var _Object$getPrototypeO;
+        var _ref;
 
         var _temp, _this, _ret;
 
@@ -2057,7 +2057,7 @@ var CheddarBool = function (_CheddarClass) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CheddarBool)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_bool2.default))), _this.Cast = _bool4.default, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CheddarBool.__proto__ || Object.getPrototypeOf(CheddarBool)).call.apply(_ref, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_bool2.default))), _this.Cast = _bool4.default, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(CheddarBool, [{
@@ -2148,7 +2148,7 @@ var CheddarDictionary = function (_CheddarClass) {
     _inherits(CheddarDictionary, _CheddarClass);
 
     function CheddarDictionary() {
-        var _Object$getPrototypeO;
+        var _ref;
 
         var _temp, _this, _ret;
 
@@ -2158,7 +2158,7 @@ var CheddarDictionary = function (_CheddarClass) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CheddarDictionary)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_dict3.default))), _this.Cast = _dict5.default, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CheddarDictionary.__proto__ || Object.getPrototypeOf(CheddarDictionary)).call.apply(_ref, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_dict3.default))), _this.Cast = _dict5.default, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(CheddarDictionary, [{
@@ -2244,7 +2244,7 @@ var CheddarNumber = function (_CheddarClass) {
     _inherits(CheddarNumber, _CheddarClass);
 
     function CheddarNumber() {
-        var _Object$getPrototypeO;
+        var _ref;
 
         var _temp, _this, _ret;
 
@@ -2254,7 +2254,7 @@ var CheddarNumber = function (_CheddarClass) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CheddarNumber)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_number2.default))), _this.Cast = _number4.default, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CheddarNumber.__proto__ || Object.getPrototypeOf(CheddarNumber)).call.apply(_ref, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_number2.default))), _this.Cast = _number4.default, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(CheddarNumber, [{
@@ -2331,7 +2331,7 @@ var CheddarRegex = function (_CheddarClass) {
     _inherits(CheddarRegex, _CheddarClass);
 
     function CheddarRegex() {
-        var _Object$getPrototypeO;
+        var _ref;
 
         var _temp, _this, _ret;
 
@@ -2341,7 +2341,7 @@ var CheddarRegex = function (_CheddarClass) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CheddarRegex)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_regex2.default))), _this.Cast = _regex4.default, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CheddarRegex.__proto__ || Object.getPrototypeOf(CheddarRegex)).call.apply(_ref, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_regex2.default))), _this.Cast = _regex4.default, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(CheddarRegex, [{
@@ -2431,7 +2431,7 @@ var CheddarString = function (_CheddarClass) {
     _inherits(CheddarString, _CheddarClass);
 
     function CheddarString() {
-        var _Object$getPrototypeO;
+        var _ref;
 
         var _temp, _this, _ret;
 
@@ -2441,7 +2441,7 @@ var CheddarString = function (_CheddarClass) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CheddarString)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_string2.default))), _this.Cast = _string4.default, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CheddarString.__proto__ || Object.getPrototypeOf(CheddarString)).call.apply(_ref, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_string2.default))), _this.Cast = _string4.default, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(CheddarString, [{
@@ -2508,7 +2508,7 @@ var CheddarSymbol = function (_CheddarClass) {
     _inherits(CheddarSymbol, _CheddarClass);
 
     function CheddarSymbol() {
-        var _Object$getPrototypeO;
+        var _ref;
 
         var _temp, _this, _ret;
 
@@ -2518,7 +2518,7 @@ var CheddarSymbol = function (_CheddarClass) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CheddarSymbol)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_symbol2.default))), _this.Cast = _symbol4.default, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CheddarSymbol.__proto__ || Object.getPrototypeOf(CheddarSymbol)).call.apply(_ref, [this].concat(args))), _this), _this.Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), _toConsumableArray(_symbol2.default))), _this.Cast = _symbol4.default, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(CheddarSymbol, [{
@@ -5866,7 +5866,7 @@ var CheddarBooleanToken = function (_CheddarPrimitive) {
     function CheddarBooleanToken() {
         _classCallCheck(this, CheddarBooleanToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarBooleanToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarBooleanToken.__proto__ || Object.getPrototypeOf(CheddarBooleanToken)).apply(this, arguments));
     }
 
     _createClass(CheddarBooleanToken, [{
@@ -5944,7 +5944,7 @@ var CheddarDictItemToken = function (_CheddarLexer) {
     function CheddarDictItemToken() {
         _classCallCheck(this, CheddarDictItemToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarDictItemToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarDictItemToken.__proto__ || Object.getPrototypeOf(CheddarDictItemToken)).apply(this, arguments));
     }
 
     _createClass(CheddarDictItemToken, [{
@@ -5996,7 +5996,7 @@ var CheddarDictToken = function (_CheddarPrimitive) {
     function CheddarDictToken() {
         _classCallCheck(this, CheddarDictToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarDictToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarDictToken.__proto__ || Object.getPrototypeOf(CheddarDictToken)).apply(this, arguments));
     }
 
     _createClass(CheddarDictToken, [{
@@ -6062,7 +6062,7 @@ var CheddarFunctionizedOperatorToken = function (_CheddarPrimitive) {
     function CheddarFunctionizedOperatorToken() {
         _classCallCheck(this, CheddarFunctionizedOperatorToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarFunctionizedOperatorToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarFunctionizedOperatorToken.__proto__ || Object.getPrototypeOf(CheddarFunctionizedOperatorToken)).apply(this, arguments));
     }
 
     _createClass(CheddarFunctionizedOperatorToken, [{
@@ -6118,7 +6118,7 @@ var CheddarFunctionizedPropertyToken = function (_CheddarPrimitive) {
     function CheddarFunctionizedPropertyToken() {
         _classCallCheck(this, CheddarFunctionizedPropertyToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarFunctionizedPropertyToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarFunctionizedPropertyToken.__proto__ || Object.getPrototypeOf(CheddarFunctionizedPropertyToken)).apply(this, arguments));
     }
 
     _createClass(CheddarFunctionizedPropertyToken, [{
@@ -6171,7 +6171,7 @@ var CheddarLiteral = function (_CheddarLexer) {
     function CheddarLiteral() {
         _classCallCheck(this, CheddarLiteral);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarLiteral).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarLiteral.__proto__ || Object.getPrototypeOf(CheddarLiteral)).apply(this, arguments));
     }
 
     _createClass(CheddarLiteral, [{
@@ -6240,7 +6240,7 @@ var CheddarNilToken = function (_CheddarPrimitive) {
     function CheddarNilToken() {
         _classCallCheck(this, CheddarNilToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarNilToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarNilToken.__proto__ || Object.getPrototypeOf(CheddarNilToken)).apply(this, arguments));
     }
 
     _createClass(CheddarNilToken, [{
@@ -6303,7 +6303,7 @@ var CheddarNumberToken = function (_CheddarPrimitive) {
     function CheddarNumberToken() {
         _classCallCheck(this, CheddarNumberToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarNumberToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarNumberToken.__proto__ || Object.getPrototypeOf(CheddarNumberToken)).apply(this, arguments));
     }
 
     _createClass(CheddarNumberToken, [{
@@ -6429,7 +6429,7 @@ var CheddarOperatorToken = function (_CheddarLexer) {
     function CheddarOperatorToken() {
         _classCallCheck(this, CheddarOperatorToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarOperatorToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarOperatorToken.__proto__ || Object.getPrototypeOf(CheddarOperatorToken)).apply(this, arguments));
     }
 
     _createClass(CheddarOperatorToken, [{
@@ -6488,7 +6488,7 @@ var CheddarPrimitive = function (_CheddarLiteral) {
   function CheddarPrimitive() {
     _classCallCheck(this, CheddarPrimitive);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarPrimitive).apply(this, arguments));
+    return _possibleConstructorReturn(this, (CheddarPrimitive.__proto__ || Object.getPrototypeOf(CheddarPrimitive)).apply(this, arguments));
   }
 
   return CheddarPrimitive;
@@ -6532,7 +6532,7 @@ var CheddarRegexToken = function (_CheddarPrimitive) {
     function CheddarRegexToken() {
         _classCallCheck(this, CheddarRegexToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarRegexToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarRegexToken.__proto__ || Object.getPrototypeOf(CheddarRegexToken)).apply(this, arguments));
     }
 
     _createClass(CheddarRegexToken, [{
@@ -6616,7 +6616,7 @@ var CheddarStringToken = function (_CheddarPrimitive) {
     function CheddarStringToken() {
         _classCallCheck(this, CheddarStringToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarStringToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarStringToken.__proto__ || Object.getPrototypeOf(CheddarStringToken)).apply(this, arguments));
     }
 
     _createClass(CheddarStringToken, [{
@@ -6707,7 +6707,7 @@ var CheddarSymbolToken = function (_CheddarPrimitive) {
     function CheddarSymbolToken() {
         _classCallCheck(this, CheddarSymbolToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarSymbolToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarSymbolToken.__proto__ || Object.getPrototypeOf(CheddarSymbolToken)).apply(this, arguments));
     }
 
     _createClass(CheddarSymbolToken, [{
@@ -6776,7 +6776,7 @@ var CheddarVariableToken = function (_CheddarLexer) {
     function CheddarVariableToken() {
         _classCallCheck(this, CheddarVariableToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarVariableToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarVariableToken.__proto__ || Object.getPrototypeOf(CheddarVariableToken)).apply(this, arguments));
     }
 
     _createClass(CheddarVariableToken, [{
@@ -6883,7 +6883,7 @@ var CheddarAnyLiteral = function (_CheddarLexer) {
     function CheddarAnyLiteral() {
         _classCallCheck(this, CheddarAnyLiteral);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarAnyLiteral).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarAnyLiteral.__proto__ || Object.getPrototypeOf(CheddarAnyLiteral)).apply(this, arguments));
     }
 
     _createClass(CheddarAnyLiteral, [{
@@ -6948,7 +6948,7 @@ var CheddarArgumentToken = function (_CheddarLexer) {
     function CheddarArgumentToken() {
         _classCallCheck(this, CheddarArgumentToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarArgumentToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarArgumentToken.__proto__ || Object.getPrototypeOf(CheddarArgumentToken)).apply(this, arguments));
     }
 
     _createClass(CheddarArgumentToken, [{
@@ -7004,7 +7004,7 @@ var CheddarTypedVariableToken = function (_CheddarLexer) {
     function CheddarTypedVariableToken() {
         _classCallCheck(this, CheddarTypedVariableToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarTypedVariableToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarTypedVariableToken.__proto__ || Object.getPrototypeOf(CheddarTypedVariableToken)).apply(this, arguments));
     }
 
     _createClass(CheddarTypedVariableToken, [{
@@ -7069,7 +7069,7 @@ var CheddarArrayToken = function (_CheddarPrimitive) {
     function CheddarArrayToken() {
         _classCallCheck(this, CheddarArrayToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarArrayToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarArrayToken.__proto__ || Object.getPrototypeOf(CheddarArrayToken)).apply(this, arguments));
     }
 
     _createClass(CheddarArrayToken, [{
@@ -7268,7 +7268,7 @@ var CheddarExpressionToken = function (_CheddarLexer) {
     _inherits(CheddarExpressionToken, _CheddarLexer);
 
     function CheddarExpressionToken() {
-        var _Object$getPrototypeO;
+        var _ref;
 
         var _temp, _this, _ret;
 
@@ -7278,7 +7278,7 @@ var CheddarExpressionToken = function (_CheddarLexer) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CheddarExpressionToken)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.isExpression = true, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CheddarExpressionToken.__proto__ || Object.getPrototypeOf(CheddarExpressionToken)).call.apply(_ref, [this].concat(args))), _this), _this.isExpression = true, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     return CheddarExpressionToken;
@@ -7288,7 +7288,7 @@ var CheddarExpressionTokenAlpha = function (_CheddarLexer2) {
     _inherits(CheddarExpressionTokenAlpha, _CheddarLexer2);
 
     function CheddarExpressionTokenAlpha() {
-        var _Object$getPrototypeO2;
+        var _ref2;
 
         var _temp2, _this2, _ret2;
 
@@ -7298,7 +7298,7 @@ var CheddarExpressionTokenAlpha = function (_CheddarLexer2) {
             args[_key2] = arguments[_key2];
         }
 
-        return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO2 = Object.getPrototypeOf(CheddarExpressionTokenAlpha)).call.apply(_Object$getPrototypeO2, [this].concat(args))), _this2), _this2.isExpression = true, _temp2), _possibleConstructorReturn(_this2, _ret2);
+        return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, (_ref2 = CheddarExpressionTokenAlpha.__proto__ || Object.getPrototypeOf(CheddarExpressionTokenAlpha)).call.apply(_ref2, [this].concat(args))), _this2), _this2.isExpression = true, _temp2), _possibleConstructorReturn(_this2, _ret2);
     }
 
     return CheddarExpressionTokenAlpha;
@@ -7308,7 +7308,7 @@ var CheddarExpressionTokenBeta = function (_CheddarLexer3) {
     _inherits(CheddarExpressionTokenBeta, _CheddarLexer3);
 
     function CheddarExpressionTokenBeta() {
-        var _Object$getPrototypeO3;
+        var _ref3;
 
         var _temp3, _this3, _ret3;
 
@@ -7318,7 +7318,7 @@ var CheddarExpressionTokenBeta = function (_CheddarLexer3) {
             args[_key3] = arguments[_key3];
         }
 
-        return _ret3 = (_temp3 = (_this3 = _possibleConstructorReturn(this, (_Object$getPrototypeO3 = Object.getPrototypeOf(CheddarExpressionTokenBeta)).call.apply(_Object$getPrototypeO3, [this].concat(args))), _this3), _this3.isExpression = true, _temp3), _possibleConstructorReturn(_this3, _ret3);
+        return _ret3 = (_temp3 = (_this3 = _possibleConstructorReturn(this, (_ref3 = CheddarExpressionTokenBeta.__proto__ || Object.getPrototypeOf(CheddarExpressionTokenBeta)).call.apply(_ref3, [this].concat(args))), _this3), _this3.isExpression = true, _temp3), _possibleConstructorReturn(_this3, _ret3);
     }
 
     return CheddarExpressionTokenBeta;
@@ -7335,7 +7335,7 @@ var CheddarExpressionTernary = function (_CheddarLexer4) {
     function CheddarExpressionTernary() {
         _classCallCheck(this, CheddarExpressionTernary);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarExpressionTernary).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarExpressionTernary.__proto__ || Object.getPrototypeOf(CheddarExpressionTernary)).apply(this, arguments));
     }
 
     return CheddarExpressionTernary;
@@ -7499,7 +7499,7 @@ var CheddarFunctionToken = function (_CheddarPrimitive) {
     function CheddarFunctionToken() {
         _classCallCheck(this, CheddarFunctionToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarFunctionToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarFunctionToken.__proto__ || Object.getPrototypeOf(CheddarFunctionToken)).apply(this, arguments));
     }
 
     _createClass(CheddarFunctionToken, [{
@@ -7563,7 +7563,7 @@ var CheddarParenthesizedExpression = function (_CheddarLexer) {
     function CheddarParenthesizedExpression() {
         _classCallCheck(this, CheddarParenthesizedExpression);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarParenthesizedExpression).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarParenthesizedExpression.__proto__ || Object.getPrototypeOf(CheddarParenthesizedExpression)).apply(this, arguments));
     }
 
     _createClass(CheddarParenthesizedExpression, [{
@@ -7662,7 +7662,7 @@ var CheddarPropertyToken = function (_CheddarLexer) {
     function CheddarPropertyToken() {
         _classCallCheck(this, CheddarPropertyToken);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarPropertyToken).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarPropertyToken.__proto__ || Object.getPrototypeOf(CheddarPropertyToken)).apply(this, arguments));
     }
 
     _createClass(CheddarPropertyToken, [{
@@ -7789,7 +7789,7 @@ var CheddarExplicitEnd = function (_CheddarLexer) {
   function CheddarExplicitEnd() {
     _classCallCheck(this, CheddarExplicitEnd);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarExplicitEnd).apply(this, arguments));
+    return _possibleConstructorReturn(this, (CheddarExplicitEnd.__proto__ || Object.getPrototypeOf(CheddarExplicitEnd)).apply(this, arguments));
   }
 
   return CheddarExplicitEnd;
@@ -7835,7 +7835,7 @@ var CheddarCodeblock = function (_CheddarLexer) {
     function CheddarCodeblock() {
         _classCallCheck(this, CheddarCodeblock);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarCodeblock).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarCodeblock.__proto__ || Object.getPrototypeOf(CheddarCodeblock)).apply(this, arguments));
     }
 
     _createClass(CheddarCodeblock, [{
@@ -7920,7 +7920,7 @@ var StatementAssign = function (_CheddarLexer) {
     function StatementAssign() {
         _classCallCheck(this, StatementAssign);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(StatementAssign).apply(this, arguments));
+        return _possibleConstructorReturn(this, (StatementAssign.__proto__ || Object.getPrototypeOf(StatementAssign)).apply(this, arguments));
     }
 
     _createClass(StatementAssign, [{
@@ -7974,7 +7974,7 @@ var StatementBreak = function (_CheddarLexer) {
     function StatementBreak() {
         _classCallCheck(this, StatementBreak);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(StatementBreak).apply(this, arguments));
+        return _possibleConstructorReturn(this, (StatementBreak.__proto__ || Object.getPrototypeOf(StatementBreak)).apply(this, arguments));
     }
 
     _createClass(StatementBreak, [{
@@ -8031,7 +8031,7 @@ var StatementExpression = function (_CheddarLexer) {
     function StatementExpression() {
         _classCallCheck(this, StatementExpression);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(StatementExpression).apply(this, arguments));
+        return _possibleConstructorReturn(this, (StatementExpression.__proto__ || Object.getPrototypeOf(StatementExpression)).apply(this, arguments));
     }
 
     _createClass(StatementExpression, [{
@@ -8112,7 +8112,7 @@ var StatementFor = function (_CheddarLexer) {
     function StatementFor() {
         _classCallCheck(this, StatementFor);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(StatementFor).apply(this, arguments));
+        return _possibleConstructorReturn(this, (StatementFor.__proto__ || Object.getPrototypeOf(StatementFor)).apply(this, arguments));
     }
 
     _createClass(StatementFor, [{
@@ -8201,7 +8201,7 @@ var StatementFunc = function (_CheddarLexer) {
     function StatementFunc() {
         _classCallCheck(this, StatementFunc);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(StatementFunc).apply(this, arguments));
+        return _possibleConstructorReturn(this, (StatementFunc.__proto__ || Object.getPrototypeOf(StatementFunc)).apply(this, arguments));
     }
 
     _createClass(StatementFunc, [{
@@ -8277,7 +8277,7 @@ var StatementIf = function (_CheddarLexer) {
     function StatementIf() {
         _classCallCheck(this, StatementIf);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(StatementIf).apply(this, arguments));
+        return _possibleConstructorReturn(this, (StatementIf.__proto__ || Object.getPrototypeOf(StatementIf)).apply(this, arguments));
     }
 
     _createClass(StatementIf, [{
@@ -8379,7 +8379,7 @@ var StatementReturn = function (_CheddarLexer) {
     function StatementReturn() {
         _classCallCheck(this, StatementReturn);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(StatementReturn).apply(this, arguments));
+        return _possibleConstructorReturn(this, (StatementReturn.__proto__ || Object.getPrototypeOf(StatementReturn)).apply(this, arguments));
     }
 
     _createClass(StatementReturn, [{
@@ -8504,7 +8504,7 @@ var CheddarTokenize = function (_CheddarLexer) {
     function CheddarTokenize() {
         _classCallCheck(this, CheddarTokenize);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarTokenize).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarTokenize.__proto__ || Object.getPrototypeOf(CheddarTokenize)).apply(this, arguments));
     }
 
     _createClass(CheddarTokenize, [{
@@ -9103,7 +9103,7 @@ var CheddarShuntingYard = function (_CheddarLexer) {
     function CheddarShuntingYard() {
         _classCallCheck(this, CheddarShuntingYard);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(CheddarShuntingYard).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CheddarShuntingYard.__proto__ || Object.getPrototypeOf(CheddarShuntingYard)).apply(this, arguments));
     }
 
     _createClass(CheddarShuntingYard, [{
@@ -9317,168 +9317,6 @@ bases.fromBase = function (str, base) {
 },{}],143:[function(require,module,exports){
 
 },{}],144:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-(function () {
-    try {
-        cachedSetTimeout = setTimeout;
-    } catch (e) {
-        cachedSetTimeout = function () {
-            throw new Error('setTimeout is not defined');
-        }
-    }
-    try {
-        cachedClearTimeout = clearTimeout;
-    } catch (e) {
-        cachedClearTimeout = function () {
-            throw new Error('clearTimeout is not defined');
-        }
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],145:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -9666,7 +9504,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":146,"./custom/zalgo":147,"./maps/america":150,"./maps/rainbow":151,"./maps/random":152,"./maps/zebra":153,"./styles":154,"./system/supports-colors":155}],146:[function(require,module,exports){
+},{"./custom/trap":145,"./custom/zalgo":146,"./maps/america":149,"./maps/rainbow":150,"./maps/random":151,"./maps/zebra":152,"./styles":153,"./system/supports-colors":154}],145:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -9713,7 +9551,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],147:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -9819,7 +9657,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],148:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -9933,7 +9771,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":145}],149:[function(require,module,exports){
+},{"./colors":144}],148:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -9946,7 +9784,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":145,"./extendStringPrototype":148}],150:[function(require,module,exports){
+},{"./colors":144,"./extendStringPrototype":147}],149:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -9959,7 +9797,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":145}],151:[function(require,module,exports){
+},{"../colors":144}],150:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -9974,7 +9812,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":145}],152:[function(require,module,exports){
+},{"../colors":144}],151:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -9983,13 +9821,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":145}],153:[function(require,module,exports){
+},{"../colors":144}],152:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":145}],154:[function(require,module,exports){
+},{"../colors":144}],153:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -10067,7 +9905,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],155:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -10131,7 +9969,169 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require('_process'))
-},{"_process":144}],156:[function(require,module,exports){
+},{"_process":155}],155:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+(function () {
+    try {
+        cachedSetTimeout = setTimeout;
+    } catch (e) {
+        cachedSetTimeout = function () {
+            throw new Error('setTimeout is not defined');
+        }
+    }
+    try {
+        cachedClearTimeout = clearTimeout;
+    } catch (e) {
+        cachedClearTimeout = function () {
+            throw new Error('clearTimeout is not defined');
+        }
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],156:[function(require,module,exports){
 /*!
  * XRegExp.build 3.1.1
  * <xregexp.com>
