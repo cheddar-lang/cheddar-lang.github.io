@@ -96,24 +96,23 @@
                         <section class="spotlight">
                             <div class="image">
                                 <div>
-                                    <pre><code class="cheddar">IO.printf("Hello, %s!",
-  IO.prompt(
-    "Name:",
-    "Please enter your name"
-  )
-)</code></pre>
-                                </div>
-                                <div>
-                                    <pre><code class="cheddar">class Greeter(String: name?) {
-  ask -> self.name = IO.prompt("Name:", true)
-  say -> IO.printf("Hello, %s!", self.name)
+                                    <pre><code class="cheddar">class Greeter(name: tuple&lt;string, string&gt;, age: number) {
+    getName () -&gt; self.name.join(" ")
+    addAge (text) -&gt; "%s! You are %d years old." % self.age
+    greet (text) -&gt; greeting -&gt; "%s, %s" % (greeting, text)
 }
 
-export main() {
-  const Hello := Greeter::()
-  Hello.ask(true)
-  Hello.say()
-}</code></pre>
+let SayHi: Greeter = Greeter {
+    Tuple::IO.prompt(
+        [
+            "First", "Last",
+        ].map(@.append(" Name? "))
+    ),
+    Number::IO.prompt("Age? ")
+}
+
+print (SayHi.greet + SayHi.addAge + SayHi.getName)("Hello")
+</code></pre>
                                 </div>
                             </div><div class="content">
                                 <h2>Freedom.<br/>Flexiblity.</h2>
