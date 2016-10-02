@@ -1,7 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _readline = require('readline');
 
@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":42,"../stdlib/stdlib":102,"../tokenizer/tok":139,"colors":149,"readline":143}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":42,"../stdlib/stdlib":102,"../tokenizer/tok":139,"colors":148,"readline":143}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -134,7 +134,7 @@ function caret(Code, Index, highlight) {
 }
 module.exports = exports['default'];
 
-},{"./loc":4,"colors":149}],3:[function(require,module,exports){
+},{"./loc":4,"colors":148}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -450,8 +450,8 @@ var CheddarClass = function (_CheddarScope) {
     //  nature of this particulator subject of matter
     //  being discussed.
     function CheddarClass() {
-        var Scope = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-        var Reference = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+        var Scope = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+        var Reference = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
         _classCallCheck(this, CheddarClass);
 
@@ -623,7 +623,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -916,12 +916,46 @@ var _initialiseProps = function _initialiseProps() {
             return _err2.default.NO_OP_BEHAVIOR;
         }
     }]]));
-    this.RHS_Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), [['&', function (self, value) {
+    this.RHS_Operator = new Map([].concat(_toConsumableArray(_class2.default.RHS_Operator), [['&', function (self, value) {
         // Copy args to new function
         var new_args = self.args.slice(1);
         return new self.constructor(new_args, function (a, b, args) {
             return self.exec([value].concat(_toConsumableArray(args)), null);
         });
+    }], ['/', function (LHS, RHS) {
+        var res = void 0;
+
+        try {
+            return RHS.value.reduce(function (item1, item2) {
+                res = LHS.exec([item1, item2], null);
+
+                if (typeof res === 'string') throw res;
+
+                return res;
+            });
+        } catch (e) {
+            return e;
+        }
+    }], ['=>', function (LHS, RHS) {
+        var CheddarArray = require("../primitives/Array");
+
+        if (RHS.constructor.Name !== "Array") return _err2.default.NO_OP_BEHAVIOR;
+
+        RHS = RHS.value;
+        var res = void 0;
+        var out = (0, _init2.default)(CheddarArray);
+
+        for (var i = 0; i < RHS.length; i++) {
+            res = LHS.exec([RHS[i]]);
+
+            if (typeof res === 'string') {
+                return res;
+            } else {
+                out.value.push(res || new _nil2.default());
+            }
+        }
+
+        return out;
     }]]));
     this.Scope = new Map([['len', new _var2.default(null, {
         Writeable: false,
@@ -997,7 +1031,7 @@ function enforceset(token, value, iv) {
 
 var CheddarScope = function () {
     function CheddarScope() {
-        var inherit = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        var inherit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
         _classCallCheck(this, CheddarScope);
 
@@ -1134,7 +1168,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // } CheddarVariable
 
 var CheddarVariable = function CheddarVariable(Value) {
-    var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var _ref$Writeable = _ref.Writeable;
     var Writeable = _ref$Writeable === undefined ? true : _ref$Writeable;
@@ -1182,7 +1216,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var CheddarCallStack = function () {
     function CheddarCallStack(exec_instruct) {
-        var scope = arguments.length <= 1 || arguments[1] === undefined ? new _scope2.default() : arguments[1];
+        var scope = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new _scope2.default();
 
         _classCallCheck(this, CheddarCallStack);
 
@@ -1239,7 +1273,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -2076,7 +2110,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -3437,7 +3471,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Signal = function () {
     function Signal(name) {
-        var data = arguments.length <= 1 || arguments[1] === undefined ? new _nil2.default() : arguments[1];
+        var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new _nil2.default();
 
         _classCallCheck(this, Signal);
 
@@ -3522,8 +3556,13 @@ var CheddarAssign = function () {
             var res = void 0;
 
             if (this.toks.tok(2)) {
-                var val = new _eval2.default({ _Tokens: [this.toks.tok(2)] }, this.scope);
+
+                var val = new _eval2.default({ _Tokens: [this.toks.tok(3)] }, this.scope);
                 if (!((val = val.exec()) instanceof _class2.default || val.prototype instanceof _class2.default)) return val;
+
+                if (this.toks.tok(2) === ':=') {
+                    stricttype = val.constructor;
+                }
 
                 if (stricttype && !(val instanceof stricttype)) {
                     return 'Attempted to set `' + varname + '` to a `' + (val.Name || val.constructor.Name || "object") + '`, expected `' + (stricttype.Name || stricttype.constructor.Name || "object") + '`';
@@ -4109,8 +4148,8 @@ var API = {
 
     // Make a property (getters & setters)
     prop: function prop() {
-        var getter = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-        var setter = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+        var getter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+        var setter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
         return new _var3.default(null, {
             Writeable: false,
@@ -4221,8 +4260,8 @@ exports.default = function (cheddar) {
 
         // Simply replace
         var result = formats.replace(FORMAT_REGEX, function (MATCH, FLAG) {
-            var WIDTH = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
-            var PRECISION = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+            var WIDTH = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+            var PRECISION = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
             var SPECIFIER = arguments[4];
 
             // Replaces wildcards with arglist value
@@ -4853,9 +4892,19 @@ exports.default = function (api) {
         var self = input("self");
         var callback = input("callback");
 
-        return self.value.reduce(function (item1, item2, index, array) {
-            return input("callback").exec([item1, item2, api.init(api.number, 10, 0, index), self], null);
-        });
+        var res = void 0;
+
+        try {
+            return self.value.reduce(function (item1, item2, index, array) {
+                res = input("callback").exec([item1, item2, api.init(api.number, 10, 0, index), self], null);
+
+                if (typeof res === 'string') throw res;
+
+                return res;
+            });
+        } catch (e) {
+            return e;
+        }
     }))];
 };
 
@@ -5561,7 +5610,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _xregexp = require('xregexp');
 
@@ -5716,7 +5765,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var STDLIB = new Map();
 STDLIB.Item = function (Name) {
-    var NOT_SAFE = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+    var NOT_SAFE = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
     if (NOT_SAFE && global.SAFE_MODE) {
         return;
@@ -5845,6 +5894,7 @@ var EXIT_NOTFOUND = exports.EXIT_NOTFOUND = Symbol('er_EXIT_NOTFOUND');
 var UNEXPECTED_TOKEN = exports.UNEXPECTED_TOKEN = Symbol('er_UNEXPECTED_TOKEN');
 var UNMATCHED_DELIMITER = exports.UNMATCHED_DELIMITER = Symbol('er_UNMATCHED_DELIMITER');
 var EXPECTED_BLOCK = exports.EXPECTED_BLOCK = Symbol('er_EXPECTED_BLOCK');
+var ALLOW_ERROR = exports.ALLOW_ERROR = Symbol('er_ALLOW_ERROR');
 
 },{}],105:[function(require,module,exports){
 "use strict";
@@ -5882,7 +5932,7 @@ var RESERVED_KEYWORDS = exports.RESERVED_KEYWORDS = new Set(['sqrt', 'cbrt', 'ro
 
 var EXCLUDE_META_ASSIGNMENT = exports.EXCLUDE_META_ASSIGNMENT = new Set(['==', '!=', '<=', '>=']);
 
-var OP = exports.OP = ['**', '*', '/', '%', '+', '-', '<=', '>=', '<', '>', '==', '&', '|', '^', '&&', '||', '!=', '=', '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=', '|>', '::', 'as', '@"', 'has', 'log', 'sign', 'root', 'is', 'actually'].sort(function (a, b) {
+var OP = exports.OP = ['**', '*', '/', '%', '+', '-', '<=', '>=', '<', '>', '==', '&', '|', '^', '&&', '||', '!=', '=', '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=', '|>', '::', 'as', '@"', 'has', 'log', 'sign', 'root', 'is', 'actually', '=>'].sort(function (a, b) {
     return b.length - a.length;
 });
 
@@ -5891,7 +5941,7 @@ var UOP = exports.UOP = ['-', '+', '!', '~', '|>', 'sqrt', 'cbrt', 'sin', 'cos',
 
 var UNARY_PRECEDENCE = exports.UNARY_PRECEDENCE = new Map([['!', 20000], ['-', 20000], ['+', 20000], ['|>', 18000], ['@"', 17000], ['what', 16000], ['~', 15000], ['is', 15000], ['sqrt', 15000], ['cbrt', 15000], ['cos', 15000], ['sin', 15000], ['tan', 15000], ['acos', 15000], ['asin', 15000], ['atan', 15000], ['log', 15000], ['floor', 15000], ['ceil', 15000], ['abs', 15000], ['repr', 15000], ['round', 15000], ['sign', 15000], ['print', 0]]);
 
-var PRECEDENCE = exports.PRECEDENCE = new Map([['::', 16000], ['@"', 15000], ['|>', 15000], ['as', 14000], ['log', 14000], ['is', 14000], ['actually', 14000], ['root', 14000], ['*', 13000], ['/', 13000], ['%', 13000], ['+', 12000], ['-', 12000], ['<<', 11000], ['>>', 11000], ['<', 10000], ['>', 10000], ['<=', 10000], ['>=', 10000], ['sign', 10000], ['has', 9000], ['==', 9000], ['!=', 9000], ['&', 8000], ['^', 7000], ['|', 6000], ['&&', 2001], ['||', 2000]]);
+var PRECEDENCE = exports.PRECEDENCE = new Map([['::', 16000], ['@"', 15000], ['|>', 15000], ['as', 14000], ['log', 14000], ['is', 14000], ['actually', 14000], ['root', 14000], ['=>', 13000], ['*', 13000], ['/', 13000], ['%', 13000], ['+', 12000], ['-', 12000], ['<<', 11000], ['>>', 11000], ['<', 10000], ['>', 10000], ['<=', 10000], ['>=', 10000], ['sign', 10000], ['has', 9000], ['==', 9000], ['!=', 9000], ['&', 8000], ['^', 7000], ['|', 6000], ['&&', 2001], ['||', 2000]]);
 
 var RA_PRECEDENCE = exports.RA_PRECEDENCE = new Map([['**', 14000], ['+=', 1000], ['-=', 1000], ['*=', 1000], ['/=', 1000], ['%=', 1000], ['&=', 1000], ['|=', 1000], ['^=', 1000], ['<<=', 1000], ['>>=', 1000], ['=', 1000]]);
 
@@ -7163,10 +7213,10 @@ var CheddarArrayToken = function (_CheddarPrimitive) {
     _createClass(CheddarArrayToken, [{
         key: 'exec',
         value: function exec() {
-            var OPEN = arguments.length <= 0 || arguments[0] === undefined ? _chars.ARRAY_OPEN : arguments[0];
-            var CLOSE = arguments.length <= 1 || arguments[1] === undefined ? _chars.ARRAY_CLOSE : arguments[1];
-            var PARSER = arguments.length <= 2 || arguments[2] === undefined ? _expr2.default : arguments[2];
-            var LOOSE = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+            var OPEN = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _chars.ARRAY_OPEN;
+            var CLOSE = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _chars.ARRAY_CLOSE;
+            var PARSER = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _expr2.default;
+            var LOOSE = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
             var c = this.getChar();
             if (c !== OPEN) return this.error(CheddarError.EXIT_NOTFOUND);
@@ -7457,8 +7507,8 @@ CheddarExpressionTokenBeta.prototype.exec = function () {
 
 // MASTER
 CheddarExpressionToken.prototype.exec = function () {
-    var DISALLOW_EMPTY = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
-    var ALLOW_TERNARY = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+    var DISALLOW_EMPTY = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var ALLOW_TERNARY = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
     this.open(false);
 
@@ -7756,7 +7806,7 @@ var CheddarPropertyToken = function (_CheddarLexer) {
     _createClass(CheddarPropertyToken, [{
         key: 'exec',
         value: function exec() {
-            var Initial = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+            var Initial = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             this.open(false);
 
@@ -7929,10 +7979,10 @@ var CheddarCodeblock = function (_CheddarLexer) {
     _createClass(CheddarCodeblock, [{
         key: 'exec',
         value: function exec() {
-            var _ref = arguments.length <= 0 || arguments[0] === undefined ? {
+            var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
                 tok: require('../tok'),
                 args: {}
-            } : arguments[0];
+            };
 
             var tokenizer = _ref.tok;
             var _ref$args = _ref.args;
@@ -8017,7 +8067,7 @@ var StatementAssign = function (_CheddarLexer) {
             this.open(false);
 
             var DEFS = ['var', 'let', 'const'];
-            return this.grammar(true, [DEFS, this.jumpWhite, _typed_var2.default, CheddarError.UNEXPECTED_TOKEN, [['=', _expr2.default]]]);
+            return this.grammar(true, [DEFS, this.jumpWhite, _typed_var2.default, [':=', '='], CheddarError.ALLOW_ERROR, _expr2.default], [DEFS, this.jumpWhite, _typed_var2.default]);
         }
     }]);
 
@@ -8511,7 +8561,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -8598,8 +8648,8 @@ var CheddarTokenize = function (_CheddarLexer) {
     _createClass(CheddarTokenize, [{
         key: 'exec',
         value: function exec() {
-            var ENDS = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
-            var PARSERS = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+            var ENDS = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+            var PARSERS = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
 
             var MATCH = this.attempt(PARSERS.concat([_assign2.default, _if2.default, _for2.default, _func2.default, _expr2.default]), {
@@ -8682,7 +8732,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -8743,13 +8793,13 @@ var CheddarLexer = function () {
     }, {
         key: 'newToken',
         value: function newToken() {
-            var fill = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+            var fill = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
             this._Tokens[this._Tokens.push(fill) - 1];return this;
         }
     }, {
         key: 'addToken',
         value: function addToken() {
-            var char = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+            var char = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
             this._Tokens[this._Tokens.length - 1] += char;return this;
         }
     }, {
@@ -8824,7 +8874,7 @@ var CheddarLexer = function () {
     }, {
         key: 'initParser',
         value: function initParser(parseClass) {
-            var i = arguments.length <= 1 || arguments[1] === undefined ? this.Index : arguments[1];
+            var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.Index;
 
             if (parseClass instanceof CheddarLexer) {
                 parseClass.Code = this.Code;
@@ -8837,7 +8887,7 @@ var CheddarLexer = function () {
     }, {
         key: 'tok',
         value: function tok() {
-            var n = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+            var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
             return this._Tokens[n];
         }
     }, {
@@ -8901,8 +8951,13 @@ var CheddarLexer = function () {
                         result = parser.exec();
 
                         if (!(result instanceof CheddarLexer) && _typeof(defs[i][j + 1]) === 'symbol') {
-                            this.Index = Math.max(parser.Index, index);
-                            return this.error(defs[i][j + 1]);
+                            if (defs[i][j + 1] === CheddarError.ALLOW_ERROR) {
+                                j++;
+                                continue main;
+                            } else {
+                                this.Index = Math.max(parser.Index, index);
+                                return this.error(defs[i][j + 1]);
+                            }
                         }
 
                         if (result === CheddarError.EXIT_NOTFOUND) {
@@ -8999,7 +9054,12 @@ var CheddarLexer = function () {
                                 }
                             } else {
                                 // this.Index = result.Index;
-                                return this.error(CheddarError.EXIT_NOTFOUND);
+                                if (defs[i][j + 1] === CheddarError.ALLOW_ERROR) {
+                                    j++;
+                                    continue main;
+                                } else {
+                                    return this.error(CheddarError.EXIT_NOTFOUND);
+                                }
                             }
                         }
                     } else {
@@ -9414,188 +9474,6 @@ bases.fromBase = function (str, base) {
 },{}],143:[function(require,module,exports){
 
 },{}],144:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],145:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -9783,7 +9661,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":146,"./custom/zalgo":147,"./maps/america":150,"./maps/rainbow":151,"./maps/random":152,"./maps/zebra":153,"./styles":154,"./system/supports-colors":155}],146:[function(require,module,exports){
+},{"./custom/trap":145,"./custom/zalgo":146,"./maps/america":149,"./maps/rainbow":150,"./maps/random":151,"./maps/zebra":152,"./styles":153,"./system/supports-colors":154}],145:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -9830,7 +9708,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],147:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -9936,7 +9814,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],148:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -10050,7 +9928,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":145}],149:[function(require,module,exports){
+},{"./colors":144}],148:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -10063,7 +9941,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":145,"./extendStringPrototype":148}],150:[function(require,module,exports){
+},{"./colors":144,"./extendStringPrototype":147}],149:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -10076,7 +9954,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":145}],151:[function(require,module,exports){
+},{"../colors":144}],150:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -10091,7 +9969,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":145}],152:[function(require,module,exports){
+},{"../colors":144}],151:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -10100,13 +9978,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":145}],153:[function(require,module,exports){
+},{"../colors":144}],152:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":145}],154:[function(require,module,exports){
+},{"../colors":144}],153:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -10184,7 +10062,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],155:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -10248,7 +10126,189 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require('_process'))
-},{"_process":144}],156:[function(require,module,exports){
+},{"_process":155}],155:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],156:[function(require,module,exports){
 /*!
  * XRegExp.build 3.1.1
  * <xregexp.com>
