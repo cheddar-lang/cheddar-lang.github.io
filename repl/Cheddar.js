@@ -584,7 +584,7 @@ var DEFAULT_OP = exports.DEFAULT_OP = new Map([
     var cast = RHS.Operator.get("::");
     return cast(RHS, LHS);
 }], ['==', function (LHS, RHS) {
-    return (0, _init2.default)(require("../primitives/Bool"), RHS && (LHS === RHS || LHS instanceof RHS.constructor && LHS.value && LHS.value === RHS.value));
+    return (0, _init2.default)(require("../primitives/Bool"), RHS !== undefined && (LHS === RHS || LHS instanceof RHS.constructor && LHS.value && LHS.value === RHS.value));
 }], ['!=', function (LHS, RHS) {
     var eq = LHS.Operator.get('==');
     if (!eq) return _err2.default.NO_OP_BEHAVIOR;
