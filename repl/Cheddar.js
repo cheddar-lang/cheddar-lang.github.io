@@ -584,7 +584,7 @@ var DEFAULT_OP = exports.DEFAULT_OP = new Map([
     var cast = RHS.Operator.get("::");
     return cast(RHS, LHS);
 }], ['==', function (LHS, RHS) {
-    return (0, _init2.default)(require("../primitives/Bool"), RHS !== undefined && (LHS === RHS || LHS instanceof RHS.constructor && LHS.value && LHS.value === RHS.value));
+    return (0, _init2.default)(require("../primitives/Bool"), RHS && (LHS === RHS || LHS instanceof RHS.constructor && LHS.value && LHS.value === RHS.value));
 }], ['!=', function (LHS, RHS) {
     var eq = LHS.Operator.get('==');
     if (!eq) return _err2.default.NO_OP_BEHAVIOR;
@@ -916,46 +916,12 @@ var _initialiseProps = function _initialiseProps() {
             return _err2.default.NO_OP_BEHAVIOR;
         }
     }]]));
-    this.RHS_Operator = new Map([].concat(_toConsumableArray(_class2.default.RHS_Operator), [['&', function (self, value) {
+    this.RHS_Operator = new Map([].concat(_toConsumableArray(_class2.default.Operator), [['&', function (self, value) {
         // Copy args to new function
         var new_args = self.args.slice(1);
         return new self.constructor(new_args, function (a, b, args) {
             return self.exec([value].concat(_toConsumableArray(args)), null);
         });
-    }], ['/', function (LHS, RHS) {
-        var res = void 0;
-
-        try {
-            return RHS.value.reduce(function (item1, item2) {
-                res = LHS.exec([item1, item2], null);
-
-                if (typeof res === 'string') throw res;
-
-                return res;
-            });
-        } catch (e) {
-            return e;
-        }
-    }], ['=>', function (LHS, RHS) {
-        var CheddarArray = require("../primitives/Array");
-
-        if (RHS.constructor.Name !== "Array") return _err2.default.NO_OP_BEHAVIOR;
-
-        RHS = RHS.value;
-        var res = void 0;
-        var out = (0, _init2.default)(CheddarArray);
-
-        for (var i = 0; i < RHS.length; i++) {
-            res = LHS.exec([RHS[i]]);
-
-            if (typeof res === 'string') {
-                return res;
-            } else {
-                out.value.push(res || new _nil2.default());
-            }
-        }
-
-        return out;
     }]]));
     this.Scope = new Map([['len', new _var2.default(null, {
         Writeable: false,
@@ -3556,13 +3522,8 @@ var CheddarAssign = function () {
             var res = void 0;
 
             if (this.toks.tok(2)) {
-
-                var val = new _eval2.default({ _Tokens: [this.toks.tok(3)] }, this.scope);
+                var val = new _eval2.default({ _Tokens: [this.toks.tok(2)] }, this.scope);
                 if (!((val = val.exec()) instanceof _class2.default || val.prototype instanceof _class2.default)) return val;
-
-                if (this.toks.tok(2) === ':=') {
-                    stricttype = val.constructor;
-                }
 
                 if (stricttype && !(val instanceof stricttype)) {
                     return 'Attempted to set `' + varname + '` to a `' + (val.Name || val.constructor.Name || "object") + '`, expected `' + (stricttype.Name || stricttype.constructor.Name || "object") + '`';
@@ -4892,19 +4853,9 @@ exports.default = function (api) {
         var self = input("self");
         var callback = input("callback");
 
-        var res = void 0;
-
-        try {
-            return self.value.reduce(function (item1, item2, index, array) {
-                res = input("callback").exec([item1, item2, api.init(api.number, 10, 0, index), self], null);
-
-                if (typeof res === 'string') throw res;
-
-                return res;
-            });
-        } catch (e) {
-            return e;
-        }
+        return self.value.reduce(function (item1, item2, index, array) {
+            return input("callback").exec([item1, item2, api.init(api.number, 10, 0, index), self], null);
+        });
     }))];
 };
 
@@ -5894,7 +5845,6 @@ var EXIT_NOTFOUND = exports.EXIT_NOTFOUND = Symbol('er_EXIT_NOTFOUND');
 var UNEXPECTED_TOKEN = exports.UNEXPECTED_TOKEN = Symbol('er_UNEXPECTED_TOKEN');
 var UNMATCHED_DELIMITER = exports.UNMATCHED_DELIMITER = Symbol('er_UNMATCHED_DELIMITER');
 var EXPECTED_BLOCK = exports.EXPECTED_BLOCK = Symbol('er_EXPECTED_BLOCK');
-var ALLOW_ERROR = exports.ALLOW_ERROR = Symbol('er_ALLOW_ERROR');
 
 },{}],105:[function(require,module,exports){
 "use strict";
@@ -5932,7 +5882,7 @@ var RESERVED_KEYWORDS = exports.RESERVED_KEYWORDS = new Set(['sqrt', 'cbrt', 'ro
 
 var EXCLUDE_META_ASSIGNMENT = exports.EXCLUDE_META_ASSIGNMENT = new Set(['==', '!=', '<=', '>=']);
 
-var OP = exports.OP = ['**', '*', '/', '%', '+', '-', '<=', '>=', '<', '>', '==', '&', '|', '^', '&&', '||', '!=', '=', '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=', '|>', '::', 'as', '@"', 'has', 'log', 'sign', 'root', 'is', 'actually', '=>'].sort(function (a, b) {
+var OP = exports.OP = ['**', '*', '/', '%', '+', '-', '<=', '>=', '<', '>', '==', '&', '|', '^', '&&', '||', '!=', '=', '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=', '|>', '::', 'as', '@"', 'has', 'log', 'sign', 'root', 'is', 'actually'].sort(function (a, b) {
     return b.length - a.length;
 });
 
@@ -5941,7 +5891,7 @@ var UOP = exports.UOP = ['-', '+', '!', '~', '|>', 'sqrt', 'cbrt', 'sin', 'cos',
 
 var UNARY_PRECEDENCE = exports.UNARY_PRECEDENCE = new Map([['!', 20000], ['-', 20000], ['+', 20000], ['|>', 18000], ['@"', 17000], ['what', 16000], ['~', 15000], ['is', 15000], ['sqrt', 15000], ['cbrt', 15000], ['cos', 15000], ['sin', 15000], ['tan', 15000], ['acos', 15000], ['asin', 15000], ['atan', 15000], ['log', 15000], ['floor', 15000], ['ceil', 15000], ['abs', 15000], ['repr', 15000], ['round', 15000], ['sign', 15000], ['print', 0]]);
 
-var PRECEDENCE = exports.PRECEDENCE = new Map([['::', 16000], ['@"', 15000], ['|>', 15000], ['as', 14000], ['log', 14000], ['is', 14000], ['actually', 14000], ['root', 14000], ['=>', 13000], ['*', 13000], ['/', 13000], ['%', 13000], ['+', 12000], ['-', 12000], ['<<', 11000], ['>>', 11000], ['<', 10000], ['>', 10000], ['<=', 10000], ['>=', 10000], ['sign', 10000], ['has', 9000], ['==', 9000], ['!=', 9000], ['&', 8000], ['^', 7000], ['|', 6000], ['&&', 2001], ['||', 2000]]);
+var PRECEDENCE = exports.PRECEDENCE = new Map([['::', 16000], ['@"', 15000], ['|>', 15000], ['as', 14000], ['log', 14000], ['is', 14000], ['actually', 14000], ['root', 14000], ['*', 13000], ['/', 13000], ['%', 13000], ['+', 12000], ['-', 12000], ['<<', 11000], ['>>', 11000], ['<', 10000], ['>', 10000], ['<=', 10000], ['>=', 10000], ['sign', 10000], ['has', 9000], ['==', 9000], ['!=', 9000], ['&', 8000], ['^', 7000], ['|', 6000], ['&&', 2001], ['||', 2000]]);
 
 var RA_PRECEDENCE = exports.RA_PRECEDENCE = new Map([['**', 14000], ['+=', 1000], ['-=', 1000], ['*=', 1000], ['/=', 1000], ['%=', 1000], ['&=', 1000], ['|=', 1000], ['^=', 1000], ['<<=', 1000], ['>>=', 1000], ['=', 1000]]);
 
@@ -8067,7 +8017,7 @@ var StatementAssign = function (_CheddarLexer) {
             this.open(false);
 
             var DEFS = ['var', 'let', 'const'];
-            return this.grammar(true, [DEFS, this.jumpWhite, _typed_var2.default, [':=', '='], CheddarError.ALLOW_ERROR, _expr2.default], [DEFS, this.jumpWhite, _typed_var2.default]);
+            return this.grammar(true, [DEFS, this.jumpWhite, _typed_var2.default, CheddarError.UNEXPECTED_TOKEN, [['=', _expr2.default]]]);
         }
     }]);
 
@@ -8951,13 +8901,8 @@ var CheddarLexer = function () {
                         result = parser.exec();
 
                         if (!(result instanceof CheddarLexer) && _typeof(defs[i][j + 1]) === 'symbol') {
-                            if (defs[i][j + 1] === CheddarError.ALLOW_ERROR) {
-                                j++;
-                                continue main;
-                            } else {
-                                this.Index = Math.max(parser.Index, index);
-                                return this.error(defs[i][j + 1]);
-                            }
+                            this.Index = Math.max(parser.Index, index);
+                            return this.error(defs[i][j + 1]);
                         }
 
                         if (result === CheddarError.EXIT_NOTFOUND) {
@@ -9054,12 +8999,7 @@ var CheddarLexer = function () {
                                 }
                             } else {
                                 // this.Index = result.Index;
-                                if (defs[i][j + 1] === CheddarError.ALLOW_ERROR) {
-                                    j++;
-                                    continue main;
-                                } else {
-                                    return this.error(CheddarError.EXIT_NOTFOUND);
-                                }
+                                return this.error(CheddarError.EXIT_NOTFOUND);
                             }
                         }
                     } else {
