@@ -23,7 +23,7 @@ var _exec = require('../interpreter/exec');
 
 var _exec2 = _interopRequireDefault(_exec);
 
-var _tok = require('../tokenizer/tok');
+var _tok = require('cheddar-parser/dist/tok');
 
 var _tok2 = _interopRequireDefault(_tok);
 
@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":42,"../stdlib/stdlib":104,"../tokenizer/tok":141,"colors":151,"readline":145}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":42,"../stdlib/stdlib":104,"cheddar-parser/dist/tok":144,"colors":151,"readline":106}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -992,7 +992,7 @@ var _err = require('../consts/err');
 
 var CheddarError = _interopRequireWildcard(_err);
 
-var _ops = require('../../../tokenizer/consts/ops');
+var _ops = require('cheddar-parser/dist/consts/ops');
 
 var _var = require('./var');
 
@@ -1146,7 +1146,7 @@ CheddarScope.enforceset = enforceset;
 exports.default = CheddarScope;
 module.exports = exports['default'];
 
-},{"../../../tokenizer/consts/ops":108,"../consts/err":8,"./defaults":12,"./var":15}],15:[function(require,module,exports){
+},{"../consts/err":8,"./defaults":12,"./var":15,"cheddar-parser/dist/consts/ops":110}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1203,7 +1203,7 @@ var _scope = require('../env/scope');
 
 var _scope2 = _interopRequireDefault(_scope);
 
-var _shunting_yard = require('../../../tokenizer/tok/shunting_yard');
+var _shunting_yard = require('cheddar-parser/dist/tok/shunting_yard');
 
 var _shunting_yard2 = _interopRequireDefault(_shunting_yard);
 
@@ -1263,7 +1263,7 @@ var CheddarCallStack = function () {
 exports.default = CheddarCallStack;
 module.exports = exports['default'];
 
-},{"../../../tokenizer/tok/shunting_yard":143,"../env/scope":14}],17:[function(require,module,exports){
+},{"../env/scope":14,"cheddar-parser/dist/tok/shunting_yard":146}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1276,21 +1276,21 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _link = require('../config/link');
 
-var _ops = require('../../../tokenizer/consts/ops');
+var _ops = require('cheddar-parser/dist/consts/ops');
 
-var _property = require('../../../tokenizer/parsers/property');
+var _property = require('cheddar-parser/dist/parsers/property');
 
 var _property2 = _interopRequireDefault(_property);
 
-var _literal = require('../../../tokenizer/literals/literal');
+var _literal = require('cheddar-parser/dist/literals/literal');
 
 var _literal2 = _interopRequireDefault(_literal);
 
-var _op = require('../../../tokenizer/literals/op');
+var _op = require('cheddar-parser/dist/literals/op');
 
 var _op2 = _interopRequireDefault(_op);
 
-var _expr = require('../../../tokenizer/parsers/expr');
+var _expr = require('cheddar-parser/dist/parsers/expr');
 
 var _expr2 = _interopRequireDefault(_expr);
 
@@ -1562,7 +1562,7 @@ var CheddarEval = function (_CheddarCallStack) {
 exports.default = CheddarEval;
 module.exports = exports['default'];
 
-},{"../../../tokenizer/consts/ops":108,"../../../tokenizer/literals/literal":114,"../../../tokenizer/literals/op":117,"../../../tokenizer/parsers/expr":128,"../../../tokenizer/parsers/property":131,"../config/link":6,"../consts/err":8,"../consts/err_msg":9,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"./callstack":16,"./prop":18}],18:[function(require,module,exports){
+},{"../config/link":6,"../consts/err":8,"../consts/err_msg":9,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"./callstack":16,"./prop":18,"cheddar-parser/dist/consts/ops":110,"cheddar-parser/dist/literals/literal":117,"cheddar-parser/dist/literals/op":120,"cheddar-parser/dist/parsers/expr":131,"cheddar-parser/dist/parsers/property":134}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1570,15 +1570,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = eval_prop;
 
-var _paren_expr = require('../../../tokenizer/parsers/paren_expr');
+var _paren_expr = require('cheddar-parser/dist/parsers/paren_expr');
 
 var _paren_expr2 = _interopRequireDefault(_paren_expr);
 
-var _var = require('../../../tokenizer/literals/var');
+var _var = require('cheddar-parser/dist/literals/var');
 
 var _var2 = _interopRequireDefault(_var);
 
-var _literal = require('../../../tokenizer/literals/literal');
+var _literal = require('cheddar-parser/dist/literals/literal');
 
 var _literal2 = _interopRequireDefault(_literal);
 
@@ -1839,7 +1839,7 @@ function eval_prop(prop, scope, evaluate) {
 }
 module.exports = exports['default'];
 
-},{"../../../tokenizer/literals/literal":114,"../../../tokenizer/literals/var":122,"../../../tokenizer/parsers/paren_expr":130,"../config/link":6,"../consts/err":8,"../consts/err_msg":9,"../env/class":11,"../env/func":13}],19:[function(require,module,exports){
+},{"../config/link":6,"../consts/err":8,"../consts/err_msg":9,"../env/class":11,"../env/func":13,"cheddar-parser/dist/literals/literal":117,"cheddar-parser/dist/literals/var":125,"cheddar-parser/dist/parsers/paren_expr":133}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1890,7 +1890,7 @@ var _err_msg = require('../consts/err_msg');
 
 var _err_msg2 = _interopRequireDefault(_err_msg);
 
-var _ops = require('../../../tokenizer/consts/ops');
+var _ops = require('cheddar-parser/dist/consts/ops');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1900,7 +1900,7 @@ var UNARY_ONLY = _ops.UOP.filter(function (i) {
 
 module.exports = exports['default'];
 
-},{"../../../tokenizer/consts/ops":108,"../consts/err":8,"../consts/err_msg":9,"../consts/nil":10,"../env/class":11,"../env/func":13}],20:[function(require,module,exports){
+},{"../consts/err":8,"../consts/err_msg":9,"../consts/nil":10,"../env/class":11,"../env/func":13,"cheddar-parser/dist/consts/ops":110}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1920,7 +1920,7 @@ var _func = require('../env/func');
 
 var _func2 = _interopRequireDefault(_func);
 
-var _var = require('../../../tokenizer/literals/var');
+var _var = require('cheddar-parser/dist/literals/var');
 
 var _var2 = _interopRequireDefault(_var);
 
@@ -1939,7 +1939,7 @@ $0._Tokens = ['$0'];
 
 module.exports = exports['default'];
 
-},{"../../../tokenizer/literals/var":122,"../env/func":13,"../eval/eval":17,"../eval/prop":18}],21:[function(require,module,exports){
+},{"../env/func":13,"../eval/eval":17,"../eval/prop":18,"cheddar-parser/dist/literals/var":125}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2468,7 +2468,7 @@ CheddarRegex.Name = "Regex";
 exports.default = CheddarRegex;
 module.exports = exports['default'];
 
-},{"../env/class":11,"./cast/regex":32,"./op/regex":39,"xregexp":165}],26:[function(require,module,exports){
+},{"../env/class":11,"./cast/regex":32,"./op/regex":39,"xregexp":166}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2798,11 +2798,11 @@ var _Number = require('../Number');
 
 var _Number2 = _interopRequireDefault(_Number);
 
-var _lex = require('../../../../tokenizer/tok/lex');
+var _lex = require('cheddar-parser/dist/tok/lex');
 
 var _lex2 = _interopRequireDefault(_lex);
 
-var _number = require('../../../../tokenizer/literals/number');
+var _number = require('cheddar-parser/dist/literals/number');
 
 var _number2 = _interopRequireDefault(_number);
 
@@ -2846,7 +2846,7 @@ ITEM  ::= init <codeblock> |
 
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../../../tokenizer/literals/number":116,"../../../../tokenizer/tok/lex":142,"../../consts/err":8,"../Number":24}],34:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":8,"../Number":24,"cheddar-parser/dist/literals/number":119,"cheddar-parser/dist/tok/lex":145}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3217,7 +3217,7 @@ exports.default = new Map([['repr', function (LHS, RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../String":26,"xregexp":165}],40:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../String":26,"xregexp":166}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5300,7 +5300,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{"bases":144}],84:[function(require,module,exports){
+},{"bases":105}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5557,7 +5557,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{"xregexp":165}],95:[function(require,module,exports){
+},{"xregexp":166}],95:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5732,7 +5732,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports['default'];
 
-},{"xregexp":165}],100:[function(require,module,exports){
+},{"xregexp":166}],100:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5773,7 +5773,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{"xregexp":165}],102:[function(require,module,exports){
+},{"xregexp":166}],102:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5873,3562 +5873,6 @@ module.exports = exports["default"];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./api":51}],105:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/*
- * DEFAULT CONSTANTS
- * List:
-  * DIGITS  0-9
-  * ALPHA   a-z
-  * UALPHA  A-Z
-  * MALPHA  A-Za-z
-  * NUMERALS 0-9A-F
-  * WHTIESPACE \s
-  *
-  * OP  infix operators
-  * UOP unary operators
-  * SYMBOL_FILTER valid characters in operators
-  *
-  * STRING_DELIMITERS
-  * STRING_ESCAPE
-  * NUMBER_GROUPING number grouping delimiters
-  * NUMBER_DECIMALS decimal point to use
-  *
-  * BASE_IDENTIFIERS
-  *
-  * RESERVED reserved token names
-**/
-var DIGITS = exports.DIGITS = '0123456789';
-var ALPHA = exports.ALPHA = 'abcdefghijklmnopqrstuvwxyz';
-var UALPHA = exports.UALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-var MALPHA = exports.MALPHA = ALPHA + UALPHA;
-
-var NUMERALS = exports.NUMERALS = '0123456789ABCDEF';
-
-var WHITESPACE = exports.WHITESPACE = '\r\n\f '; // Add \t here to allow tabs
-
-var TOKEN_START = exports.TOKEN_START = MALPHA + '_$';
-var TOKEN_END = exports.TOKEN_END = TOKEN_START + DIGITS;
-
-/*== Operator Constants ==*/
-
-/*== Parse Data ==*/
-var STRING_DELIMITERS = exports.STRING_DELIMITERS = ['\'', '"'];
-var STRING_ESCAPE = exports.STRING_ESCAPE = '\\';
-
-var SYMBOL_FILTER = exports.SYMBOL_FILTER = '!%&*+-:<=>@\^|~';
-
-var NUMBER_GROUPING = exports.NUMBER_GROUPING = ['_'];
-var NUMBER_DECIMALS = exports.NUMBER_DECIMALS = ['.'];
-
-var EXPR_OPEN = exports.EXPR_OPEN = '(';
-var EXPR_CLOSE = exports.EXPR_CLOSE = ')';
-
-/*== Regex Data ==*/
-var REGEX_DELIMITER = exports.REGEX_DELIMITER = '/';
-var REGEX_ESCAPE = exports.REGEX_ESCAPE = '\\';
-var REGEX_FLAGS = exports.REGEX_FLAGS = 'nsxgimc';
-
-/*== Array Data ==*/
-var ARRAY_OPEN = exports.ARRAY_OPEN = '[';
-var ARRAY_CLOSE = exports.ARRAY_CLOSE = ']';
-var ARRAY_SEPARATOR = exports.ARRAY_SEPARATOR = ',';
-
-/*== String Data ==*/
-var STRING_ESCAPES = exports.STRING_ESCAPES = new Map([['0', String.fromCharCode(0)], ['a', String.fromCharCode(8)], ['b', '\b'], ['t', '\t'], ['n', '\n'], ['v', '\v'], ['f', '\f'], ['r', '\r'], ['e', String.fromCharCode(27)]]);
-
-/*== Number Data ==*/
-var BASE_IDENTIFIERS = exports.BASE_IDENTIFIERS = ['b', 'o', 'x'];
-var BASE_RESPECTIVE_NUMBERS = exports.BASE_RESPECTIVE_NUMBERS = [2, 8, 16];
-
-/*== Conflict Data ==*/
-var RESERVED = exports.RESERVED = ['sqrt', 'cos', 'sin', 'sign'];
-
-},{}],106:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/*
- * DEFAULT ERROR CODES
- * Codes:
-  0. Success
-  1. Unexpected token
-  2. Unexpected
-**/
-
-var EXIT_NOTFOUND = exports.EXIT_NOTFOUND = Symbol('er_EXIT_NOTFOUND');
-var UNEXPECTED_TOKEN = exports.UNEXPECTED_TOKEN = Symbol('er_UNEXPECTED_TOKEN');
-var UNMATCHED_DELIMITER = exports.UNMATCHED_DELIMITER = Symbol('er_UNMATCHED_DELIMITER');
-var EXPECTED_BLOCK = exports.EXPECTED_BLOCK = Symbol('er_EXPECTED_BLOCK');
-var ALLOW_ERROR = exports.ALLOW_ERROR = Symbol('er_ALLOW_ERROR');
-
-},{}],107:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _err = require("./err");
-
-var _SyntaxError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-exports.default = new Map([[_SyntaxError.EXIT_NOTFOUND, "Abnormal syntax at $LOC"], [_SyntaxError.UNEXPECTED_TOKEN, "Unexpected token at $LOC"], [_SyntaxError.UNMATCHED_DELIMITER, "Expected a matching delimiter for `$1` at $LOC"], [_SyntaxError.EXPECTED_BLOCK, "Expected a code block at $LOC"]]);
-module.exports = exports["default"];
-
-},{"./err":106}],108:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-/*
- * DEFAULT Operators
- * OP - Operators
- * UOP - Unary operators
-**/
-
-var RESERVED_KEYWORDS = exports.RESERVED_KEYWORDS = new Set(['sqrt', 'cbrt', 'root', 'sin', 'cos', 'tan', 'acos', 'asin', 'atan', 'log', 'has', 'floor', 'ceil', 'round', 'abs', 'repr', 'sign', 'print', 'what', 'is', 'actually', 'as',
-// States
-'var', 'const', 'if', 'for', 'while', 'break', 'return', 'func', 'class',
-// Literals
-'true', 'false', 'nil']);
-
-var EXCLUDE_META_ASSIGNMENT = exports.EXCLUDE_META_ASSIGNMENT = new Set(['==', '!=', '<=', '>=']);
-
-var OP = exports.OP = ['**', '*', '/', '%', '+', '-', '<=', '>=', '<', '>', '==', '&', '|', '^', '&&', '||', '!=', '=', '+=', '-=', '*=', '/=', '^=', '%=', '&=', '|=', '<<', '>>', '<<=', '>>=', '|>', '::', 'as', '@"', 'has', 'log', 'sign', 'root', 'is', 'actually', '=>'].sort(function (a, b) {
-    return b.length - a.length;
-});
-
-// Unary operators
-var UOP = exports.UOP = ['-', '+', '!', '~', '|>', 'sqrt', 'cbrt', 'sin', 'cos', 'tan', 'acos', 'asin', 'atan', 'floor', 'ceil', 'round', 'abs', 'repr', 'print', 'log', 'sign', '@"', 'what', 'is'];
-
-var UNARY_PRECEDENCE = exports.UNARY_PRECEDENCE = new Map([['!', 20000], ['-', 20000], ['+', 20000], ['|>', 18000], ['@"', 17000], ['what', 16000], ['~', 15000], ['is', 15000], ['sqrt', 15000], ['cbrt', 15000], ['cos', 15000], ['sin', 15000], ['tan', 15000], ['acos', 15000], ['asin', 15000], ['atan', 15000], ['log', 15000], ['floor', 15000], ['ceil', 15000], ['abs', 15000], ['repr', 15000], ['round', 15000], ['sign', 15000], ['print', 0]]);
-
-var PRECEDENCE = exports.PRECEDENCE = new Map([['::', 16000], ['@"', 15000], ['|>', 15000], ['as', 14000], ['log', 14000], ['is', 14000], ['actually', 14000], ['root', 14000], ['=>', 13000], ['*', 13000], ['/', 13000], ['%', 13000], ['+', 12000], ['-', 12000], ['<<', 11000], ['>>', 11000], ['<', 10000], ['>', 10000], ['<=', 10000], ['>=', 10000], ['sign', 10000], ['has', 9000], ['==', 9000], ['!=', 9000], ['&', 8000], ['^', 7000], ['|', 6000], ['&&', 2001], ['||', 2000]]);
-
-var RA_PRECEDENCE = exports.RA_PRECEDENCE = new Map([['**', 14000], ['+=', 1000], ['-=', 1000], ['*=', 1000], ['/=', 1000], ['%=', 1000], ['&=', 1000], ['|=', 1000], ['^=', 1000], ['<<=', 1000], ['>>=', 1000], ['=', 1000]]);
-
-var TYPE = exports.TYPE = {
-    UNARY: Symbol('Unary Operator'),
-    LTR: Symbol('LTR Operator'),
-    RTL: Symbol('RTL Operator')
-};
-
-},{}],109:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var PropertyType = exports.PropertyType = {
-    Property: Symbol('Property'),
-    Method: Symbol('Method')
-};
-
-var ClassType = exports.ClassType = {
-    Boolean: Symbol('Boolean'),
-    Number: Symbol('Number'),
-    String: Symbol('String'),
-    Array: Symbol('Array')
-};
-
-},{}],110:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _primitive = require('./primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _types = require('../consts/types');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarBooleanToken = function (_CheddarPrimitive) {
-    _inherits(CheddarBooleanToken, _CheddarPrimitive);
-
-    function CheddarBooleanToken() {
-        _classCallCheck(this, CheddarBooleanToken);
-
-        return _possibleConstructorReturn(this, (CheddarBooleanToken.__proto__ || Object.getPrototypeOf(CheddarBooleanToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarBooleanToken, [{
-        key: 'exec',
-        value: function exec() {
-            if (this.curchar === 't' && this.Code[this.Index + 1] === 'r' && this.Code[this.Index + 2] === 'u' && this.Code[this.Index + 3] === 'e') {
-                this.Index += 4;
-                this.Tokens = true;
-                return this.close();
-            }
-
-            if (this.curchar === 'f' && this.Code[this.Index + 1] === 'a' && this.Code[this.Index + 2] === 'l' && this.Code[this.Index + 3] === 's' && this.Code[this.Index + 4] === 'e') {
-                this.Index += 5;
-                this.Tokens = false;
-                return this.close();
-            }
-
-            return this.close(CheddarError.EXIT_NOTFOUND);
-        }
-    }, {
-        key: 'Type',
-        get: function get() {
-            return _types.ClassType.Boolean;
-        }
-    }]);
-
-    return CheddarBooleanToken;
-}(_primitive2.default);
-
-exports.default = CheddarBooleanToken;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../consts/types":109,"./primitive":118}],111:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _primitive = require('./primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _array = require('../parsers/array');
-
-var _array2 = _interopRequireDefault(_array);
-
-var _expr = require('../parsers/expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarDictItemToken = function (_CheddarLexer) {
-    _inherits(CheddarDictItemToken, _CheddarLexer);
-
-    function CheddarDictItemToken() {
-        _classCallCheck(this, CheddarDictItemToken);
-
-        return _possibleConstructorReturn(this, (CheddarDictItemToken.__proto__ || Object.getPrototypeOf(CheddarDictItemToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarDictItemToken, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            // Match the key
-            var key = this.initParser(_expr2.default);
-            var key_tokens = key.exec(true);
-
-            if (!(key_tokens instanceof _lex2.default)) {
-                this.Index = key.Index;
-                return key_tokens;
-            }
-
-            this.Index = key_tokens.Index;
-            this.Tokens = key_tokens;
-
-            // Check if `:`, not then not dict
-            if (!this.jumpLiteral(":")) {
-                return CheddarError.EXIT_NOTFOUND;
-            }
-
-            this.jumpWhite();
-
-            // Match the value
-            var value = this.initParser(_expr2.default);
-            var value_tokens = value.exec(true);
-
-            if (!(value_tokens instanceof _lex2.default)) {
-                this.Index = value.Index;
-                return value_tokens;
-            }
-
-            this.Index = value_tokens.Index;
-            this.Tokens = value_tokens;
-
-            return this.close();
-        }
-    }]);
-
-    return CheddarDictItemToken;
-}(_lex2.default);
-
-var CheddarDictToken = function (_CheddarPrimitive) {
-    _inherits(CheddarDictToken, _CheddarPrimitive);
-
-    function CheddarDictToken() {
-        _classCallCheck(this, CheddarDictToken);
-
-        return _possibleConstructorReturn(this, (CheddarDictToken.__proto__ || Object.getPrototypeOf(CheddarDictToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarDictToken, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-            var res_init = new _array2.default(this.Code, this.Index);
-            var res = res_init.exec('[', ']', CheddarDictItemToken);
-
-            if (!(res instanceof _lex2.default)) {
-                this.Index = res_init.Index;
-                return res;
-            }
-
-            this.Index = res.Index;
-            this.Tokens = res;
-
-            return this.close();
-        }
-    }]);
-
-    return CheddarDictToken;
-}(_primitive2.default);
-
-exports.default = CheddarDictToken;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../parsers/array":126,"../parsers/expr":128,"../tok/lex":142,"./primitive":118}],112:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _ops = require('../consts/ops');
-
-var _primitive = require('./primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _err = require('../consts/err');
-
-var _err2 = _interopRequireDefault(_err);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Functionized operators
-
-
-var OPERATORS = _ops.UOP.concat(_ops.OP).sort(function (a, b) {
-    return b.length - a.length;
-});
-
-var CheddarFunctionizedOperatorToken = function (_CheddarPrimitive) {
-    _inherits(CheddarFunctionizedOperatorToken, _CheddarPrimitive);
-
-    function CheddarFunctionizedOperatorToken() {
-        _classCallCheck(this, CheddarFunctionizedOperatorToken);
-
-        return _possibleConstructorReturn(this, (CheddarFunctionizedOperatorToken.__proto__ || Object.getPrototypeOf(CheddarFunctionizedOperatorToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarFunctionizedOperatorToken, [{
-        key: 'exec',
-        value: function exec() {
-            var FOP = this.grammar(true, ['(', _ops.OP.concat(_ops.UOP), [':'], ')']);
-
-            return FOP;
-        }
-    }]);
-
-    return CheddarFunctionizedOperatorToken;
-}(_primitive2.default);
-
-exports.default = CheddarFunctionizedOperatorToken;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../consts/ops":108,"./primitive":118}],113:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _ops = require('../consts/ops');
-
-var _primitive = require('./primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _property = require('../parsers/property');
-
-var _property2 = _interopRequireDefault(_property);
-
-var _custom = require('../parsers/custom');
-
-var _custom2 = _interopRequireDefault(_custom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Functionized operators
-
-
-var CheddarFunctionizedPropertyToken = function (_CheddarPrimitive) {
-    _inherits(CheddarFunctionizedPropertyToken, _CheddarPrimitive);
-
-    function CheddarFunctionizedPropertyToken() {
-        _classCallCheck(this, CheddarFunctionizedPropertyToken);
-
-        return _possibleConstructorReturn(this, (CheddarFunctionizedPropertyToken.__proto__ || Object.getPrototypeOf(CheddarFunctionizedPropertyToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarFunctionizedPropertyToken, [{
-        key: 'exec',
-        value: function exec() {
-            var FPROP = this.grammar(true, ['@.', (0, _custom2.default)(_property2.default, true)]);
-
-            return FPROP;
-        }
-    }]);
-
-    return CheddarFunctionizedPropertyToken;
-}(_primitive2.default);
-
-exports.default = CheddarFunctionizedPropertyToken;
-module.exports = exports['default'];
-
-},{"../consts/ops":108,"../parsers/custom":127,"../parsers/property":131,"./primitive":118}],114:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _chars = require('../consts/chars');
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarLiteral = function (_CheddarLexer) {
-    _inherits(CheddarLiteral, _CheddarLexer);
-
-    function CheddarLiteral() {
-        _classCallCheck(this, CheddarLiteral);
-
-        return _possibleConstructorReturn(this, (CheddarLiteral.__proto__ || Object.getPrototypeOf(CheddarLiteral)).apply(this, arguments));
-    }
-
-    _createClass(CheddarLiteral, [{
-        key: 'exec',
-        value: function exec() {
-
-            this.open();
-
-            var chr = this.getChar();
-
-            if (_chars.TOKEN_START.indexOf(chr) > -1) {
-                this.addToken(chr);
-
-                while (chr = this.getChar()) {
-                    if (_chars.TOKEN_START.indexOf(chr) > -1) {
-                        this.addToken(chr);
-                    } else {
-                        --this.Index;
-                        break;
-                    }
-                }return this.close();
-            } else {
-                return this.error(CheddarError.EXIT_NOTFOUND);
-            }
-        }
-    }]);
-
-    return CheddarLiteral;
-}(_lex2.default);
-
-exports.default = CheddarLiteral;
-module.exports = exports['default'];
-
-},{"../consts/chars":105,"../consts/err":106,"../tok/lex":142}],115:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _primitive = require('./primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _types = require('../consts/types');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarNilToken = function (_CheddarPrimitive) {
-    _inherits(CheddarNilToken, _CheddarPrimitive);
-
-    function CheddarNilToken() {
-        _classCallCheck(this, CheddarNilToken);
-
-        return _possibleConstructorReturn(this, (CheddarNilToken.__proto__ || Object.getPrototypeOf(CheddarNilToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarNilToken, [{
-        key: 'exec',
-        value: function exec() {
-            if (this.curchar === 'n' && this.Code[this.Index + 1] === 'i' && this.Code[this.Index + 2] === 'l') {
-                this.Index += 3;
-                return this.close();
-            }
-
-            return this.close(CheddarError.EXIT_NOTFOUND);
-        }
-    }, {
-        key: 'Type',
-        get: function get() {
-            return _types.ClassType.Boolean;
-        }
-    }]);
-
-    return CheddarNilToken;
-}(_primitive2.default);
-
-exports.default = CheddarNilToken;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../consts/types":109,"./primitive":118}],116:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _primitive = require('./primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _chars = require('../consts/chars');
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _types = require('../consts/types');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarNumberToken = function (_CheddarPrimitive) {
-    _inherits(CheddarNumberToken, _CheddarPrimitive);
-
-    function CheddarNumberToken() {
-        _classCallCheck(this, CheddarNumberToken);
-
-        return _possibleConstructorReturn(this, (CheddarNumberToken.__proto__ || Object.getPrototypeOf(CheddarNumberToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarNumberToken, [{
-        key: 'exec',
-        value: function exec() {
-
-            this.open(false);
-
-            var chr = this.getChar(); // Get first char
-
-            // Ensure it starts with a digit or decimal
-            if (_chars.DIGITS.indexOf(chr) > -1 || _chars.NUMBER_DECIMALS.indexOf(chr) > -1) {
-
-                // Is a number
-                // Parses in two parts:
-                // 1. determining the base
-                // 2. parsing the integer
-                // 3. parsing the decimal
-                // Errors are handled each step
-                // Fatal errors only occur with
-                //  number seperators
-
-                // Base Determination
-
-                var second_char = this.Code[this.Index]; // Gets the next character
-                var base = void 0;
-
-                if (second_char) second_char = second_char.toLowerCase();
-
-                if (_chars.BASE_IDENTIFIERS.indexOf(second_char) > -1) {
-                    // if it's a different base
-                    base = _chars.BASE_RESPECTIVE_NUMBERS[_chars.BASE_IDENTIFIERS.indexOf(second_char)];
-                    ++this.Index;
-                } else {
-                    base = 10;
-                    --this.Index; // take it back now y'all
-                }
-
-                this.newToken(base);
-                var digit_set = _chars.NUMERALS.slice(0, base);
-
-                // add bitshift as token
-                if (base !== 10) this.newToken(chr);else this.newToken(0);
-
-                // Integer Parsing
-                this.newToken();
-
-                var decimal_parsed = false;
-
-                // Loop through literal
-                while (chr = this.getChar()) {
-                    // Within base range?
-                    if (digit_set.indexOf(chr.toUpperCase()) > -1) this.addToken(chr);
-                    // If is a decimal and no decimals have occured yet
-                    else if (_chars.NUMBER_DECIMALS.indexOf(chr) > -1 && decimal_parsed === false) decimal_parsed = true, this.addToken(chr);
-                        // Is a digit seperator e.g. _
-                        else if (_chars.NUMBER_GROUPING.indexOf(chr) > -1) {
-                                    // Not the first or last integer digit
-                                    if (this.last && this.Code[this.Index] && (digit_set.indexOf(this.Code[this.Index].toUpperCase()) > -1 || _chars.NUMBER_GROUPING.indexOf(this.Code[this.Index]) > -1)) continue;else return this.error(CheddarError.UNEXPECTED_TOKEN);
-                            } else break;
-                }--this.Index;
-
-                // If no digits were found in the literal
-                if (this.last === ".") {
-                    --this.Index;
-                    return this.error(CheddarError.UNEXPECTED_TOKEN); // throw compile error
-                }
-
-                if (this.Code[this.Index - 1] === ".") {
-                    --this.Index;
-                }
-
-                return this.close(); // Close the parser
-            } else {
-                return this.error(CheddarError.EXIT_NOTFOUND); // Safe exit
-            }
-        }
-    }, {
-        key: 'Type',
-        get: function get() {
-            return _types.ClassType.Number;
-        }
-    }]);
-
-    return CheddarNumberToken;
-}(_primitive2.default);
-
-exports.default = CheddarNumberToken;
-module.exports = exports['default'];
-
-},{"../consts/chars":105,"../consts/err":106,"../consts/types":109,"./primitive":118}],117:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _ops = require('../consts/ops');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarOperatorToken = function (_CheddarLexer) {
-    _inherits(CheddarOperatorToken, _CheddarLexer);
-
-    function CheddarOperatorToken() {
-        _classCallCheck(this, CheddarOperatorToken);
-
-        return _possibleConstructorReturn(this, (CheddarOperatorToken.__proto__ || Object.getPrototypeOf(CheddarOperatorToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarOperatorToken, [{
-        key: 'exec',
-        value: function exec(UNARY) {
-            var ops = UNARY ? _ops.UOP : _ops.OP;
-            // this.Code is the code
-            // this.Index is the index
-            this.open(false);
-
-            var op = void 0;
-            for (var i = 0; i < ops.length; i++) {
-                if (this.Code.indexOf(ops[i], this.Index) === this.Index) {
-                    if ((!op || op.length < ops[i].length) && !(/[a-z][a-z0-9]*/i.test(ops[i]) && /[a-z0-9]/i.test(this.Code[this.Index + ops[i].length]))) op = ops[i];
-                }
-            }
-
-            if (op) {
-                this.Tokens = op;
-                this.Index += op.length;
-                return this.close();
-            } else {
-                return this.error(CheddarError.EXIT_NOTFOUND);
-            }
-        }
-    }]);
-
-    return CheddarOperatorToken;
-}(_lex2.default);
-
-exports.default = CheddarOperatorToken;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../consts/ops":108,"../tok/lex":142}],118:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _literal = require('./literal');
-
-var _literal2 = _interopRequireDefault(_literal);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarPrimitive = function (_CheddarLiteral) {
-  _inherits(CheddarPrimitive, _CheddarLiteral);
-
-  function CheddarPrimitive() {
-    _classCallCheck(this, CheddarPrimitive);
-
-    return _possibleConstructorReturn(this, (CheddarPrimitive.__proto__ || Object.getPrototypeOf(CheddarPrimitive)).apply(this, arguments));
-  }
-
-  return CheddarPrimitive;
-}(_literal2.default);
-
-exports.default = CheddarPrimitive;
-module.exports = exports['default'];
-
-},{"./literal":114}],119:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _primitive = require('./primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _chars = require('../consts/chars');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarRegexToken = function (_CheddarPrimitive) {
-    _inherits(CheddarRegexToken, _CheddarPrimitive);
-
-    function CheddarRegexToken() {
-        _classCallCheck(this, CheddarRegexToken);
-
-        return _possibleConstructorReturn(this, (CheddarRegexToken.__proto__ || Object.getPrototypeOf(CheddarRegexToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarRegexToken, [{
-        key: 'exec',
-        value: function exec() {
-
-            this.open();
-
-            if (this.getChar() === _chars.REGEX_DELIMITER) {
-                var loc = this.Index - 1;
-                // in a regex
-                if ('*/'.includes(this.Code[this.Index])) return CheddarError.EXIT_NOTFOUND;
-
-                var chr = void 0;
-
-                while (chr = this.getChar()) {
-                    if (chr === _chars.REGEX_DELIMITER) {
-                        break;
-                    } else if (this.isLast) {
-                        this.Index = loc;
-                        return this.error(CheddarError.UNMATCHED_DELIMITER);
-                    } else if (chr === _chars.REGEX_ESCAPE) {
-                        this.addToken(_chars.REGEX_ESCAPE + this.getChar());
-                    } else {
-                        this.addToken(chr);
-                    }
-                }
-
-                // Match flags
-                this.newToken(); // Flag to store token
-                while (_chars.REGEX_FLAGS.indexOf(this.Code[this.Index]) > -1) {
-                    this.addToken(this.Code[this.Index++]);
-                }
-
-                return this.close();
-            } else {
-                return this.error(CheddarError.EXIT_NOTFOUND);
-            }
-        }
-    }]);
-
-    return CheddarRegexToken;
-}(_primitive2.default);
-
-exports.default = CheddarRegexToken;
-module.exports = exports['default'];
-
-},{"../consts/chars":105,"../consts/err":106,"./primitive":118}],120:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _primitive = require('./primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _chars = require('../consts/chars');
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _types = require('../consts/types');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarStringToken = function (_CheddarPrimitive) {
-    _inherits(CheddarStringToken, _CheddarPrimitive);
-
-    function CheddarStringToken() {
-        _classCallCheck(this, CheddarStringToken);
-
-        return _possibleConstructorReturn(this, (CheddarStringToken.__proto__ || Object.getPrototypeOf(CheddarStringToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarStringToken, [{
-        key: 'exec',
-        value: function exec() {
-
-            this.open();
-
-            var chr = this.getChar();
-            if (_chars.STRING_DELIMITERS.indexOf(chr) > -1) {
-                var loc = this.Index - 1;
-                // in a string
-
-                var qt = chr; // store quote
-                var esc = void 0;
-
-                while (true) {
-                    chr = this.getChar();
-
-                    if (chr === qt) {
-                        break;
-                    } else if (!this.Code[this.Index]) {
-                        this.Index = loc;
-                        return this.error(CheddarError.UNMATCHED_DELIMITER);
-                    } else if (chr === _chars.STRING_ESCAPE) {
-                        this.addToken(_chars.STRING_ESCAPES.has(esc = this.getChar()) ? _chars.STRING_ESCAPES.get(esc) : esc);
-                    } else {
-                        this.addToken(chr);
-                    }
-                }
-
-                return this.close();
-            } else {
-                return this.error(CheddarError.EXIT_NOTFOUND);
-            }
-        }
-    }, {
-        key: 'Type',
-        get: function get() {
-            return _types.ClassType.String;
-        }
-    }]);
-
-    return CheddarStringToken;
-}(_primitive2.default);
-
-exports.default = CheddarStringToken;
-module.exports = exports['default'];
-
-},{"../consts/chars":105,"../consts/err":106,"../consts/types":109,"./primitive":118}],121:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _primitive = require('./primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _var = require('./var');
-
-var _var2 = _interopRequireDefault(_var);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var SYMBOL_OPEN = '@';
-
-var CheddarSymbolToken = function (_CheddarPrimitive) {
-    _inherits(CheddarSymbolToken, _CheddarPrimitive);
-
-    function CheddarSymbolToken() {
-        _classCallCheck(this, CheddarSymbolToken);
-
-        return _possibleConstructorReturn(this, (CheddarSymbolToken.__proto__ || Object.getPrototypeOf(CheddarSymbolToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarSymbolToken, [{
-        key: 'exec',
-        value: function exec() {
-            this.open();
-
-            if (this.getChar() === SYMBOL_OPEN) {
-                var varparse = this.initParser(_var2.default);
-                var res = varparse.exec();
-
-                if (!(res instanceof _lex2.default)) {
-                    return res;
-                } else {
-                    this.addToken(varparse._Tokens[0]);
-                    this.Index = varparse.Index;
-                    return this.close();
-                }
-            } else {
-                return this.error(CheddarError.EXIT_NOTFOUND);
-            }
-        }
-    }]);
-
-    return CheddarSymbolToken;
-}(_primitive2.default);
-
-exports.default = CheddarSymbolToken;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../tok/lex":142,"./primitive":118,"./var":122}],122:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _chars = require('../consts/chars');
-
-var _ops = require('../consts/ops');
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Very similar to literal.es6 but with numbers
-
-
-var CheddarVariableToken = function (_CheddarLexer) {
-    _inherits(CheddarVariableToken, _CheddarLexer);
-
-    function CheddarVariableToken() {
-        _classCallCheck(this, CheddarVariableToken);
-
-        return _possibleConstructorReturn(this, (CheddarVariableToken.__proto__ || Object.getPrototypeOf(CheddarVariableToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarVariableToken, [{
-        key: 'exec',
-        value: function exec() {
-
-            this.open();
-
-            var chr = this.getChar();
-
-            if (_chars.TOKEN_START.indexOf(chr) > -1) {
-                this.addToken(chr);
-
-                while (chr = this.getChar()) {
-                    if (_chars.TOKEN_END.indexOf(chr) > -1) {
-                        this.addToken(chr);
-                    } else {
-                        --this.Index;
-                        break;
-                    }
-                } // if a reserved keyword was matched
-                if (_ops.RESERVED_KEYWORDS.has(this._Tokens[0])) {
-                    // Ignore it
-                    return this.error(CheddarError.EXIT_NOTFOUND);
-                }
-
-                return this.close();
-            } else {
-                return this.error(CheddarError.EXIT_NOTFOUND);
-            }
-        }
-    }]);
-
-    return CheddarVariableToken;
-}(_lex2.default);
-
-exports.default = CheddarVariableToken;
-module.exports = exports['default'];
-
-},{"../consts/chars":105,"../consts/err":106,"../consts/ops":108,"../tok/lex":142}],123:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _literal = require('../literals/literal');
-
-var _literal2 = _interopRequireDefault(_literal);
-
-var _boolean = require('../literals/boolean');
-
-var _boolean2 = _interopRequireDefault(_boolean);
-
-var _nil = require('../literals/nil');
-
-var _nil2 = _interopRequireDefault(_nil);
-
-var _string = require('../literals/string');
-
-var _string2 = _interopRequireDefault(_string);
-
-var _number = require('../literals/number');
-
-var _number2 = _interopRequireDefault(_number);
-
-var _array = require('./array');
-
-var _array2 = _interopRequireDefault(_array);
-
-var _regex = require('../literals/regex');
-
-var _regex2 = _interopRequireDefault(_regex);
-
-var _dict = require('../literals/dict');
-
-var _dict2 = _interopRequireDefault(_dict);
-
-var _symbol = require('../literals/symbol');
-
-var _symbol2 = _interopRequireDefault(_symbol);
-
-var _fop = require('../literals/fop');
-
-var _fop2 = _interopRequireDefault(_fop);
-
-var _fprop = require('../literals/fprop');
-
-var _fprop2 = _interopRequireDefault(_fprop);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarAnyLiteral = function (_CheddarLexer) {
-    _inherits(CheddarAnyLiteral, _CheddarLexer);
-
-    function CheddarAnyLiteral() {
-        _classCallCheck(this, CheddarAnyLiteral);
-
-        return _possibleConstructorReturn(this, (CheddarAnyLiteral.__proto__ || Object.getPrototypeOf(CheddarAnyLiteral)).apply(this, arguments));
-    }
-
-    _createClass(CheddarAnyLiteral, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            var attempt = this.attempt(_fprop2.default, _fop2.default, _dict2.default, _string2.default, _number2.default, _boolean2.default, _nil2.default, _array2.default, _regex2.default, _symbol2.default);
-
-            if (attempt instanceof _literal2.default) {
-                this.Index = attempt.Index;
-                this.Tokens = attempt;
-                return this.close();
-            } else {
-                return this.error(attempt);
-            }
-        }
-    }]);
-
-    return CheddarAnyLiteral;
-}(_literal2.default);
-
-exports.default = CheddarAnyLiteral;
-module.exports = exports['default'];
-
-},{"../literals/boolean":110,"../literals/dict":111,"../literals/fop":112,"../literals/fprop":113,"../literals/literal":114,"../literals/nil":115,"../literals/number":116,"../literals/regex":119,"../literals/string":120,"../literals/symbol":121,"./array":126}],124:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('../../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _var = require('../../literals/var');
-
-var _var2 = _interopRequireDefault(_var);
-
-var _typed_var = require('./typed_var');
-
-var _typed_var2 = _interopRequireDefault(_typed_var);
-
-var _expr = require('../../states/expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarArgumentToken = function (_CheddarLexer) {
-    _inherits(CheddarArgumentToken, _CheddarLexer);
-
-    function CheddarArgumentToken() {
-        _classCallCheck(this, CheddarArgumentToken);
-
-        return _possibleConstructorReturn(this, (CheddarArgumentToken.__proto__ || Object.getPrototypeOf(CheddarArgumentToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarArgumentToken, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            return this.grammar(true, [_typed_var2.default, ['?'], [['=', _expr2.default]]]);
-        }
-    }]);
-
-    return CheddarArgumentToken;
-}(_lex2.default);
-
-exports.default = CheddarArgumentToken;
-module.exports = exports['default'];
-
-},{"../../literals/var":122,"../../states/expr":136,"../../tok/lex":142,"./typed_var":125}],125:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _literal = require('../../literals/literal');
-
-var _literal2 = _interopRequireDefault(_literal);
-
-var _var = require('../../literals/var');
-
-var _var2 = _interopRequireDefault(_var);
-
-var _lex = require('../../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var L = _literal2.default;
-var V = _var2.default;
-
-var CheddarTypedVariableToken = function (_CheddarLexer) {
-    _inherits(CheddarTypedVariableToken, _CheddarLexer);
-
-    function CheddarTypedVariableToken() {
-        _classCallCheck(this, CheddarTypedVariableToken);
-
-        return _possibleConstructorReturn(this, (CheddarTypedVariableToken.__proto__ || Object.getPrototypeOf(CheddarTypedVariableToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarTypedVariableToken, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            return this.grammar(true, [V, [[':', L]]]);
-        }
-    }]);
-
-    return CheddarTypedVariableToken;
-}(_lex2.default);
-
-exports.default = CheddarTypedVariableToken;
-module.exports = exports['default'];
-
-},{"../../literals/literal":114,"../../literals/var":122,"../../tok/lex":142}],126:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _chars = require('../consts/chars');
-
-var _expr = require('./expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _primitive = require('../literals/primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-var _types = require('../consts/types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarArrayToken = function (_CheddarPrimitive) {
-    _inherits(CheddarArrayToken, _CheddarPrimitive);
-
-    function CheddarArrayToken() {
-        _classCallCheck(this, CheddarArrayToken);
-
-        return _possibleConstructorReturn(this, (CheddarArrayToken.__proto__ || Object.getPrototypeOf(CheddarArrayToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarArrayToken, [{
-        key: 'exec',
-        value: function exec() {
-            var OPEN = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _chars.ARRAY_OPEN;
-            var CLOSE = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _chars.ARRAY_CLOSE;
-            var PARSER = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _expr2.default;
-            var LOOSE = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-
-            var c = this.getChar();
-            if (c !== OPEN) return this.error(CheddarError.EXIT_NOTFOUND);
-            while (true) {
-
-                this.jumpWhite();
-
-                if (Array.isArray(PARSER)) {
-                    var parser = this.grammar.apply(this, [true].concat(_toConsumableArray(PARSER)));
-                    if (!(parser instanceof _lex2.default)) return this.error(parser);
-                } else {
-                    var value = this.initParser(PARSER),
-                        parsed = value.exec();
-
-                    this.Index = value.Index;
-                    if (parsed instanceof _lex2.default) this.Tokens = parsed;else return this.error(parsed);
-                }
-
-                this.jumpWhite();
-
-                switch (this.getChar()) {
-                    case CLOSE:
-                        return this.close();
-                    case _chars.ARRAY_SEPARATOR:
-                        break;
-                    default:
-                        if (LOOSE === false) {
-                            return this.error(CheddarError.UNEXPECTED_TOKEN);
-                        } else {
-                            return this.close(CheddarError.EXIT_NOTFOUND);
-                        }
-                }
-            }
-        }
-    }, {
-        key: 'Type',
-        get: function get() {
-            return _types.ClassType.Array;
-        }
-    }]);
-
-    return CheddarArrayToken;
-}(_primitive2.default);
-
-exports.default = CheddarArrayToken;
-module.exports = exports['default'];
-
-},{"../consts/chars":105,"../consts/err":106,"../consts/types":109,"../literals/primitive":118,"../tok/lex":142,"./expr":128}],127:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = CheddarCustomLexer;
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function CheddarCustomLexer(orig) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-    }
-
-    var parser = new _lex2.default();
-    parser.exec = function () {
-        var _ref;
-
-        return (_ref = new orig(this.Code, this.Index)).exec.apply(_ref, args);
-    };
-    return parser;
-}
-module.exports = exports['default'];
-
-},{"../tok/lex":142}],128:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _op = require('../literals/op');
-
-var _op2 = _interopRequireDefault(_op);
-
-var _property = require('./property');
-
-var _property2 = _interopRequireDefault(_property);
-
-var _function = require('./function');
-
-var _function2 = _interopRequireDefault(_function);
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _ops = require('../consts/ops');
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _custom = require('./custom');
-
-var _custom2 = _interopRequireDefault(_custom);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Cheddar Expression Parser
-
-
-// Special Exceptions
-
-/*
-For Reference, the orginal grammar is:
-
-E -> O E
-     E O E?
-     ( E )
-     B
-     P
-     L
-
-Made right-recursive:
-
-E -> O E α
-     ( E ) α
-       α  <-- This is where any custom grammars go
-     B α
-     P α
-     L α
-
-α -> O E α
-     O α
-     ε
-
-Combined into one expression:
-
-E -> (OE|(E)|P|L|B)[OE|O]
-
-where groups are only nested to a depth of one
-
-=== Forget the above ===
-The following grammar should work
-
-ternary -> α β ? E : E
-expr -> α β
-start -> ( E )     // parenthesis
-     L         // number
-     B         // boolean
-     P         // identifier
-     prefix E  // prefix
-end -> infix E   // infix
-       postfix   // postfix
-       ε
-
-
-
-even worse:
-
-E -> α β
-     ε
-α -> ( E )
-     L
-     B
-     P
-     O E
-β -> O E?
-     ε
-
-*/
-
-var UNARY = (0, _custom2.default)(_op2.default, true);
-
-// Class Prototypes
-
-var CheddarExpressionToken = function (_CheddarLexer) {
-    _inherits(CheddarExpressionToken, _CheddarLexer);
-
-    function CheddarExpressionToken() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
-        _classCallCheck(this, CheddarExpressionToken);
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CheddarExpressionToken.__proto__ || Object.getPrototypeOf(CheddarExpressionToken)).call.apply(_ref, [this].concat(args))), _this), _this.isExpression = true, _temp), _possibleConstructorReturn(_this, _ret);
-    }
-
-    return CheddarExpressionToken;
-}(_lex2.default);
-
-var CheddarExpressionTokenAlpha = function (_CheddarLexer2) {
-    _inherits(CheddarExpressionTokenAlpha, _CheddarLexer2);
-
-    function CheddarExpressionTokenAlpha() {
-        var _ref2;
-
-        var _temp2, _this2, _ret2;
-
-        _classCallCheck(this, CheddarExpressionTokenAlpha);
-
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            args[_key2] = arguments[_key2];
-        }
-
-        return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, (_ref2 = CheddarExpressionTokenAlpha.__proto__ || Object.getPrototypeOf(CheddarExpressionTokenAlpha)).call.apply(_ref2, [this].concat(args))), _this2), _this2.isExpression = true, _temp2), _possibleConstructorReturn(_this2, _ret2);
-    }
-
-    return CheddarExpressionTokenAlpha;
-}(_lex2.default);
-
-var CheddarExpressionTokenBeta = function (_CheddarLexer3) {
-    _inherits(CheddarExpressionTokenBeta, _CheddarLexer3);
-
-    function CheddarExpressionTokenBeta() {
-        var _ref3;
-
-        var _temp3, _this3, _ret3;
-
-        _classCallCheck(this, CheddarExpressionTokenBeta);
-
-        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-            args[_key3] = arguments[_key3];
-        }
-
-        return _ret3 = (_temp3 = (_this3 = _possibleConstructorReturn(this, (_ref3 = CheddarExpressionTokenBeta.__proto__ || Object.getPrototypeOf(CheddarExpressionTokenBeta)).call.apply(_ref3, [this].concat(args))), _this3), _this3.isExpression = true, _temp3), _possibleConstructorReturn(_this3, _ret3);
-    }
-
-    return CheddarExpressionTokenBeta;
-}(_lex2.default);
-
-var E = (0, _custom2.default)(CheddarExpressionToken, true, false);
-
-// Ternary
-// Solely for reference
-
-var CheddarExpressionTernary = function (_CheddarLexer4) {
-    _inherits(CheddarExpressionTernary, _CheddarLexer4);
-
-    function CheddarExpressionTernary() {
-        _classCallCheck(this, CheddarExpressionTernary);
-
-        return _possibleConstructorReturn(this, (CheddarExpressionTernary.__proto__ || Object.getPrototypeOf(CheddarExpressionTernary)).apply(this, arguments));
-    }
-
-    return CheddarExpressionTernary;
-}(_lex2.default);
-
-// ALPHA
-
-
-CheddarExpressionTokenAlpha.prototype.exec = function () {
-    this.open(false);
-
-    this.jumpWhite();
-
-    return this.grammar(true, [_function2.default],
-    // ['(', E, ')'],
-    [UNARY, E], // Prefix
-    [_property2.default]);
-};
-
-// BETA
-CheddarExpressionTokenBeta.prototype.exec = function () {
-    this.open(false);
-
-    this.jumpWhite();
-
-    return this.grammar(true, [_op2.default, E], //infix
-    // [O], // postfix
-    [] // ε
-    );
-};
-
-// MASTER
-CheddarExpressionToken.prototype.exec = function () {
-    var DISALLOW_EMPTY = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var ALLOW_TERNARY = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-    this.open(false);
-
-    this.jumpWhite();
-
-    var expression = void 0;
-    if (DISALLOW_EMPTY) {
-        expression = this.grammar(true, [CheddarExpressionTokenAlpha, CheddarExpressionTokenBeta]);
-    } else {
-        expression = this.grammar(true, [CheddarExpressionTokenAlpha, CheddarExpressionTokenBeta], [/** epsilon */]);
-    }
-
-    /** == Ternary Handling == **/
-    if (ALLOW_TERNARY) {
-        // Store index in case ternary is not found
-        var current_index = this.Index;
-
-        // Lookahead for ternary `?`
-        if (!this.lookAhead("?")) {
-            // If it doesn't exist, just exit
-            // Set back to last safe index
-            this.Index = current_index;
-
-            // Backtrack single whitespace
-            return expression;
-        }
-        // Increase index past the `?`
-        this.Index++;
-
-        // Now we know it's a ternary
-        // parse the tail, `E : E`
-
-        // Parse the first expression
-        var TAIL_TRUE = this.initParser(CheddarExpressionToken);
-        var IFT = TAIL_TRUE.exec();
-
-        // Set the index of the expression
-        this.Index = IFT.Index || TAIL_TRUE.Index;
-
-        // Error if applicable
-        if (!(IFT instanceof _lex2.default)) return this.error(IFT);
-
-        // IF True
-        if (!this.lookAhead(":")) {
-            // Expected a `:`
-            return this.error(CheddarError.UNEXPECTED_TOKEN);
-        }
-        // Increase past the `:`
-        this.Index++;
-
-        // Parse the second expression
-        var TAIL_FALSE = this.initParser(CheddarExpressionToken);
-        var IFF = TAIL_FALSE.exec();
-
-        this.Index = IFF.Index || TAIL_FALSE.Index;
-        if (!(IFF instanceof _lex2.default)) return this.error(IFF);
-
-        var Ternary = new CheddarExpressionTernary();
-
-        Ternary.Index = this.Index;
-        Ternary._Tokens = [this._Tokens.slice(0), // Token from this.grammar
-        IFT, IFF];
-
-        this._Tokens = [Ternary];
-
-        return this.close();
-    } else {
-        return expression;
-    }
-};
-
-exports.default = CheddarExpressionToken;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../consts/ops":108,"../literals/op":117,"../tok/lex":142,"./custom":127,"./function":129,"./property":131}],129:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _expr = require('../states/expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-var _var = require('../literals/var');
-
-var _var2 = _interopRequireDefault(_var);
-
-var _block = require('../patterns/block');
-
-var _block2 = _interopRequireDefault(_block);
-
-var _array = require('./array');
-
-var _array2 = _interopRequireDefault(_array);
-
-var _argument = require('./args/argument');
-
-var _argument2 = _interopRequireDefault(_argument);
-
-var _custom = require('./custom');
-
-var _custom2 = _interopRequireDefault(_custom);
-
-var _primitive = require('../literals/primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var A = (0, _custom2.default)(_array2.default, '(', ')', _argument2.default, true);
-var ExpressionToken = (0, _custom2.default)(_expr2.default, true);
-
-var CheddarFunctionToken = function (_CheddarPrimitive) {
-    _inherits(CheddarFunctionToken, _CheddarPrimitive);
-
-    function CheddarFunctionToken() {
-        _classCallCheck(this, CheddarFunctionToken);
-
-        return _possibleConstructorReturn(this, (CheddarFunctionToken.__proto__ || Object.getPrototypeOf(CheddarFunctionToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarFunctionToken, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            this.jumpWhite();
-
-            /**
-             This basically runs the following:
-              "->" ARG_LIST? (CODE BLOCK | EXPRESSION)
-              */
-
-            var grammar = this.grammar(true, [[A, _argument2.default, ""], [_var2.default], "->", [_block2.default, ExpressionToken]]);
-
-            return grammar;
-        }
-    }]);
-
-    return CheddarFunctionToken;
-}(_primitive2.default);
-
-exports.default = CheddarFunctionToken;
-module.exports = exports['default'];
-
-},{"../literals/primitive":118,"../literals/var":122,"../patterns/block":133,"../states/expr":136,"./args/argument":124,"./array":126,"./custom":127}],130:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _expr = require('./expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-var _custom = require('./custom');
-
-var _custom2 = _interopRequireDefault(_custom);
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var expr = (0, _custom2.default)(_expr2.default, true);
-
-var CheddarParenthesizedExpression = function (_CheddarLexer) {
-    _inherits(CheddarParenthesizedExpression, _CheddarLexer);
-
-    function CheddarParenthesizedExpression() {
-        _classCallCheck(this, CheddarParenthesizedExpression);
-
-        return _possibleConstructorReturn(this, (CheddarParenthesizedExpression.__proto__ || Object.getPrototypeOf(CheddarParenthesizedExpression)).apply(this, arguments));
-    }
-
-    _createClass(CheddarParenthesizedExpression, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            var resp = this.grammar(true, ['(', expr, ')']);
-
-            if (resp instanceof _lex2.default) {
-                resp._Tokens[0].Index = resp.Index;
-                return this.close();
-            } else {
-                return this.error(resp);
-            }
-
-            /*
-            // @Downgoat you change it if it works
-            if (this.getChar() !== '(')
-                this.error(CheddarError.EXIT_NOTFOUND);
-             this.jumpWhite();
-             let attempt = this.initParser(CheddarExpressionToken).exec();
-            if (!(attempt instanceof CheddarLexer))
-                this.error(CheddarError.UNEXPECTED_TOKEN);
-             this.Tokens = attempt.Tokens;
-            this.Index = attempt.Index;
-             this.jumpWhite();
-             if (this.getChar() !== ')')
-                this.error(CheddarError.UNMATCHED_DELIMITER);
-             return this.close(attempt);*/
-        }
-    }]);
-
-    return CheddarParenthesizedExpression;
-}(_lex2.default);
-
-exports.default = CheddarParenthesizedExpression;
-module.exports = exports['default'];
-
-},{"../tok/lex":142,"./custom":127,"./expr":128}],131:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _paren_expr = require('./paren_expr');
-
-var _paren_expr2 = _interopRequireDefault(_paren_expr);
-
-var _var = require('../literals/var');
-
-var _var2 = _interopRequireDefault(_var);
-
-var _types = require('../consts/types');
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _array = require('./array');
-
-var _array2 = _interopRequireDefault(_array);
-
-var _any = require('./any');
-
-var _any2 = _interopRequireDefault(_any);
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _primitive = require('../literals/primitive');
-
-var _primitive2 = _interopRequireDefault(_primitive);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ARGLISTS = new Map([['(', ')'], ['{', '}']]);
-
-var MATCHBODY = new Set("([");
-
-var CheddarPropertyToken = function (_CheddarLexer) {
-    _inherits(CheddarPropertyToken, _CheddarLexer);
-
-    function CheddarPropertyToken() {
-        _classCallCheck(this, CheddarPropertyToken);
-
-        return _possibleConstructorReturn(this, (CheddarPropertyToken.__proto__ || Object.getPrototypeOf(CheddarPropertyToken)).apply(this, arguments));
-    }
-
-    _createClass(CheddarPropertyToken, [{
-        key: 'exec',
-        value: function exec() {
-            var Initial = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-            this.open(false);
-
-            this.Type = _types.PropertyType.Property;
-
-            var NOVAR = false;
-
-            // Plans for property parsing:
-            //  1. Match <variable> ("." | end)
-            //  2. Match <variable (<expr>,*<expr>)?
-
-            while (true) {
-                this.jumpWhite();
-
-                var attempt = void 0;
-                if (Initial === false) attempt = this.attempt(_any2.default, _var2.default, _paren_expr2.default);else attempt = this.initParser(_var2.default).exec();
-
-                if (NOVAR === true && attempt === CheddarError.EXIT_NOTFOUND) {
-                    // Do nothing?
-                } else if (!(attempt instanceof _lex2.default) || attempt.Errored === true) {
-                    return this.error(attempt);
-                } else {
-                    this.Index = attempt.Index;
-                    this.Tokens = attempt;
-                }
-
-                Initial = true;
-                NOVAR = false;
-
-                if (this.curchar === '[') {
-                    ++this.Index;
-
-                    var CheddarExpressionToken = require('./expr');
-                    var expr = this.initParser(CheddarExpressionToken);
-                    var res = expr.exec();
-
-                    this.Index = res.Index;
-
-                    if (!(res instanceof _lex2.default)) return this.error(res);
-
-                    this.jumpWhite();
-
-                    if (this.curchar !== ']') {
-                        return this.error(CheddarError.UNEXPECTED_TOKEN);
-                    }
-
-                    ++this.Index;
-
-                    this.Tokens = "[]"; // `[]` signals expression
-                    this.Tokens = expr;
-                }
-
-                var argd = void 0; // Argument list delimiter
-                var id = this.Index; // delta-index
-                this.jumpWhite();
-                if (ARGLISTS.has(argd = this.curchar)) {
-                    this.Tokens = argd; // Specify what arg type this is
-
-                    this.Type = _types.PropertyType.Method;
-
-                    var _expr = this.initParser(_array2.default);
-                    var _res = _expr.exec(argd, ARGLISTS.get(argd));
-
-                    this.Index = _expr.Index;
-
-                    if (!(_res instanceof _lex2.default)) return this.error(_res);
-
-                    this.Tokens = _expr;
-                } else {
-                    this.Index = id;
-                }
-
-                var marker = this.Index;
-                this.jumpWhite();
-                if (this.curchar === '.') {
-                    ++this.Index;
-                    continue;
-                } else if (MATCHBODY.has(this.curchar)) {
-                    NOVAR = true;
-                    continue;
-                }
-
-                this.Index = marker;
-
-                if (this._Tokens.length === 1 && this._Tokens[0] instanceof _primitive2.default) return this.close(this._Tokens[0]);else return this.close();
-            }
-        }
-    }]);
-
-    return CheddarPropertyToken;
-}(_lex2.default);
-
-exports.default = CheddarPropertyToken;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../consts/types":109,"../literals/primitive":118,"../literals/var":122,"../tok/lex":142,"./any":123,"./array":126,"./expr":128,"./paren_expr":130}],132:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarExplicitEnd = function (_CheddarLexer) {
-  _inherits(CheddarExplicitEnd, _CheddarLexer);
-
-  function CheddarExplicitEnd() {
-    _classCallCheck(this, CheddarExplicitEnd);
-
-    return _possibleConstructorReturn(this, (CheddarExplicitEnd.__proto__ || Object.getPrototypeOf(CheddarExplicitEnd)).apply(this, arguments));
-  }
-
-  return CheddarExplicitEnd;
-}(_lex2.default);
-
-exports.default = CheddarExplicitEnd;
-module.exports = exports['default'];
-
-},{"../tok/lex":142}],133:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _custom = require('../parsers/custom');
-
-var _custom2 = _interopRequireDefault(_custom);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarCodeblock = function (_CheddarLexer) {
-    _inherits(CheddarCodeblock, _CheddarLexer);
-
-    function CheddarCodeblock() {
-        _classCallCheck(this, CheddarCodeblock);
-
-        return _possibleConstructorReturn(this, (CheddarCodeblock.__proto__ || Object.getPrototypeOf(CheddarCodeblock)).apply(this, arguments));
-    }
-
-    _createClass(CheddarCodeblock, [{
-        key: 'exec',
-        value: function exec() {
-            var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-                tok: require('../tok'),
-                args: {}
-            },
-                tokenizer = _ref.tok,
-                _ref$args = _ref.args,
-                ENDS = _ref$args.ENDS,
-                PARSERS = _ref$args.PARSERS;
-
-            if (!this.lookAhead("{")) return CheddarError.EXIT_NOTFOUND;
-
-            this.jumpLiteral("{");
-
-            var RUN = this.initParser(tokenizer);
-            var RES = RUN.exec("}", PARSERS);
-
-            this.Index = RES.Index || RUN.Index;
-            if (RUN.Errored || !(RES instanceof _lex2.default)) return this.error(RES);
-
-            this.Index = RES.Index;
-            this.Tokens = RES;
-
-            this.jumpWhite();
-            if (this.jumpLiteral("}") === false) {
-                return this.error(CheddarError.UNEXPECTED_TOKEN);
-            }
-
-            return this.close();
-        }
-    }]);
-
-    return CheddarCodeblock;
-}(_lex2.default);
-
-exports.default = CheddarCodeblock;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../parsers/custom":127,"../tok":141,"../tok/lex":142}],134:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _expr = require('../parsers/expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-var _typed_var = require('../parsers/args/typed_var');
-
-var _typed_var2 = _interopRequireDefault(_typed_var);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StatementAssign = function (_CheddarLexer) {
-    _inherits(StatementAssign, _CheddarLexer);
-
-    function StatementAssign() {
-        _classCallCheck(this, StatementAssign);
-
-        return _possibleConstructorReturn(this, (StatementAssign.__proto__ || Object.getPrototypeOf(StatementAssign)).apply(this, arguments));
-    }
-
-    _createClass(StatementAssign, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            var DEFS = ['var', 'let', 'const'];
-            return this.grammar(true, [DEFS, this.jumpWhite, _typed_var2.default, [':=', '='], CheddarError.ALLOW_ERROR, _expr2.default], [DEFS, this.jumpWhite, _typed_var2.default]);
-        }
-    }]);
-
-    return StatementAssign;
-}(_lex2.default);
-
-exports.default = StatementAssign;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../parsers/args/typed_var":125,"../parsers/expr":128,"../tok/lex":142}],135:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _chars = require('../consts/chars');
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StatementBreak = function (_CheddarLexer) {
-    _inherits(StatementBreak, _CheddarLexer);
-
-    function StatementBreak() {
-        _classCallCheck(this, StatementBreak);
-
-        return _possibleConstructorReturn(this, (StatementBreak.__proto__ || Object.getPrototypeOf(StatementBreak)).apply(this, arguments));
-    }
-
-    _createClass(StatementBreak, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            this.jumpWhite();
-
-            if (!this.jumpLiteral("break")) return CheddarError.EXIT_NOTFOUND;
-
-            if (_chars.TOKEN_END.indexOf(this.Code[this.Index]) > -1) return CheddarError.EXIT_NOTFOUND;
-
-            this.Tokens = "break";
-
-            return this.close();
-        }
-    }]);
-
-    return StatementBreak;
-}(_lex2.default);
-
-exports.default = StatementBreak;
-module.exports = exports['default'];
-
-},{"../consts/chars":105,"../consts/err":106,"../tok/lex":142}],136:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _expr = require('../parsers/expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StatementExpression = function (_CheddarLexer) {
-    _inherits(StatementExpression, _CheddarLexer);
-
-    function StatementExpression() {
-        _classCallCheck(this, StatementExpression);
-
-        return _possibleConstructorReturn(this, (StatementExpression.__proto__ || Object.getPrototypeOf(StatementExpression)).apply(this, arguments));
-    }
-
-    _createClass(StatementExpression, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            return this.grammar(true, [_expr2.default]);
-        }
-    }]);
-
-    return StatementExpression;
-}(_lex2.default);
-
-exports.default = StatementExpression;
-module.exports = exports['default'];
-
-},{"../parsers/expr":128,"../tok/lex":142}],137:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _assign = require('./assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _expr = require('./expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-var _block = require('../patterns/block');
-
-var _block2 = _interopRequireDefault(_block);
-
-var _break = require('./break');
-
-var _break2 = _interopRequireDefault(_break);
-
-var _EXPLICIT = require('../patterns/EXPLICIT');
-
-var _EXPLICIT2 = _interopRequireDefault(_EXPLICIT);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _var = require('../literals/var');
-
-var _var2 = _interopRequireDefault(_var);
-
-var _custom = require('../parsers/custom');
-
-var _custom2 = _interopRequireDefault(_custom);
-
-var _array = require('../parsers/array');
-
-var _array2 = _interopRequireDefault(_array);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DECONSTRUCT = (0, _custom2.default)(_array2.default, '[', ']', _var2.default, true);
-
-var StatementFor = function (_CheddarLexer) {
-    _inherits(StatementFor, _CheddarLexer);
-
-    function StatementFor() {
-        _classCallCheck(this, StatementFor);
-
-        return _possibleConstructorReturn(this, (StatementFor.__proto__ || Object.getPrototypeOf(StatementFor)).apply(this, arguments));
-    }
-
-    _createClass(StatementFor, [{
-        key: 'exec',
-        value: function exec(tokenizer) {
-            this.open();
-
-            if (tokenizer) {
-                tokenizer.args.PARSERS.push(_break2.default);
-            }
-
-            var codeblock = (0, _custom2.default)(_block2.default, tokenizer);
-
-            if (!this.lookAhead("for")) return CheddarError.EXIT_NOTFOUND;
-
-            this.jumpLiteral("for");
-
-            var FOR = this.grammar(true, ['(', [_assign2.default, _expr2.default], ';', _expr2.default, ';', _expr2.default, ')', codeblock], ['(', [DECONSTRUCT, _var2.default], 'in', _expr2.default, ')', codeblock]);
-
-            return FOR;
-        }
-    }]);
-
-    return StatementFor;
-}(_EXPLICIT2.default);
-
-exports.default = StatementFor;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../literals/var":122,"../parsers/array":126,"../parsers/custom":127,"../patterns/EXPLICIT":132,"../patterns/block":133,"./assign":134,"./break":135,"./expr":136}],138:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _block = require('../patterns/block');
-
-var _block2 = _interopRequireDefault(_block);
-
-var _array = require('../parsers/array');
-
-var _array2 = _interopRequireDefault(_array);
-
-var _argument = require('../parsers/args/argument');
-
-var _argument2 = _interopRequireDefault(_argument);
-
-var _var = require('../literals/var');
-
-var _var2 = _interopRequireDefault(_var);
-
-var _custom = require('../parsers/custom');
-
-var _custom2 = _interopRequireDefault(_custom);
-
-var _return = require('./return');
-
-var _return2 = _interopRequireDefault(_return);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var A = (0, _custom2.default)(_array2.default, '(', ')', _argument2.default, true);
-
-var StatementFunc = function (_CheddarLexer) {
-    _inherits(StatementFunc, _CheddarLexer);
-
-    function StatementFunc() {
-        _classCallCheck(this, StatementFunc);
-
-        return _possibleConstructorReturn(this, (StatementFunc.__proto__ || Object.getPrototypeOf(StatementFunc)).apply(this, arguments));
-    }
-
-    _createClass(StatementFunc, [{
-        key: 'exec',
-        value: function exec(tokenizer) {
-            this.open(false);
-            this.jumpWhite();
-
-            if (!this.lookAhead("func")) return CheddarError.EXIT_NOTFOUND;
-
-            this.jumpLiteral("func");
-
-            if (tokenizer) {
-                tokenizer.args.PARSERS.unshift(_return2.default);
-            }
-
-            var codeblock = (0, _custom2.default)(_block2.default, tokenizer);
-
-            var grammar = this.grammar(true, [_var2.default, A, codeblock]);
-
-            return grammar;
-        }
-    }]);
-
-    return StatementFunc;
-}(_lex2.default);
-
-exports.default = StatementFunc;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../literals/var":122,"../parsers/args/argument":124,"../parsers/array":126,"../parsers/custom":127,"../patterns/block":133,"../tok/lex":142,"./return":140}],139:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _expr = require('./expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-var _block = require('../patterns/block');
-
-var _block2 = _interopRequireDefault(_block);
-
-var _custom = require('../parsers/custom');
-
-var _custom2 = _interopRequireDefault(_custom);
-
-var _EXPLICIT = require('../patterns/EXPLICIT');
-
-var _EXPLICIT2 = _interopRequireDefault(_EXPLICIT);
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StatementIf = function (_CheddarLexer) {
-    _inherits(StatementIf, _CheddarLexer);
-
-    function StatementIf() {
-        _classCallCheck(this, StatementIf);
-
-        return _possibleConstructorReturn(this, (StatementIf.__proto__ || Object.getPrototypeOf(StatementIf)).apply(this, arguments));
-    }
-
-    _createClass(StatementIf, [{
-        key: 'exec',
-        value: function exec(tokenizer) {
-            this.open();
-
-            if (!this.lookAhead("if")) return CheddarError.EXIT_NOTFOUND;
-
-            this.jumpLiteral("if");
-
-            var EXPRESSION = (0, _custom2.default)(_expr2.default, true);
-
-            // Match the `expr { block }` format
-            var FORMAT = ['(', EXPRESSION, ')', (0, _custom2.default)(_block2.default, tokenizer), CheddarError.EXPECTED_BLOCK];
-
-            // Match initial `if`
-            var IF = this.grammar(true, FORMAT);
-            if (IF === CheddarError.EXIT_NOTFOUND) return IF;else if (!(IF instanceof _EXPLICIT2.default)) return this.error(IF);
-
-            while (this.lookAhead("else")) {
-                this.jumpLiteral("else");
-
-                if (this.lookAhead("if")) {
-                    // else-if Statement
-
-                    this.jumpLiteral("if");
-                    this.newToken("elif");
-                    this.jumpWhite();
-
-                    var OUT = this.grammar(true, FORMAT);
-
-                    if (!OUT instanceof _EXPLICIT2.default) return this.error(OUT);
-                } else {
-                    // else Statement
-
-                    this.newToken("else");
-                    this.jumpWhite();
-
-                    var RUN = this.initParser(_block2.default);
-                    var RES = RUN.exec(tokenizer);
-
-                    this.Index = RES.Index || RUN.Index;
-
-                    if (RUN.Errored || !RES instanceof _EXPLICIT2.default) return this.error(RES);
-
-                    this.Tokens = RES;
-                }
-
-                this.jumpWhite();
-            }
-
-            return this.close();
-        }
-    }]);
-
-    return StatementIf;
-}(_EXPLICIT2.default);
-
-exports.default = StatementIf;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../parsers/custom":127,"../patterns/EXPLICIT":132,"../patterns/block":133,"./expr":136}],140:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('../tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _expr = require('./expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-var _chars = require('../consts/chars');
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StatementReturn = function (_CheddarLexer) {
-    _inherits(StatementReturn, _CheddarLexer);
-
-    function StatementReturn() {
-        _classCallCheck(this, StatementReturn);
-
-        return _possibleConstructorReturn(this, (StatementReturn.__proto__ || Object.getPrototypeOf(StatementReturn)).apply(this, arguments));
-    }
-
-    _createClass(StatementReturn, [{
-        key: 'exec',
-        value: function exec() {
-            this.open(false);
-
-            this.jumpWhite();
-
-            if (!this.jumpLiteral("return")) return CheddarError.EXIT_NOTFOUND;
-
-            if (_chars.TOKEN_END.indexOf(this.Code[this.Index]) > -1) return CheddarError.EXIT_NOTFOUND;
-
-            this.Tokens = "return";
-
-            var parser = this.initParser(_expr2.default);
-            var res = parser.exec();
-
-            if (!(res instanceof _lex2.default)) {
-                this.Index = parser.Index;
-                return res;
-            }
-
-            this.Index = res.Index;
-            this.Tokens = res;
-
-            return this.close();
-        }
-    }]);
-
-    return StatementReturn;
-}(_lex2.default);
-
-exports.default = StatementReturn;
-module.exports = exports['default'];
-
-},{"../consts/chars":105,"../consts/err":106,"../tok/lex":142,"./expr":136}],141:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lex = require('./tok/lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-var _custom = require('./parsers/custom');
-
-var _custom2 = _interopRequireDefault(_custom);
-
-var _EXPLICIT = require('./patterns/EXPLICIT');
-
-var _EXPLICIT2 = _interopRequireDefault(_EXPLICIT);
-
-var _err = require('./consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _err_msg = require('./consts/err_msg');
-
-var _err_msg2 = _interopRequireDefault(_err_msg);
-
-var _loc = require('../helpers/loc');
-
-var _loc2 = _interopRequireDefault(_loc);
-
-var _assign = require('./states/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _if = require('./states/if');
-
-var _if2 = _interopRequireDefault(_if);
-
-var _for = require('./states/for');
-
-var _for2 = _interopRequireDefault(_for);
-
-var _func = require('./states/func');
-
-var _func2 = _interopRequireDefault(_func);
-
-var _expr = require('./states/expr');
-
-var _expr2 = _interopRequireDefault(_expr);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Global tokenizer
-//  tokenizes expressions and all that great stuff
-
-var CLOSES = '\n;';
-
-var VALID_END = function VALID_END(chr) {
-    return CLOSES.indexOf(chr) > -1 || !chr;
-};
-
-var FORMAT_ERROR = function FORMAT_ERROR(TOK, LEXER) {
-    return TOK.replace(/\$LOC/, (0, _loc2.default)(LEXER.Code, LEXER.Index).slice(0, 2).join(":")).replace(/\$1/, LEXER.Code[LEXER.Index]);
-};
-
-var SINGLELINE_WHITESPACE = /[\t\f ]/;
-var WHITESPACE = /\s/;
-var NEWLINE = /[\r\n]/;
-
-var CheddarTokenize = function (_CheddarLexer) {
-    _inherits(CheddarTokenize, _CheddarLexer);
-
-    function CheddarTokenize() {
-        _classCallCheck(this, CheddarTokenize);
-
-        return _possibleConstructorReturn(this, (CheddarTokenize.__proto__ || Object.getPrototypeOf(CheddarTokenize)).apply(this, arguments));
-    }
-
-    _createClass(CheddarTokenize, [{
-        key: 'exec',
-        value: function exec() {
-            var ENDS = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-            var PARSERS = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-
-            var MATCH = this.attempt(PARSERS.concat([_assign2.default, _if2.default, _for2.default, _func2.default, _expr2.default]), {
-                tok: this.constructor,
-                args: { ENDS: ENDS, PARSERS: PARSERS }
-            });
-
-            if (MATCH instanceof _lex2.default && MATCH.Errored !== true) {
-
-                this.Tokens = MATCH;
-                this.Index = MATCH.Index;
-
-                // Whether or not it backtracked for a newline
-                var backtracked = false;
-
-                while (SINGLELINE_WHITESPACE.test(this.Code[this.Index])) {
-                    backtracked = true;
-                    this.Index--;
-                }
-
-                if (backtracked) {
-                    if (NEWLINE.test(this.Code[this.Index - 1])) {
-                        this.Index--;
-                    } else if (SINGLELINE_WHITESPACE.test(this.Code[this.Index + 1])) {
-                        this.Index++;
-                    }
-                }
-
-                while (this.Code[this.Index] && SINGLELINE_WHITESPACE.test(this.Code[this.Index]) || this._jumpComment()) {
-                    this.Index++;
-                }
-
-                if (ENDS.indexOf(this.Code[this.Index]) > -1) {
-                    return this.close();
-                }
-
-                if (!(MATCH instanceof _EXPLICIT2.default) && !VALID_END(this.Code[this.Index])) {
-                    return this.error(FORMAT_ERROR(_err_msg2.default.get(CheddarError.UNEXPECTED_TOKEN), this));
-                }
-
-                this.Index++;
-
-                this.jumpWhite();
-
-                if (this.Code[this.Index]) {
-                    var M2 = new CheddarTokenize(this.Code, this.Index);
-                    var response = M2.exec.apply(M2, arguments);
-
-                    if (response instanceof _lex2.default) {
-                        var _Tokens;
-
-                        (_Tokens = this._Tokens).push.apply(_Tokens, _toConsumableArray(M2._Tokens));
-                        this.Index = M2.Index;
-                    } else {
-                        if (response !== CheddarError.EXIT_NOTFOUND) return this.error(response);
-                    }
-                }
-
-                return this.close();
-            } else {
-                if (MATCH instanceof _lex2.default) {
-                    return this.error(FORMAT_ERROR(_err_msg2.default.get(CheddarError.UNEXPECTED_TOKEN), this));
-                } else {
-                    return this.error(FORMAT_ERROR((typeof MATCH === 'undefined' ? 'undefined' : _typeof(MATCH)) === 'symbol' ? _err_msg2.default.get(MATCH) : MATCH.toString(), this));
-                }
-            }
-        }
-    }]);
-
-    return CheddarTokenize;
-}(_lex2.default);
-
-exports.default = CheddarTokenize;
-module.exports = exports['default'];
-
-},{"../helpers/loc":4,"./consts/err":106,"./consts/err_msg":107,"./parsers/custom":127,"./patterns/EXPLICIT":132,"./states/assign":134,"./states/expr":136,"./states/for":137,"./states/func":138,"./states/if":139,"./tok/lex":142}],142:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var CheddarLexer = function () {
-    function CheddarLexer(Code, Index) {
-        _classCallCheck(this, CheddarLexer);
-
-        this.isExpression = false;
-
-        this.Code = Code;
-        this.Index = Index;
-
-        this._Tokens = [];
-    }
-
-    _createClass(CheddarLexer, [{
-        key: 'toAST',
-        value: function toAST() {
-            var node = this,
-                tokens = this._Tokens;
-
-            while (tokens.length === 1 && tokens[0].isExpression) {
-                node = tokens[0];
-                tokens = tokens[0]._Tokens;
-            }
-
-            if (tokens.length === 1 && tokens[0] instanceof CheddarLexer) {
-                node = tokens[0];
-                tokens = tokens[0]._Tokens;
-            }
-
-            return node.constructor.name.replace(/^Cheddar/g, '') + '\n' + tokens.map(function (t) {
-                return typeof t === 'string' ? "'" + t + "'" : t;
-            }).map(function (t) {
-                return t.toAST ? t.toAST() : t.toString();
-            }).join(tokens.every(function (o) {
-                return !(o instanceof CheddarLexer);
-            }) ? ' ' : '\n').replace(/^/gm, ' │').replace(/^ │(?! [└├│┬])/gm, ' ├');
-            //.replace(/^((?: [^└├│┬])*)├/gm, '└'); //wait only the last one
-        }
-    }, {
-        key: 'getChar',
-        value: function getChar() {
-            return this.Code[this.Index++];
-        }
-    }, {
-        key: 'newToken',
-        value: function newToken() {
-            var fill = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-            this._Tokens[this._Tokens.push(fill) - 1];return this;
-        }
-    }, {
-        key: 'addToken',
-        value: function addToken() {
-            var char = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-            this._Tokens[this._Tokens.length - 1] += char;return this;
-        }
-    }, {
-        key: 'shift',
-        value: function shift() {
-            return this._Tokens.shift();
-        }
-    }, {
-        key: 'open',
-        value: function open(forceNot) {
-            if (forceNot !== false) this.newToken();
-        }
-    }, {
-        key: 'close',
-        value: function close(arg) {
-            return arg || this;
-        }
-    }, {
-        key: 'error',
-        value: function error(id) {
-            this.Errored = true;
-            return id;
-        }
-    }, {
-        key: 'attempt',
-        value: function attempt() {
-            for (var _len = arguments.length, parsers = Array(_len), _key = 0; _key < _len; _key++) {
-                parsers[_key] = arguments[_key];
-            }
-
-            var global_tokenizer = void 0;
-            if (Array.isArray(parsers[0])) {
-                var _parsers = parsers;
-
-                var _parsers2 = _slicedToArray(_parsers, 2);
-
-                parsers = _parsers2[0];
-                global_tokenizer = _parsers2[1];
-            }
-
-            var attempt = void 0;
-            var furthest = this.Index;
-            for (var i = 0; i < parsers.length; i++) {
-                if (parsers[i] instanceof CheddarLexer) {
-                    parsers[i].Code = this.Code;
-                    parsers[i].Index = this.Index;
-                    attempt = parsers[i].exec(global_tokenizer);
-                } else {
-                    parsers[i] = this.initParser(parsers[i]);
-                    attempt = parsers[i].exec(global_tokenizer);
-                }
-
-                if (attempt instanceof CheddarLexer && attempt.Errored !== true) {
-                    this.Index = attempt.Index;
-                    return attempt;
-                } else if (attempt !== CheddarError.EXIT_NOTFOUND) {
-                    this.Index = parsers[i].Index;
-
-                    if (attempt instanceof CheddarLexer) {
-                        return this.error(CheddarError.UNEXPECTED_TOKEN);
-                    } else {
-                        return this.error(attempt);
-                    }
-                } else {
-                    furthest = Math.max(furthest, parsers[i].Index);
-                }
-            }
-
-            this.Index = furthest;
-            return this.error(CheddarError.EXIT_NOTFOUND);
-        }
-    }, {
-        key: 'initParser',
-        value: function initParser(parseClass) {
-            var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.Index;
-
-            if (parseClass instanceof CheddarLexer) {
-                parseClass.Code = this.Code;
-                parseClass.Index = i;
-                return parseClass;
-            } else {
-                return new parseClass(this.Code, i);
-            }
-        }
-    }, {
-        key: 'tok',
-        value: function tok() {
-            var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-            return this._Tokens[n];
-        }
-    }, {
-        key: 'grammar',
-        value: function grammar(whitespace) {
-            //TODO: remove unused stuff (if any)
-            // defs<Array<CheddarLexer or String>>
-            var index = void 0,
-                parser = void 0,
-                result = void 0,
-                tokens = void 0,
-                i = void 0,
-                j = void 0,
-                WDIFF = void 0,
-                LWMIN = void 0,
-                // last whitespcae lower bound
-            LWMAX = void 0; // last whitespcae upper bound
-
-            for (var _len2 = arguments.length, defs = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-                defs[_key2 - 1] = arguments[_key2];
-            }
-
-            main: for (i = 0; i < defs.length; i++) {
-
-                index = this.Index;
-                tokens = [];
-
-                sub: for (j = 0; j < defs[i].length; j++) {
-                    if (whitespace) {
-                        var oldIndex = this.Index;
-                        var deltaIndex = index;
-                        this.Index = index;
-                        this.jumpWhite();
-                        index = this.Index;
-                        WDIFF = this.Index - deltaIndex > 0;
-                        LWMIN = deltaIndex;
-                        LWMAX = this.Index;
-                        this.Index = oldIndex;
-                    }
-
-                    if (_typeof(defs[i][j]) === 'symbol') {
-                        continue sub;
-                    } else if (defs[i][j] instanceof CheddarLexer) {
-                        parser = defs[i][j];
-                        parser.Code = this.Code;
-                        parser.Index = index;
-                        result = parser.exec();
-
-                        if (result === CheddarError.EXIT_NOTFOUND) {
-                            continue main;
-                        } else if (!(result instanceof CheddarLexer)) {
-                            this.Index = parser.Index;
-                            return this.error(result);
-                        }
-
-                        index = result.Index;
-
-                        tokens.push(result);
-                    } else if (defs[i][j].prototype instanceof CheddarLexer) {
-                        parser = new defs[i][j](this.Code, index);
-                        result = parser.exec();
-
-                        if (!(result instanceof CheddarLexer) && _typeof(defs[i][j + 1]) === 'symbol') {
-                            if (defs[i][j + 1] === CheddarError.ALLOW_ERROR) {
-                                j++;
-                                continue main;
-                            } else {
-                                this.Index = Math.max(parser.Index, index);
-                                return this.error(defs[i][j + 1]);
-                            }
-                        }
-
-                        if (result === CheddarError.EXIT_NOTFOUND) {
-                            continue main;
-                        } else if (!(result instanceof CheddarLexer)) {
-                            this.Index = parser.Index;
-                            return this.error(result);
-                        }
-
-                        index = parser.Index;
-
-                        // Filters out meaningless data
-                        if (!((result.constructor.name.endsWith('Alpha') || result.constructor.name.endsWith('Beta')) && result._Tokens.length === 0)) tokens.push(result);
-                    } else if (defs[i][j] === this.jumpWhite) {
-                        var _oldIndex = this.Index;
-                        this.Index = index;
-                        if (whitespace ? !WDIFF : !/\s/.test(this.curchar)) return this.error(CheddarError.EXIT_NOTFOUND);
-                        this.jumpWhite();
-                        index = this.Index;
-                        this.Index = _oldIndex;
-                    } else if (defs[i][j] === this.jumpSpace) {
-                        var _oldIndex2 = this.Index;
-                        this.Index = index;
-                        this.jumpWhite();
-                        index = this.Index;
-                        this.Index = _oldIndex2;
-                    } else if (Array.isArray(defs[i][j])) {
-                        if (defs[i][j].length === 1) {
-                            if (Array.isArray(defs[i][j][0])) {
-                                var _defs$i;
-
-                                // TODO: not recommended; creates 2^optionals new rules
-                                //slice(0) clones array
-                                var def = defs[i].slice(0);
-                                def.splice(j, 1);
-                                defs.splice(i + 1, 0, def);
-                                (_defs$i = defs[i]).splice.apply(_defs$i, [j, 1].concat(_toConsumableArray(defs[i][j][0])));
-                                i--;
-                                continue main;
-                            }
-
-                            // Optional
-                            if (typeof defs[i][j][0] === 'string') {
-                                // If it matches
-                                if (this.Code.indexOf(defs[i][j][0], index) === index) {
-                                    index += defs[i][j][0].length;
-                                    tokens.push(defs[i][j][0]);
-                                }
-                            } else {
-                                parser = this.initParser(defs[i][j][0], index);
-                                result = parser.exec();
-
-                                if (result !== CheddarError.EXIT_NOTFOUND) {
-                                    if (!(result instanceof CheddarLexer)) {
-                                        return this.error(result);
-                                    } else {
-                                        index = result.Index;
-
-                                        // Filter
-                                        if (!((result.constructor.name.endsWith('Alpha') || result.constructor.name.endsWith('Beta')) && result._Tokens.length === 0)) tokens.push(result);
-                                    }
-                                }
-                            }
-                        } else {
-                            // OR
-                            var match = void 0;
-                            var _oldIndex3 = this.Index;
-                            var success = false;
-                            for (var k = 0; k < defs[i][j].length; k++) {
-                                this.Index = index;
-                                if (defs[i][j][k].prototype instanceof CheddarLexer || defs[i][j][k] instanceof CheddarLexer) {
-                                    result = this.initParser(defs[i][j][k]).exec();
-                                    if (result instanceof CheddarLexer) {
-                                        match = result;
-                                        index = result.Index;
-                                        break;
-                                    }
-                                    if (result !== CheddarError.EXIT_NOTFOUND) return this.error(result);
-                                } else {
-                                    result = this.jumpLiteral(defs[i][j][k]);
-                                    if (result) {
-                                        success = true;
-                                        match = defs[i][j][k];
-                                        index = this.Index;
-                                        break;
-                                    }
-                                }
-                            }
-                            this.Index = _oldIndex3;
-                            if (match || success) {
-                                if (!((result.constructor.name.endsWith('Alpha') || result.constructor.name.endsWith('Beta')) && result._Tokens.length === 0)) {
-                                    tokens.push(match);
-                                    continue sub;
-                                }
-                            } else {
-                                // this.Index = result.Index;
-                                if (defs[i][j + 1] === CheddarError.ALLOW_ERROR) {
-                                    j++;
-                                    continue main;
-                                } else {
-                                    return this.error(CheddarError.EXIT_NOTFOUND);
-                                }
-                            }
-                        }
-                    } else {
-                        // It must be a string
-                        var _oldIndex4 = this.Index;
-                        this.Index = index;
-                        result = this.jumpLiteral(defs[i][j]);
-                        if (result) index = this.Index;
-                        this.Index = _oldIndex4;
-                        if (!result) continue main;
-                    }
-                }
-
-                this.Tokens = tokens;
-                this.Index = index;
-
-                if (LWMAX === this.Index && LWMIN < LWMAX) {
-                    this.Index = LWMIN;
-                }
-
-                return this.close();
-            }
-
-            return this.error(CheddarError.EXIT_NOTFOUND);
-        }
-
-        /*
-        Whitespace Grammar:
-        W -> w
-             w C1 w
-             w C2 w
-             ... etc
-         Right-recursive:
-        W -> w α
-             α
-        α -> C1 W
-             C2 W
-         where C1...CN are terminal comment grammars
-        */
-
-    }, {
-        key: 'jumpWhite',
-        value: function jumpWhite() {
-            var STARTINDEX = this.Index;
-            while (/\s/.test(this.Code[this.Index])) {
-                this.Index++;
-                this._jumpComment();
-            }
-
-            return this;
-        }
-    }, {
-        key: '_jumpComment',
-        value: function _jumpComment() {
-            if (this.Code[this.Index] === '/') {
-                switch (this.Code[this.Index + 1]) {
-                    case '*':
-                        // match till EOF or '*/'
-                        this.Index += 2;
-                        this._jumpBlockComment();
-                        break;
-                    case '/':
-                        // match till EOF or newline
-                        this.Index += 2; // jump ahead to the start of the comment
-                        while (this.curchar && this.curchar !== '\n') {
-                            this.Index++;
-                        }break;
-                    default:
-                        return false;
-                }
-
-                return true;
-            } else {
-                return false;
-            }
-
-            // you must of borked something bad if this is executing
-        }
-    }, {
-        key: '_jumpBlockComment',
-        value: function _jumpBlockComment() {
-            var nextStart = void 0,
-                nextEnd = void 0,
-                depth = 1,
-                newIndex = this.Index + 2;
-            while (depth) {
-                nextStart = this.Code.indexOf('/*', newIndex);
-                nextEnd = this.Code.indexOf('*/', newIndex);
-                if (nextStart < nextEnd) {
-                    depth++;
-                    newIndex = nextStart + 2;
-                } else {
-                    depth--;
-                    newIndex = nextEnd + 2;
-                }
-                if (nextEnd === -1) return this.error(CheddarError.UNEXPECTED_TOKEN);
-            }
-            this.Index = newIndex;
-            return this;
-        }
-    }, {
-        key: 'jumpLiteral',
-        value: function jumpLiteral(l) {
-            //TODO: make more efficient
-            //downgoat D: this returned first index
-            //took me 6 hours to figure out the problem :(
-            //D: D: D:
-            if (this.Code.indexOf(l, this.Index) === this.Index) this.Index += l.length;else return false;
-            return this;
-        }
-    }, {
-        key: 'jumpSpace',
-        value: function jumpSpace() {
-            return this.jumpWhite();
-        }
-    }, {
-        key: 'lookAhead',
-        value: function lookAhead(seq) {
-            this.jumpWhite();
-            return this.Code.indexOf(seq, this.Index) === this.Index;
-        }
-    }, {
-        key: 'curchar',
-        get: function get() {
-            return this.Code[this.Index];
-        }
-    }, {
-        key: 'last',
-        get: function get() {
-            return this._Tokens[this._Tokens.length - 1];
-        }
-    }, {
-        key: 'Tokens',
-        get: function get() {
-            return this._Tokens;
-        },
-        set: function set(v) {
-            var _Tokens;
-
-            if (Array.isArray(v)) (_Tokens = this._Tokens).push.apply(_Tokens, _toConsumableArray(v));else this._Tokens.push(v);
-        }
-    }, {
-        key: 'isLast',
-        get: function get() {
-            return !this.Code[this.Index];
-        }
-    }, {
-        key: 'isPrimitive',
-        get: function get() {
-            return false;
-        }
-    }]);
-
-    return CheddarLexer;
-}();
-
-exports.default = CheddarLexer;
-module.exports = exports['default'];
-
-},{"../consts/err":106}],143:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _op = require('../literals/op');
-
-var _op2 = _interopRequireDefault(_op);
-
-var _ops = require('../consts/ops');
-
-var _err = require('../consts/err');
-
-var CheddarError = _interopRequireWildcard(_err);
-
-var _lex = require('./lex');
-
-var _lex2 = _interopRequireDefault(_lex);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CheddarShuntingYard = function (_CheddarLexer) {
-    _inherits(CheddarShuntingYard, _CheddarLexer);
-
-    function CheddarShuntingYard() {
-        _classCallCheck(this, CheddarShuntingYard);
-
-        return _possibleConstructorReturn(this, (CheddarShuntingYard.__proto__ || Object.getPrototypeOf(CheddarShuntingYard)).apply(this, arguments));
-    }
-
-    _createClass(CheddarShuntingYard, [{
-        key: 'exec',
-        value: function exec(expression) {
-            var _Tokens;
-
-            if (expression && expression.Code) this.Code = expression.Code;
-            if (expression && expression.Index) this.Index = expression.Index;
-
-            // Flatten the expression
-            var current = expression;
-            var tokens = [];
-            if (!current || !current.isExpression || current._Tokens.length > 2) return this.close(expression);
-
-            while (current && current._Tokens.length === 2 && (current.tok(1).isExpression || // prevents import recursion
-            current.tok(1) instanceof CheddarShuntingYard)) {
-                if (current.tok().isExpression) //TODO: code, index
-                    tokens.push(new CheddarShuntingYard().exec(current.tok()));else tokens.push(current.tok());
-                if (current.tok(1) instanceof CheddarShuntingYard) {
-                    tokens.push(current.tok(1));
-                    current = null;
-                    break;
-                } else current = current.tok(1);
-                //TODO: make sure this covers all cases; otherwise, see when this doesn't work
-            }
-
-            if (current && current._Tokens.length > 1) {
-                this.Index = current.Index;
-                return this.error(CheddarError.UNEXPECTED_TOKEN);
-            }
-
-            if (current && current._Tokens.length === 1) {
-                if (current.tok().isExpression) tokens.push(new CheddarShuntingYard().exec(current.tok()));else tokens.push(current.tok());
-            }
-
-            // Reorder tokens
-            var operators = [],
-                precedences = [],
-                unary = true;
-            for (var i = 0; i < tokens.length; i++) {
-                var token = tokens[i],
-                    previousPrecedence = 0;
-                if (token instanceof CheddarShuntingYard) {
-                    for (var _i = 0; _i < token._Tokens.length; _i++) {
-                        this.Tokens = token.tok(_i);
-                    }unary = false;
-                } else if (token instanceof _op2.default) {
-                    // It's an operator
-                    if (_ops.RA_PRECEDENCE.has(token.tok(0))) token.Tokens = _ops.TYPE.RTL;else if (unary) token.Tokens = _ops.TYPE.UNARY;else token.Tokens = _ops.TYPE.LTR;
-
-                    var precedence = void 0;
-                    switch (token.tok(1)) {
-                        case _ops.TYPE.RTL:
-                            precedence = _ops.RA_PRECEDENCE.get(token.tok());
-                            break;
-                        case _ops.TYPE.UNARY:
-                            precedence = _ops.UNARY_PRECEDENCE.get(token.tok());
-                            break;
-                        case _ops.TYPE.LTR:
-                            precedence = _ops.PRECEDENCE.get(token.tok());
-                            break;
-                    }
-
-                    var minus = token.tok(1) == _ops.TYPE.RTL ? 0 : 1;
-                    previousPrecedence = precedences[precedences.length - 1];
-                    while (precedence - minus < previousPrecedence) {
-                        this.Tokens = operators.pop();
-                        precedences.pop();
-                        previousPrecedence = precedences[precedences.length - 1];
-                    }
-
-                    operators.push(token);
-                    precedences.push(precedence);
-                    previousPrecedence = precedence;
-                    unary = true;
-                } else {
-                    this.Tokens = token;
-                    unary = false;
-                }
-            }
-
-            (_Tokens = this.Tokens).push.apply(_Tokens, _toConsumableArray(operators.reverse()));
-
-            return this.close();
-        }
-    }]);
-
-    return CheddarShuntingYard;
-}(_lex2.default);
-
-exports.default = CheddarShuntingYard;
-module.exports = exports['default'];
-
-},{"../consts/err":106,"../consts/ops":108,"../literals/op":117,"./lex":142}],144:[function(require,module,exports){
 // bases.js
 // Utility for converting numbers to/from different bases/alphabets.
 // See README.md for details.
@@ -9544,191 +5988,335 @@ bases.fromBase = function (str, base) {
     return bases.fromAlphabet(str, bases.KNOWN_ALPHABETS[base]);
 };
 
-},{}],145:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 
-},{}],146:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
+},{}],107:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});/*
+ * DEFAULT CONSTANTS
+ * List:
+  * DIGITS  0-9
+  * ALPHA   a-z
+  * UALPHA  A-Z
+  * MALPHA  A-Za-z
+  * NUMERALS 0-9A-F
+  * WHTIESPACE \s
+  *
+  * OP  infix operators
+  * UOP unary operators
+  * SYMBOL_FILTER valid characters in operators
+  *
+  * STRING_DELIMITERS
+  * STRING_ESCAPE
+  * NUMBER_GROUPING number grouping delimiters
+  * NUMBER_DECIMALS decimal point to use
+  *
+  * BASE_IDENTIFIERS
+  *
+  * RESERVED reserved token names
+**/var DIGITS=exports.DIGITS='0123456789';var ALPHA=exports.ALPHA='abcdefghijklmnopqrstuvwxyz';var UALPHA=exports.UALPHA='ABCDEFGHIJKLMNOPQRSTUVWXYZ';var MALPHA=exports.MALPHA=ALPHA+UALPHA;var NUMERALS=exports.NUMERALS='0123456789ABCDEF';var WHITESPACE=exports.WHITESPACE='\r\n\f ';// Add \t here to allow tabs
+var TOKEN_START=exports.TOKEN_START=MALPHA+'_$';var TOKEN_END=exports.TOKEN_END=TOKEN_START+DIGITS;/*== Operator Constants ==*//*== Parse Data ==*/var STRING_DELIMITERS=exports.STRING_DELIMITERS=['\'','"'];var STRING_ESCAPE=exports.STRING_ESCAPE='\\';var SYMBOL_FILTER=exports.SYMBOL_FILTER='!%&*+-:<=>@^|~';var NUMBER_GROUPING=exports.NUMBER_GROUPING=['_'];var NUMBER_DECIMALS=exports.NUMBER_DECIMALS=['.'];var EXPR_OPEN=exports.EXPR_OPEN='(';var EXPR_CLOSE=exports.EXPR_CLOSE=')';/*== Regex Data ==*/var REGEX_DELIMITER=exports.REGEX_DELIMITER='/';var REGEX_ESCAPE=exports.REGEX_ESCAPE='\\';var REGEX_FLAGS=exports.REGEX_FLAGS='nsxgimc';/*== Array Data ==*/var ARRAY_OPEN=exports.ARRAY_OPEN='[';var ARRAY_CLOSE=exports.ARRAY_CLOSE=']';var ARRAY_SEPARATOR=exports.ARRAY_SEPARATOR=',';/*== String Data ==*/var STRING_ESCAPES=exports.STRING_ESCAPES=new Map([['0',String.fromCharCode(0)],['a',String.fromCharCode(8)],['b','\b'],['t','\t'],['n','\n'],['v','\x0B'],['f','\f'],['r','\r'],['e',String.fromCharCode(27)]]);/*== Number Data ==*/var BASE_IDENTIFIERS=exports.BASE_IDENTIFIERS=['b','o','x'];var BASE_RESPECTIVE_NUMBERS=exports.BASE_RESPECTIVE_NUMBERS=[2,8,16];/*== Conflict Data ==*/var RESERVED=exports.RESERVED=['sqrt','cos','sin','sign'];
+},{}],108:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});/*
+ * DEFAULT ERROR CODES
+ * Codes:
+  0. Success
+  1. Unexpected token
+  2. Unexpected
+**/var EXIT_NOTFOUND=exports.EXIT_NOTFOUND=Symbol('er_EXIT_NOTFOUND');var UNEXPECTED_TOKEN=exports.UNEXPECTED_TOKEN=Symbol('er_UNEXPECTED_TOKEN');var UNMATCHED_DELIMITER=exports.UNMATCHED_DELIMITER=Symbol('er_UNMATCHED_DELIMITER');var EXPECTED_BLOCK=exports.EXPECTED_BLOCK=Symbol('er_EXPECTED_BLOCK');var ALLOW_ERROR=exports.ALLOW_ERROR=Symbol('er_ALLOW_ERROR');
+},{}],109:[function(require,module,exports){
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});var _err=require("./err");var _SyntaxError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}exports.default=new Map([[_SyntaxError.EXIT_NOTFOUND,"Abnormal syntax at $LOC"],[_SyntaxError.UNEXPECTED_TOKEN,"Unexpected token at $LOC"],[_SyntaxError.UNMATCHED_DELIMITER,"Expected a matching delimiter for `$1` at $LOC"],[_SyntaxError.EXPECTED_BLOCK,"Expected a code block at $LOC"]]);module.exports=exports["default"];
+},{"./err":108}],110:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});/*
+ * DEFAULT Operators
+ * OP - Operators
+ * UOP - Unary operators
+**/var RESERVED_KEYWORDS=exports.RESERVED_KEYWORDS=new Set(['sqrt','cbrt','root','sin','cos','tan','acos','asin','atan','log','has','floor','ceil','round','abs','repr','sign','print','what','is','actually','as',// States
+'var','const','if','for','while','break','return','func','class',// Literals
+'true','false','nil']);var EXCLUDE_META_ASSIGNMENT=exports.EXCLUDE_META_ASSIGNMENT=new Set(['==','!=','<=','>=']);var OP=exports.OP=['**','*','/','%','+','-','<=','>=','<','>','==','&','|','^','&&','||','!=','=','+=','-=','*=','/=','^=','%=','&=','|=','<<','>>','<<=','>>=','|>','::','as','@"','has','log','sign','root','is','actually','=>'].sort(function(a,b){return b.length-a.length});// Unary operators
+var UOP=exports.UOP=['-','+','!','~','|>','sqrt','cbrt','sin','cos','tan','acos','asin','atan','floor','ceil','round','abs','repr','print','log','sign','@"','what','is'];var UNARY_PRECEDENCE=exports.UNARY_PRECEDENCE=new Map([['!',20000],['-',20000],['+',20000],['|>',18000],['@"',17000],['what',16000],['~',15000],['is',15000],['sqrt',15000],['cbrt',15000],['cos',15000],['sin',15000],['tan',15000],['acos',15000],['asin',15000],['atan',15000],['log',15000],['floor',15000],['ceil',15000],['abs',15000],['repr',15000],['round',15000],['sign',15000],['print',0]]);var PRECEDENCE=exports.PRECEDENCE=new Map([['::',16000],['@"',15000],['|>',15000],['as',14000],['log',14000],['is',14000],['actually',14000],['root',14000],['=>',13000],['*',13000],['/',13000],['%',13000],['+',12000],['-',12000],['<<',11000],['>>',11000],['<',10000],['>',10000],['<=',10000],['>=',10000],['sign',10000],['has',9000],['==',9000],['!=',9000],['&',8000],['^',7000],['|',6000],['&&',2001],['||',2000]]);var RA_PRECEDENCE=exports.RA_PRECEDENCE=new Map([['**',14000],['+=',1000],['-=',1000],['*=',1000],['/=',1000],['%=',1000],['&=',1000],['|=',1000],['^=',1000],['<<=',1000],['>>=',1000],['=',1000]]);var TYPE=exports.TYPE={UNARY:Symbol('Unary Operator'),LTR:Symbol('LTR Operator'),RTL:Symbol('RTL Operator')};
+},{}],111:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var PropertyType=exports.PropertyType={Property:Symbol('Property'),Method:Symbol('Method')};var ClassType=exports.ClassType={Boolean:Symbol('Boolean'),Number:Symbol('Number'),String:Symbol('String'),Array:Symbol('Array')};
+},{}],112:[function(require,module,exports){
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.default=HelperLocateIndex;// Locates an Column:Row given an index
+function HelperLocateIndex(Code,Index){var num=1;// Line #
+var last=0;// Last newline
+var i=0;for(;i<=Index;i++){if(Code[i]==="\n"){num++;last=i}else if(i===Index)return[num,i-last,i]}return[num,i-last,i]}module.exports=exports["default"];
+},{}],113:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _primitive=require('./primitive');var _primitive2=_interopRequireDefault(_primitive);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _types=require('../consts/types');function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarBooleanToken=function(_CheddarPrimitive){_inherits(CheddarBooleanToken,_CheddarPrimitive);function CheddarBooleanToken(){_classCallCheck(this,CheddarBooleanToken);return _possibleConstructorReturn(this,(CheddarBooleanToken.__proto__||Object.getPrototypeOf(CheddarBooleanToken)).apply(this,arguments))}_createClass(CheddarBooleanToken,[{key:'exec',value:function exec(){if(this.curchar==='t'&&this.Code[this.Index+1]==='r'&&this.Code[this.Index+2]==='u'&&this.Code[this.Index+3]==='e'){this.Index+=4;this.Tokens=true;return this.close()}if(this.curchar==='f'&&this.Code[this.Index+1]==='a'&&this.Code[this.Index+2]==='l'&&this.Code[this.Index+3]==='s'&&this.Code[this.Index+4]==='e'){this.Index+=5;this.Tokens=false;return this.close()}return this.close(CheddarError.EXIT_NOTFOUND)}},{key:'Type',get:function get(){return _types.ClassType.Boolean}}]);return CheddarBooleanToken}(_primitive2.default);exports.default=CheddarBooleanToken;module.exports=exports['default'];
+},{"../consts/err":108,"../consts/types":111,"./primitive":121}],114:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _primitive=require('./primitive');var _primitive2=_interopRequireDefault(_primitive);var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _array=require('../parsers/array');var _array2=_interopRequireDefault(_array);var _expr=require('../parsers/expr');var _expr2=_interopRequireDefault(_expr);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarDictItemToken=function(_CheddarLexer){_inherits(CheddarDictItemToken,_CheddarLexer);function CheddarDictItemToken(){_classCallCheck(this,CheddarDictItemToken);return _possibleConstructorReturn(this,(CheddarDictItemToken.__proto__||Object.getPrototypeOf(CheddarDictItemToken)).apply(this,arguments))}_createClass(CheddarDictItemToken,[{key:'exec',value:function exec(){this.open(false);// Match the key
+var key=this.initParser(_expr2.default);var key_tokens=key.exec(true);if(!(key_tokens instanceof _lex2.default)){this.Index=key.Index;return key_tokens}this.Index=key_tokens.Index;this.Tokens=key_tokens;// Check if `:`, not then not dict
+if(!this.jumpLiteral(':')){return CheddarError.EXIT_NOTFOUND}this.jumpWhite();// Match the value
+var value=this.initParser(_expr2.default);var value_tokens=value.exec(true);if(!(value_tokens instanceof _lex2.default)){this.Index=value.Index;return value_tokens}this.Index=value_tokens.Index;this.Tokens=value_tokens;return this.close()}}]);return CheddarDictItemToken}(_lex2.default);var CheddarDictToken=function(_CheddarPrimitive){_inherits(CheddarDictToken,_CheddarPrimitive);function CheddarDictToken(){_classCallCheck(this,CheddarDictToken);return _possibleConstructorReturn(this,(CheddarDictToken.__proto__||Object.getPrototypeOf(CheddarDictToken)).apply(this,arguments))}_createClass(CheddarDictToken,[{key:'exec',value:function exec(){this.open(false);var res_init=new _array2.default(this.Code,this.Index);var res=res_init.exec('[',']',CheddarDictItemToken);if(!(res instanceof _lex2.default)){this.Index=res_init.Index;return res}this.Index=res.Index;this.Tokens=res;return this.close()}}]);return CheddarDictToken}(_primitive2.default);exports.default=CheddarDictToken;module.exports=exports['default'];
+},{"../consts/err":108,"../parsers/array":129,"../parsers/expr":131,"../tok/lex":145,"./primitive":121}],115:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _ops=require('../consts/ops');var _primitive=require('./primitive');var _primitive2=_interopRequireDefault(_primitive);var _err=require('../consts/err');var _err2=_interopRequireDefault(_err);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}// Functionized operators
+var OPERATORS=_ops.UOP.concat(_ops.OP).sort(function(a,b){return b.length-a.length});var CheddarFunctionizedOperatorToken=function(_CheddarPrimitive){_inherits(CheddarFunctionizedOperatorToken,_CheddarPrimitive);function CheddarFunctionizedOperatorToken(){_classCallCheck(this,CheddarFunctionizedOperatorToken);return _possibleConstructorReturn(this,(CheddarFunctionizedOperatorToken.__proto__||Object.getPrototypeOf(CheddarFunctionizedOperatorToken)).apply(this,arguments))}_createClass(CheddarFunctionizedOperatorToken,[{key:'exec',value:function exec(){var FOP=this.grammar(true,['(',_ops.OP.concat(_ops.UOP),[':'],')']);return FOP}}]);return CheddarFunctionizedOperatorToken}(_primitive2.default);exports.default=CheddarFunctionizedOperatorToken;module.exports=exports['default'];
+},{"../consts/err":108,"../consts/ops":110,"./primitive":121}],116:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _ops=require('../consts/ops');var _primitive=require('./primitive');var _primitive2=_interopRequireDefault(_primitive);var _property=require('../parsers/property');var _property2=_interopRequireDefault(_property);var _custom=require('../parsers/custom');var _custom2=_interopRequireDefault(_custom);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}// Functionized operators
+var CheddarFunctionizedPropertyToken=function(_CheddarPrimitive){_inherits(CheddarFunctionizedPropertyToken,_CheddarPrimitive);function CheddarFunctionizedPropertyToken(){_classCallCheck(this,CheddarFunctionizedPropertyToken);return _possibleConstructorReturn(this,(CheddarFunctionizedPropertyToken.__proto__||Object.getPrototypeOf(CheddarFunctionizedPropertyToken)).apply(this,arguments))}_createClass(CheddarFunctionizedPropertyToken,[{key:'exec',value:function exec(){var FPROP=this.grammar(true,['@.',(0,_custom2.default)(_property2.default,true)]);return FPROP}}]);return CheddarFunctionizedPropertyToken}(_primitive2.default);exports.default=CheddarFunctionizedPropertyToken;module.exports=exports['default'];
+},{"../consts/ops":110,"../parsers/custom":130,"../parsers/property":134,"./primitive":121}],117:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _chars=require('../consts/chars');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarLiteral=function(_CheddarLexer){_inherits(CheddarLiteral,_CheddarLexer);function CheddarLiteral(){_classCallCheck(this,CheddarLiteral);return _possibleConstructorReturn(this,(CheddarLiteral.__proto__||Object.getPrototypeOf(CheddarLiteral)).apply(this,arguments))}_createClass(CheddarLiteral,[{key:'exec',value:function exec(){this.open();var chr=this.getChar();if(_chars.TOKEN_START.indexOf(chr)>-1){this.addToken(chr);while(chr=this.getChar()){if(_chars.TOKEN_START.indexOf(chr)>-1){this.addToken(chr)}else{--this.Index;break}}return this.close()}else{return this.error(CheddarError.EXIT_NOTFOUND)}}}]);return CheddarLiteral}(_lex2.default);exports.default=CheddarLiteral;module.exports=exports['default'];
+},{"../consts/chars":107,"../consts/err":108,"../tok/lex":145}],118:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _primitive=require('./primitive');var _primitive2=_interopRequireDefault(_primitive);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _types=require('../consts/types');function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarNilToken=function(_CheddarPrimitive){_inherits(CheddarNilToken,_CheddarPrimitive);function CheddarNilToken(){_classCallCheck(this,CheddarNilToken);return _possibleConstructorReturn(this,(CheddarNilToken.__proto__||Object.getPrototypeOf(CheddarNilToken)).apply(this,arguments))}_createClass(CheddarNilToken,[{key:'exec',value:function exec(){if(this.curchar==='n'&&this.Code[this.Index+1]==='i'&&this.Code[this.Index+2]==='l'){this.Index+=3;return this.close()}return this.close(CheddarError.EXIT_NOTFOUND)}},{key:'Type',get:function get(){return _types.ClassType.Boolean}}]);return CheddarNilToken}(_primitive2.default);exports.default=CheddarNilToken;module.exports=exports['default'];
+},{"../consts/err":108,"../consts/types":111,"./primitive":121}],119:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _primitive=require('./primitive');var _primitive2=_interopRequireDefault(_primitive);var _chars=require('../consts/chars');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _types=require('../consts/types');function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarNumberToken=function(_CheddarPrimitive){_inherits(CheddarNumberToken,_CheddarPrimitive);function CheddarNumberToken(){_classCallCheck(this,CheddarNumberToken);return _possibleConstructorReturn(this,(CheddarNumberToken.__proto__||Object.getPrototypeOf(CheddarNumberToken)).apply(this,arguments))}_createClass(CheddarNumberToken,[{key:'exec',value:function exec(){this.open(false);var chr=this.getChar();// Get first char
+// Ensure it starts with a digit or decimal
+if(_chars.DIGITS.indexOf(chr)>-1||_chars.NUMBER_DECIMALS.indexOf(chr)>-1){// Is a number
+// Parses in two parts:
+// 1. determining the base
+// 2. parsing the integer
+// 3. parsing the decimal
+// Errors are handled each step
+// Fatal errors only occur with
+//  number seperators
+// Base Determination
+var second_char=this.Code[this.Index];// Gets the next character
+var base=void 0;if(second_char)second_char=second_char.toLowerCase();if(_chars.BASE_IDENTIFIERS.indexOf(second_char)>-1){// if it's a different base
+base=_chars.BASE_RESPECTIVE_NUMBERS[_chars.BASE_IDENTIFIERS.indexOf(second_char)];++this.Index}else{base=10;--this.Index;// take it back now y'all
+}this.newToken(base);var digit_set=_chars.NUMERALS.slice(0,base);// add bitshift as token
+if(base!==10)this.newToken(chr);else this.newToken(0);// Integer Parsing
+this.newToken();var decimal_parsed=false;// Loop through literal
+while(chr=this.getChar()){// Within base range?
+if(digit_set.indexOf(chr.toUpperCase())>-1)this.addToken(chr);// If is a decimal and no decimals have occured yet
+else if(_chars.NUMBER_DECIMALS.indexOf(chr)>-1&&decimal_parsed===false)decimal_parsed=true,this.addToken(chr);// Is a digit seperator e.g. _
+else if(_chars.NUMBER_GROUPING.indexOf(chr)>-1){// Not the first or last integer digit
+if(this.last&&this.Code[this.Index]&&(digit_set.indexOf(this.Code[this.Index].toUpperCase())>-1||_chars.NUMBER_GROUPING.indexOf(this.Code[this.Index])>-1))continue;else return this.error(CheddarError.UNEXPECTED_TOKEN);}else break}--this.Index;// If no digits were found in the literal
+if(this.last==='.'){--this.Index;return this.error(CheddarError.UNEXPECTED_TOKEN);// throw compile error
+}if(this.Code[this.Index-1]==='.'){--this.Index}return this.close();// Close the parser
+}else{return this.error(CheddarError.EXIT_NOTFOUND);// Safe exit
+}}},{key:'Type',get:function get(){return _types.ClassType.Number}}]);return CheddarNumberToken}(_primitive2.default);exports.default=CheddarNumberToken;module.exports=exports['default'];
+},{"../consts/chars":107,"../consts/err":108,"../consts/types":111,"./primitive":121}],120:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _ops=require('../consts/ops');function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarOperatorToken=function(_CheddarLexer){_inherits(CheddarOperatorToken,_CheddarLexer);function CheddarOperatorToken(){_classCallCheck(this,CheddarOperatorToken);return _possibleConstructorReturn(this,(CheddarOperatorToken.__proto__||Object.getPrototypeOf(CheddarOperatorToken)).apply(this,arguments))}_createClass(CheddarOperatorToken,[{key:'exec',value:function exec(UNARY){var ops=UNARY?_ops.UOP:_ops.OP;// this.Code is the code
+// this.Index is the index
+this.open(false);var op=void 0;for(var i=0;i<ops.length;i++){if(this.Code.indexOf(ops[i],this.Index)===this.Index){if((!op||op.length<ops[i].length)&&!(/[a-z][a-z0-9]*/i.test(ops[i])&&/[a-z0-9]/i.test(this.Code[this.Index+ops[i].length])))op=ops[i]}}if(op){this.Tokens=op;this.Index+=op.length;return this.close()}else{return this.error(CheddarError.EXIT_NOTFOUND)}}}]);return CheddarOperatorToken}(_lex2.default);exports.default=CheddarOperatorToken;module.exports=exports['default'];
+},{"../consts/err":108,"../consts/ops":110,"../tok/lex":145}],121:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _literal=require('./literal');var _literal2=_interopRequireDefault(_literal);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarPrimitive=function(_CheddarLiteral){_inherits(CheddarPrimitive,_CheddarLiteral);function CheddarPrimitive(){_classCallCheck(this,CheddarPrimitive);return _possibleConstructorReturn(this,(CheddarPrimitive.__proto__||Object.getPrototypeOf(CheddarPrimitive)).apply(this,arguments))}return CheddarPrimitive}(_literal2.default);exports.default=CheddarPrimitive;module.exports=exports['default'];
+},{"./literal":117}],122:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _primitive=require('./primitive');var _primitive2=_interopRequireDefault(_primitive);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _chars=require('../consts/chars');function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarRegexToken=function(_CheddarPrimitive){_inherits(CheddarRegexToken,_CheddarPrimitive);function CheddarRegexToken(){_classCallCheck(this,CheddarRegexToken);return _possibleConstructorReturn(this,(CheddarRegexToken.__proto__||Object.getPrototypeOf(CheddarRegexToken)).apply(this,arguments))}_createClass(CheddarRegexToken,[{key:'exec',value:function exec(){this.open();if(this.getChar()===_chars.REGEX_DELIMITER){var loc=this.Index-1;// in a regex
+if('*/'.includes(this.Code[this.Index]))return CheddarError.EXIT_NOTFOUND;var chr=void 0;while(chr=this.getChar()){if(chr===_chars.REGEX_DELIMITER){break}else if(this.isLast){this.Index=loc;return this.error(CheddarError.UNMATCHED_DELIMITER)}else if(chr===_chars.REGEX_ESCAPE){this.addToken(_chars.REGEX_ESCAPE+this.getChar())}else{this.addToken(chr)}}// Match flags
+this.newToken();// Flag to store token
+while(_chars.REGEX_FLAGS.indexOf(this.Code[this.Index])>-1){this.addToken(this.Code[this.Index++])}return this.close()}else{return this.error(CheddarError.EXIT_NOTFOUND)}}}]);return CheddarRegexToken}(_primitive2.default);exports.default=CheddarRegexToken;module.exports=exports['default'];
+},{"../consts/chars":107,"../consts/err":108,"./primitive":121}],123:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _primitive=require('./primitive');var _primitive2=_interopRequireDefault(_primitive);var _chars=require('../consts/chars');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _types=require('../consts/types');function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarStringToken=function(_CheddarPrimitive){_inherits(CheddarStringToken,_CheddarPrimitive);function CheddarStringToken(){_classCallCheck(this,CheddarStringToken);return _possibleConstructorReturn(this,(CheddarStringToken.__proto__||Object.getPrototypeOf(CheddarStringToken)).apply(this,arguments))}_createClass(CheddarStringToken,[{key:'exec',value:function exec(){this.open();var chr=this.getChar();if(_chars.STRING_DELIMITERS.indexOf(chr)>-1){var loc=this.Index-1;// in a string
+var qt=chr;// store quote
+var esc=void 0;while(true){chr=this.getChar();if(chr===qt){break}else if(!this.Code[this.Index]){this.Index=loc;return this.error(CheddarError.UNMATCHED_DELIMITER)}else if(chr===_chars.STRING_ESCAPE){this.addToken(_chars.STRING_ESCAPES.has(esc=this.getChar())?_chars.STRING_ESCAPES.get(esc):esc)}else{this.addToken(chr)}}return this.close()}else{return this.error(CheddarError.EXIT_NOTFOUND)}}},{key:'Type',get:function get(){return _types.ClassType.String}}]);return CheddarStringToken}(_primitive2.default);exports.default=CheddarStringToken;module.exports=exports['default'];
+},{"../consts/chars":107,"../consts/err":108,"../consts/types":111,"./primitive":121}],124:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _primitive=require('./primitive');var _primitive2=_interopRequireDefault(_primitive);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _var=require('./var');var _var2=_interopRequireDefault(_var);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var SYMBOL_OPEN='@';var CheddarSymbolToken=function(_CheddarPrimitive){_inherits(CheddarSymbolToken,_CheddarPrimitive);function CheddarSymbolToken(){_classCallCheck(this,CheddarSymbolToken);return _possibleConstructorReturn(this,(CheddarSymbolToken.__proto__||Object.getPrototypeOf(CheddarSymbolToken)).apply(this,arguments))}_createClass(CheddarSymbolToken,[{key:'exec',value:function exec(){this.open();if(this.getChar()===SYMBOL_OPEN){var varparse=this.initParser(_var2.default);var res=varparse.exec();if(!(res instanceof _lex2.default)){return res}else{this.addToken(varparse._Tokens[0]);this.Index=varparse.Index;return this.close()}}else{return this.error(CheddarError.EXIT_NOTFOUND)}}}]);return CheddarSymbolToken}(_primitive2.default);exports.default=CheddarSymbolToken;module.exports=exports['default'];
+},{"../consts/err":108,"../tok/lex":145,"./primitive":121,"./var":125}],125:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _chars=require('../consts/chars');var _ops=require('../consts/ops');var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}// Very similar to literal.es6 but with numbers
+var CheddarVariableToken=function(_CheddarLexer){_inherits(CheddarVariableToken,_CheddarLexer);function CheddarVariableToken(){_classCallCheck(this,CheddarVariableToken);return _possibleConstructorReturn(this,(CheddarVariableToken.__proto__||Object.getPrototypeOf(CheddarVariableToken)).apply(this,arguments))}_createClass(CheddarVariableToken,[{key:'exec',value:function exec(){this.open();var chr=this.getChar();if(_chars.TOKEN_START.indexOf(chr)>-1){this.addToken(chr);while(chr=this.getChar()){if(_chars.TOKEN_END.indexOf(chr)>-1){this.addToken(chr)}else{--this.Index;break}}// if a reserved keyword was matched
+if(_ops.RESERVED_KEYWORDS.has(this._Tokens[0])){// Ignore it
+return this.error(CheddarError.EXIT_NOTFOUND)}return this.close()}else{return this.error(CheddarError.EXIT_NOTFOUND)}}}]);return CheddarVariableToken}(_lex2.default);exports.default=CheddarVariableToken;module.exports=exports['default'];
+},{"../consts/chars":107,"../consts/err":108,"../consts/ops":110,"../tok/lex":145}],126:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _literal=require('../literals/literal');var _literal2=_interopRequireDefault(_literal);var _boolean=require('../literals/boolean');var _boolean2=_interopRequireDefault(_boolean);var _nil=require('../literals/nil');var _nil2=_interopRequireDefault(_nil);var _string=require('../literals/string');var _string2=_interopRequireDefault(_string);var _number=require('../literals/number');var _number2=_interopRequireDefault(_number);var _array=require('./array');var _array2=_interopRequireDefault(_array);var _regex=require('../literals/regex');var _regex2=_interopRequireDefault(_regex);var _dict=require('../literals/dict');var _dict2=_interopRequireDefault(_dict);var _symbol=require('../literals/symbol');var _symbol2=_interopRequireDefault(_symbol);var _fop=require('../literals/fop');var _fop2=_interopRequireDefault(_fop);var _fprop=require('../literals/fprop');var _fprop2=_interopRequireDefault(_fprop);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarAnyLiteral=function(_CheddarLexer){_inherits(CheddarAnyLiteral,_CheddarLexer);function CheddarAnyLiteral(){_classCallCheck(this,CheddarAnyLiteral);return _possibleConstructorReturn(this,(CheddarAnyLiteral.__proto__||Object.getPrototypeOf(CheddarAnyLiteral)).apply(this,arguments))}_createClass(CheddarAnyLiteral,[{key:'exec',value:function exec(){this.open(false);var attempt=this.attempt(_fprop2.default,_fop2.default,_dict2.default,_string2.default,_number2.default,_boolean2.default,_nil2.default,_array2.default,_regex2.default,_symbol2.default);if(attempt instanceof _literal2.default){this.Index=attempt.Index;this.Tokens=attempt;return this.close()}else{return this.error(attempt)}}}]);return CheddarAnyLiteral}(_literal2.default);exports.default=CheddarAnyLiteral;module.exports=exports['default'];
+},{"../literals/boolean":113,"../literals/dict":114,"../literals/fop":115,"../literals/fprop":116,"../literals/literal":117,"../literals/nil":118,"../literals/number":119,"../literals/regex":122,"../literals/string":123,"../literals/symbol":124,"./array":129}],127:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('../../tok/lex');var _lex2=_interopRequireDefault(_lex);var _var=require('../../literals/var');var _var2=_interopRequireDefault(_var);var _typed_var=require('./typed_var');var _typed_var2=_interopRequireDefault(_typed_var);var _expr=require('../../states/expr');var _expr2=_interopRequireDefault(_expr);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarArgumentToken=function(_CheddarLexer){_inherits(CheddarArgumentToken,_CheddarLexer);function CheddarArgumentToken(){_classCallCheck(this,CheddarArgumentToken);return _possibleConstructorReturn(this,(CheddarArgumentToken.__proto__||Object.getPrototypeOf(CheddarArgumentToken)).apply(this,arguments))}_createClass(CheddarArgumentToken,[{key:'exec',value:function exec(){this.open(false);return this.grammar(true,[_typed_var2.default,['?'],[['=',_expr2.default]]])}}]);return CheddarArgumentToken}(_lex2.default);exports.default=CheddarArgumentToken;module.exports=exports['default'];
+},{"../../literals/var":125,"../../states/expr":139,"../../tok/lex":145,"./typed_var":128}],128:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _literal=require('../../literals/literal');var _literal2=_interopRequireDefault(_literal);var _var=require('../../literals/var');var _var2=_interopRequireDefault(_var);var _lex=require('../../tok/lex');var _lex2=_interopRequireDefault(_lex);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var L=_literal2.default;var V=_var2.default;var CheddarTypedVariableToken=function(_CheddarLexer){_inherits(CheddarTypedVariableToken,_CheddarLexer);function CheddarTypedVariableToken(){_classCallCheck(this,CheddarTypedVariableToken);return _possibleConstructorReturn(this,(CheddarTypedVariableToken.__proto__||Object.getPrototypeOf(CheddarTypedVariableToken)).apply(this,arguments))}_createClass(CheddarTypedVariableToken,[{key:'exec',value:function exec(){this.open(false);return this.grammar(true,[V,[[':',L]]])}}]);return CheddarTypedVariableToken}(_lex2.default);exports.default=CheddarTypedVariableToken;module.exports=exports['default'];
+},{"../../literals/literal":117,"../../literals/var":125,"../../tok/lex":145}],129:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _chars=require('../consts/chars');var _expr=require('./expr');var _expr2=_interopRequireDefault(_expr);var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _primitive=require('../literals/primitive');var _primitive2=_interopRequireDefault(_primitive);var _types=require('../consts/types');function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i]}return arr2}else{return Array.from(arr)}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarArrayToken=function(_CheddarPrimitive){_inherits(CheddarArrayToken,_CheddarPrimitive);function CheddarArrayToken(){_classCallCheck(this,CheddarArrayToken);return _possibleConstructorReturn(this,(CheddarArrayToken.__proto__||Object.getPrototypeOf(CheddarArrayToken)).apply(this,arguments))}_createClass(CheddarArrayToken,[{key:'exec',value:function exec(){var OPEN=arguments.length>0&&arguments[0]!==undefined?arguments[0]:_chars.ARRAY_OPEN;var CLOSE=arguments.length>1&&arguments[1]!==undefined?arguments[1]:_chars.ARRAY_CLOSE;var PARSER=arguments.length>2&&arguments[2]!==undefined?arguments[2]:_expr2.default;var LOOSE=arguments.length>3&&arguments[3]!==undefined?arguments[3]:false;var c=this.getChar();if(c!==OPEN)return this.error(CheddarError.EXIT_NOTFOUND);while(true){this.jumpWhite();if(Array.isArray(PARSER)){var parser=this.grammar.apply(this,[true].concat(_toConsumableArray(PARSER)));if(!(parser instanceof _lex2.default))return this.error(parser)}else{var value=this.initParser(PARSER),parsed=value.exec();this.Index=value.Index;if(parsed instanceof _lex2.default)this.Tokens=parsed;else return this.error(parsed)}this.jumpWhite();switch(this.getChar()){case CLOSE:return this.close();case _chars.ARRAY_SEPARATOR:break;default:if(LOOSE===false){return this.error(CheddarError.UNEXPECTED_TOKEN)}else{return this.close(CheddarError.EXIT_NOTFOUND)}}}}},{key:'Type',get:function get(){return _types.ClassType.Array}}]);return CheddarArrayToken}(_primitive2.default);exports.default=CheddarArrayToken;module.exports=exports['default'];
+},{"../consts/chars":107,"../consts/err":108,"../consts/types":111,"../literals/primitive":121,"../tok/lex":145,"./expr":131}],130:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});exports.default=CheddarCustomLexer;var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function CheddarCustomLexer(orig){for(var _len=arguments.length,args=Array(_len>1?_len-1:0),_key=1;_key<_len;_key++){args[_key-1]=arguments[_key]}var parser=new _lex2.default;parser.exec=function(){var _ref;return(_ref=new orig(this.Code,this.Index)).exec.apply(_ref,args)};return parser}module.exports=exports['default'];
+},{"../tok/lex":145}],131:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _op=require('../literals/op');var _op2=_interopRequireDefault(_op);var _property=require('./property');var _property2=_interopRequireDefault(_property);var _function=require('./function');var _function2=_interopRequireDefault(_function);var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _ops=require('../consts/ops');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _custom=require('./custom');var _custom2=_interopRequireDefault(_custom);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}// Cheddar Expression Parser
+// Special Exceptions
+/*
+For Reference, the orginal grammar is:
 
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
+E -> O E
+     E O E?
+     ( E )
+     B
+     P
+     L
 
-var cachedSetTimeout;
-var cachedClearTimeout;
+Made right-recursive:
 
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
+E -> O E α
+     ( E ) α
+       α  <-- This is where any custom grammars go
+     B α
+     P α
+     L α
 
+α -> O E α
+     O α
+     ε
 
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
+Combined into one expression:
+
+E -> (OE|(E)|P|L|B)[OE|O]
+
+where groups are only nested to a depth of one
+
+=== Forget the above ===
+The following grammar should work
+
+ternary -> α β ? E : E
+expr -> α β
+start -> ( E )     // parenthesis
+     L         // number
+     B         // boolean
+     P         // identifier
+     prefix E  // prefix
+end -> infix E   // infix
+       postfix   // postfix
+       ε
 
 
 
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
+even worse:
 
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
+E -> α β
+     ε
+α -> ( E )
+     L
+     B
+     P
+     O E
+β -> O E?
+     ε
 
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
+*/var UNARY=(0,_custom2.default)(_op2.default,true);// Class Prototypes
+var CheddarExpressionToken=function(_CheddarLexer){_inherits(CheddarExpressionToken,_CheddarLexer);function CheddarExpressionToken(){var _ref;var _temp,_this,_ret;_classCallCheck(this,CheddarExpressionToken);for(var _len=arguments.length,args=Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key]}return _ret=(_temp=(_this=_possibleConstructorReturn(this,(_ref=CheddarExpressionToken.__proto__||Object.getPrototypeOf(CheddarExpressionToken)).call.apply(_ref,[this].concat(args))),_this),_this.isExpression=true,_temp),_possibleConstructorReturn(_this,_ret)}return CheddarExpressionToken}(_lex2.default);var CheddarExpressionTokenAlpha=function(_CheddarLexer2){_inherits(CheddarExpressionTokenAlpha,_CheddarLexer2);function CheddarExpressionTokenAlpha(){var _ref2;var _temp2,_this2,_ret2;_classCallCheck(this,CheddarExpressionTokenAlpha);for(var _len2=arguments.length,args=Array(_len2),_key2=0;_key2<_len2;_key2++){args[_key2]=arguments[_key2]}return _ret2=(_temp2=(_this2=_possibleConstructorReturn(this,(_ref2=CheddarExpressionTokenAlpha.__proto__||Object.getPrototypeOf(CheddarExpressionTokenAlpha)).call.apply(_ref2,[this].concat(args))),_this2),_this2.isExpression=true,_temp2),_possibleConstructorReturn(_this2,_ret2)}return CheddarExpressionTokenAlpha}(_lex2.default);var CheddarExpressionTokenBeta=function(_CheddarLexer3){_inherits(CheddarExpressionTokenBeta,_CheddarLexer3);function CheddarExpressionTokenBeta(){var _ref3;var _temp3,_this3,_ret3;_classCallCheck(this,CheddarExpressionTokenBeta);for(var _len3=arguments.length,args=Array(_len3),_key3=0;_key3<_len3;_key3++){args[_key3]=arguments[_key3]}return _ret3=(_temp3=(_this3=_possibleConstructorReturn(this,(_ref3=CheddarExpressionTokenBeta.__proto__||Object.getPrototypeOf(CheddarExpressionTokenBeta)).call.apply(_ref3,[this].concat(args))),_this3),_this3.isExpression=true,_temp3),_possibleConstructorReturn(_this3,_ret3)}return CheddarExpressionTokenBeta}(_lex2.default);var E=(0,_custom2.default)(CheddarExpressionToken,true,false);// Ternary
+// Solely for reference
+var CheddarExpressionTernary=function(_CheddarLexer4){_inherits(CheddarExpressionTernary,_CheddarLexer4);function CheddarExpressionTernary(){_classCallCheck(this,CheddarExpressionTernary);return _possibleConstructorReturn(this,(CheddarExpressionTernary.__proto__||Object.getPrototypeOf(CheddarExpressionTernary)).apply(this,arguments))}return CheddarExpressionTernary}(_lex2.default);// ALPHA
+CheddarExpressionTokenAlpha.prototype.exec=function(){this.open(false);this.jumpWhite();return this.grammar(true,[_function2.default],// ['(', E, ')'],
+[UNARY,E],// Prefix
+[_property2.default])};// BETA
+CheddarExpressionTokenBeta.prototype.exec=function(){this.open(false);this.jumpWhite();return this.grammar(true,[_op2.default,E],//infix
+// [O], // postfix
+[]// ε
+)};// MASTER
+CheddarExpressionToken.prototype.exec=function(){var DISALLOW_EMPTY=arguments.length>0&&arguments[0]!==undefined?arguments[0]:false;var ALLOW_TERNARY=arguments.length>1&&arguments[1]!==undefined?arguments[1]:true;this.open(false);this.jumpWhite();var expression=void 0;if(DISALLOW_EMPTY){expression=this.grammar(true,[CheddarExpressionTokenAlpha,CheddarExpressionTokenBeta])}else{expression=this.grammar(true,[CheddarExpressionTokenAlpha,CheddarExpressionTokenBeta],[/** epsilon */])}/** == Ternary Handling == **/if(ALLOW_TERNARY){// Store index in case ternary is not found
+var current_index=this.Index;// Lookahead for ternary `?`
+if(!this.lookAhead('?')){// If it doesn't exist, just exit
+// Set back to last safe index
+this.Index=current_index;// Backtrack single whitespace
+return expression}// Increase index past the `?`
+this.Index++;// Now we know it's a ternary
+// parse the tail, `E : E`
+// Parse the first expression
+var TAIL_TRUE=this.initParser(CheddarExpressionToken);var IFT=TAIL_TRUE.exec();// Set the index of the expression
+this.Index=IFT.Index||TAIL_TRUE.Index;// Error if applicable
+if(!(IFT instanceof _lex2.default))return this.error(IFT);// IF True
+if(!this.lookAhead(':')){// Expected a `:`
+return this.error(CheddarError.UNEXPECTED_TOKEN)}// Increase past the `:`
+this.Index++;// Parse the second expression
+var TAIL_FALSE=this.initParser(CheddarExpressionToken);var IFF=TAIL_FALSE.exec();this.Index=IFF.Index||TAIL_FALSE.Index;if(!(IFF instanceof _lex2.default))return this.error(IFF);var Ternary=new CheddarExpressionTernary;Ternary.Index=this.Index;Ternary._Tokens=[this._Tokens.slice(0),// Token from this.grammar
+IFT,IFF];this._Tokens=[Ternary];return this.close()}else{return expression}};exports.default=CheddarExpressionToken;module.exports=exports['default'];
+},{"../consts/err":108,"../consts/ops":110,"../literals/op":120,"../tok/lex":145,"./custom":130,"./function":132,"./property":134}],132:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _expr=require('../states/expr');var _expr2=_interopRequireDefault(_expr);var _var=require('../literals/var');var _var2=_interopRequireDefault(_var);var _block=require('../patterns/block');var _block2=_interopRequireDefault(_block);var _array=require('./array');var _array2=_interopRequireDefault(_array);var _argument=require('./args/argument');var _argument2=_interopRequireDefault(_argument);var _custom=require('./custom');var _custom2=_interopRequireDefault(_custom);var _primitive=require('../literals/primitive');var _primitive2=_interopRequireDefault(_primitive);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var A=(0,_custom2.default)(_array2.default,'(',')',_argument2.default,true);var ExpressionToken=(0,_custom2.default)(_expr2.default,true);var CheddarFunctionToken=function(_CheddarPrimitive){_inherits(CheddarFunctionToken,_CheddarPrimitive);function CheddarFunctionToken(){_classCallCheck(this,CheddarFunctionToken);return _possibleConstructorReturn(this,(CheddarFunctionToken.__proto__||Object.getPrototypeOf(CheddarFunctionToken)).apply(this,arguments))}_createClass(CheddarFunctionToken,[{key:'exec',value:function exec(){this.open(false);this.jumpWhite();/**
+         This basically runs the following:
 
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
+         "->" ARG_LIST? (CODE BLOCK | EXPRESSION)
 
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
+         */var grammar=this.grammar(true,[[A,_argument2.default,''],[_var2.default],'->',[_block2.default,ExpressionToken]]);return grammar}}]);return CheddarFunctionToken}(_primitive2.default);exports.default=CheddarFunctionToken;module.exports=exports['default'];
+},{"../literals/primitive":121,"../literals/var":125,"../patterns/block":136,"../states/expr":139,"./args/argument":127,"./array":129,"./custom":130}],133:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _expr=require('./expr');var _expr2=_interopRequireDefault(_expr);var _custom=require('./custom');var _custom2=_interopRequireDefault(_custom);var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var expr=(0,_custom2.default)(_expr2.default,true);var CheddarParenthesizedExpression=function(_CheddarLexer){_inherits(CheddarParenthesizedExpression,_CheddarLexer);function CheddarParenthesizedExpression(){_classCallCheck(this,CheddarParenthesizedExpression);return _possibleConstructorReturn(this,(CheddarParenthesizedExpression.__proto__||Object.getPrototypeOf(CheddarParenthesizedExpression)).apply(this,arguments))}_createClass(CheddarParenthesizedExpression,[{key:'exec',value:function exec(){this.open(false);var resp=this.grammar(true,['(',expr,')']);if(resp instanceof _lex2.default){resp._Tokens[0].Index=resp.Index;return this.close()}else{return this.error(resp)}/*
+        // @Downgoat you change it if it works
+        if (this.getChar() !== '(')
+            this.error(CheddarError.EXIT_NOTFOUND);
 
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
+        this.jumpWhite();
 
-function noop() {}
+        let attempt = this.initParser(CheddarExpressionToken).exec();
+        if (!(attempt instanceof CheddarLexer))
+            this.error(CheddarError.UNEXPECTED_TOKEN);
 
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
+        this.Tokens = attempt.Tokens;
+        this.Index = attempt.Index;
 
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
+        this.jumpWhite();
 
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
+        if (this.getChar() !== ')')
+            this.error(CheddarError.UNMATCHED_DELIMITER);
 
-},{}],147:[function(require,module,exports){
+        return this.close(attempt);*/}}]);return CheddarParenthesizedExpression}(_lex2.default);exports.default=CheddarParenthesizedExpression;module.exports=exports['default'];
+},{"../tok/lex":145,"./custom":130,"./expr":131}],134:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _paren_expr=require('./paren_expr');var _paren_expr2=_interopRequireDefault(_paren_expr);var _var=require('../literals/var');var _var2=_interopRequireDefault(_var);var _types=require('../consts/types');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _array=require('./array');var _array2=_interopRequireDefault(_array);var _any=require('./any');var _any2=_interopRequireDefault(_any);var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _primitive=require('../literals/primitive');var _primitive2=_interopRequireDefault(_primitive);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var ARGLISTS=new Map([['(',')'],['{','}']]);var MATCHBODY=new Set('([');var CheddarPropertyToken=function(_CheddarLexer){_inherits(CheddarPropertyToken,_CheddarLexer);function CheddarPropertyToken(){_classCallCheck(this,CheddarPropertyToken);return _possibleConstructorReturn(this,(CheddarPropertyToken.__proto__||Object.getPrototypeOf(CheddarPropertyToken)).apply(this,arguments))}_createClass(CheddarPropertyToken,[{key:'exec',value:function exec(){var Initial=arguments.length>0&&arguments[0]!==undefined?arguments[0]:false;this.open(false);this.Type=_types.PropertyType.Property;var NOVAR=false;// Plans for property parsing:
+//  1. Match <variable> ("." | end)
+//  2. Match <variable (<expr>,*<expr>)?
+while(true){this.jumpWhite();var attempt=void 0;if(Initial===false)attempt=this.attempt(_any2.default,_var2.default,_paren_expr2.default);else attempt=this.initParser(_var2.default).exec();if(NOVAR===true&&attempt===CheddarError.EXIT_NOTFOUND){// Do nothing?
+}else if(!(attempt instanceof _lex2.default)||attempt.Errored===true){return this.error(attempt)}else{this.Index=attempt.Index;this.Tokens=attempt}Initial=true;NOVAR=false;if(this.curchar==='['){++this.Index;var CheddarExpressionToken=require('./expr');var expr=this.initParser(CheddarExpressionToken);var res=expr.exec();this.Index=res.Index;if(!(res instanceof _lex2.default))return this.error(res);this.jumpWhite();if(this.curchar!==']'){return this.error(CheddarError.UNEXPECTED_TOKEN)}++this.Index;this.Tokens='[]';// `[]` signals expression
+this.Tokens=expr}var argd=void 0;// Argument list delimiter
+var id=this.Index;// delta-index
+this.jumpWhite();if(ARGLISTS.has(argd=this.curchar)){this.Tokens=argd;// Specify what arg type this is
+this.Type=_types.PropertyType.Method;var _expr=this.initParser(_array2.default);var _res=_expr.exec(argd,ARGLISTS.get(argd));this.Index=_expr.Index;if(!(_res instanceof _lex2.default))return this.error(_res);this.Tokens=_expr}else{this.Index=id}var marker=this.Index;this.jumpWhite();if(this.curchar==='.'){++this.Index;continue}else if(MATCHBODY.has(this.curchar)){NOVAR=true;continue}this.Index=marker;if(this._Tokens.length===1&&this._Tokens[0]instanceof _primitive2.default)return this.close(this._Tokens[0]);else return this.close()}}}]);return CheddarPropertyToken}(_lex2.default);exports.default=CheddarPropertyToken;module.exports=exports['default'];
+},{"../consts/err":108,"../consts/types":111,"../literals/primitive":121,"../literals/var":125,"../tok/lex":145,"./any":126,"./array":129,"./expr":131,"./paren_expr":133}],135:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarExplicitEnd=function(_CheddarLexer){_inherits(CheddarExplicitEnd,_CheddarLexer);function CheddarExplicitEnd(){_classCallCheck(this,CheddarExplicitEnd);return _possibleConstructorReturn(this,(CheddarExplicitEnd.__proto__||Object.getPrototypeOf(CheddarExplicitEnd)).apply(this,arguments))}return CheddarExplicitEnd}(_lex2.default);exports.default=CheddarExplicitEnd;module.exports=exports['default'];
+},{"../tok/lex":145}],136:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _custom=require('../parsers/custom');var _custom2=_interopRequireDefault(_custom);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarCodeblock=function(_CheddarLexer){_inherits(CheddarCodeblock,_CheddarLexer);function CheddarCodeblock(){_classCallCheck(this,CheddarCodeblock);return _possibleConstructorReturn(this,(CheddarCodeblock.__proto__||Object.getPrototypeOf(CheddarCodeblock)).apply(this,arguments))}_createClass(CheddarCodeblock,[{key:'exec',value:function exec(){var _ref=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{tok:require('../tok'),args:{}},tokenizer=_ref.tok,_ref$args=_ref.args,ENDS=_ref$args.ENDS,PARSERS=_ref$args.PARSERS;if(!this.lookAhead('{'))return CheddarError.EXIT_NOTFOUND;this.jumpLiteral('{');var RUN=this.initParser(tokenizer);var RES=RUN.exec('}',PARSERS);this.Index=RES.Index||RUN.Index;if(RUN.Errored||!(RES instanceof _lex2.default))return this.error(RES);this.Index=RES.Index;this.Tokens=RES;this.jumpWhite();if(this.jumpLiteral('}')===false){return this.error(CheddarError.UNEXPECTED_TOKEN)}return this.close()}}]);return CheddarCodeblock}(_lex2.default);exports.default=CheddarCodeblock;module.exports=exports['default'];
+},{"../consts/err":108,"../parsers/custom":130,"../tok":144,"../tok/lex":145}],137:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _expr=require('../parsers/expr');var _expr2=_interopRequireDefault(_expr);var _typed_var=require('../parsers/args/typed_var');var _typed_var2=_interopRequireDefault(_typed_var);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var StatementAssign=function(_CheddarLexer){_inherits(StatementAssign,_CheddarLexer);function StatementAssign(){_classCallCheck(this,StatementAssign);return _possibleConstructorReturn(this,(StatementAssign.__proto__||Object.getPrototypeOf(StatementAssign)).apply(this,arguments))}_createClass(StatementAssign,[{key:'exec',value:function exec(){this.open(false);var DEFS=['var','let','const'];return this.grammar(true,[DEFS,this.jumpWhite,_typed_var2.default,[':=','='],CheddarError.ALLOW_ERROR,_expr2.default],[DEFS,this.jumpWhite,_typed_var2.default])}}]);return StatementAssign}(_lex2.default);exports.default=StatementAssign;module.exports=exports['default'];
+},{"../consts/err":108,"../parsers/args/typed_var":128,"../parsers/expr":131,"../tok/lex":145}],138:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _chars=require('../consts/chars');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var StatementBreak=function(_CheddarLexer){_inherits(StatementBreak,_CheddarLexer);function StatementBreak(){_classCallCheck(this,StatementBreak);return _possibleConstructorReturn(this,(StatementBreak.__proto__||Object.getPrototypeOf(StatementBreak)).apply(this,arguments))}_createClass(StatementBreak,[{key:'exec',value:function exec(){this.open(false);this.jumpWhite();if(!this.jumpLiteral('break'))return CheddarError.EXIT_NOTFOUND;if(_chars.TOKEN_END.indexOf(this.Code[this.Index])>-1)return CheddarError.EXIT_NOTFOUND;this.Tokens='break';return this.close()}}]);return StatementBreak}(_lex2.default);exports.default=StatementBreak;module.exports=exports['default'];
+},{"../consts/chars":107,"../consts/err":108,"../tok/lex":145}],139:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _expr=require('../parsers/expr');var _expr2=_interopRequireDefault(_expr);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var StatementExpression=function(_CheddarLexer){_inherits(StatementExpression,_CheddarLexer);function StatementExpression(){_classCallCheck(this,StatementExpression);return _possibleConstructorReturn(this,(StatementExpression.__proto__||Object.getPrototypeOf(StatementExpression)).apply(this,arguments))}_createClass(StatementExpression,[{key:'exec',value:function exec(){this.open(false);return this.grammar(true,[_expr2.default])}}]);return StatementExpression}(_lex2.default);exports.default=StatementExpression;module.exports=exports['default'];
+},{"../parsers/expr":131,"../tok/lex":145}],140:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _assign=require('./assign');var _assign2=_interopRequireDefault(_assign);var _expr=require('./expr');var _expr2=_interopRequireDefault(_expr);var _block=require('../patterns/block');var _block2=_interopRequireDefault(_block);var _break=require('./break');var _break2=_interopRequireDefault(_break);var _EXPLICIT=require('../patterns/EXPLICIT');var _EXPLICIT2=_interopRequireDefault(_EXPLICIT);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _var=require('../literals/var');var _var2=_interopRequireDefault(_var);var _custom=require('../parsers/custom');var _custom2=_interopRequireDefault(_custom);var _array=require('../parsers/array');var _array2=_interopRequireDefault(_array);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var DECONSTRUCT=(0,_custom2.default)(_array2.default,'[',']',_var2.default,true);var StatementFor=function(_CheddarLexer){_inherits(StatementFor,_CheddarLexer);function StatementFor(){_classCallCheck(this,StatementFor);return _possibleConstructorReturn(this,(StatementFor.__proto__||Object.getPrototypeOf(StatementFor)).apply(this,arguments))}_createClass(StatementFor,[{key:'exec',value:function exec(tokenizer){this.open();if(tokenizer){tokenizer.args.PARSERS.push(_break2.default)}var codeblock=(0,_custom2.default)(_block2.default,tokenizer);if(!this.lookAhead('for'))return CheddarError.EXIT_NOTFOUND;this.jumpLiteral('for');var FOR=this.grammar(true,['(',[_assign2.default,_expr2.default],';',_expr2.default,';',_expr2.default,')',codeblock],['(',[DECONSTRUCT,_var2.default],'in',_expr2.default,')',codeblock]);return FOR}}]);return StatementFor}(_EXPLICIT2.default);exports.default=StatementFor;module.exports=exports['default'];
+},{"../consts/err":108,"../literals/var":125,"../parsers/array":129,"../parsers/custom":130,"../patterns/EXPLICIT":135,"../patterns/block":136,"./assign":137,"./break":138,"./expr":139}],141:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _block=require('../patterns/block');var _block2=_interopRequireDefault(_block);var _array=require('../parsers/array');var _array2=_interopRequireDefault(_array);var _argument=require('../parsers/args/argument');var _argument2=_interopRequireDefault(_argument);var _var=require('../literals/var');var _var2=_interopRequireDefault(_var);var _custom=require('../parsers/custom');var _custom2=_interopRequireDefault(_custom);var _return=require('./return');var _return2=_interopRequireDefault(_return);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var A=(0,_custom2.default)(_array2.default,'(',')',_argument2.default,true);var StatementFunc=function(_CheddarLexer){_inherits(StatementFunc,_CheddarLexer);function StatementFunc(){_classCallCheck(this,StatementFunc);return _possibleConstructorReturn(this,(StatementFunc.__proto__||Object.getPrototypeOf(StatementFunc)).apply(this,arguments))}_createClass(StatementFunc,[{key:'exec',value:function exec(tokenizer){this.open(false);this.jumpWhite();if(!this.lookAhead('func'))return CheddarError.EXIT_NOTFOUND;this.jumpLiteral('func');if(tokenizer){tokenizer.args.PARSERS.unshift(_return2.default)}var codeblock=(0,_custom2.default)(_block2.default,tokenizer);var grammar=this.grammar(true,[_var2.default,A,codeblock]);return grammar}}]);return StatementFunc}(_lex2.default);exports.default=StatementFunc;module.exports=exports['default'];
+},{"../consts/err":108,"../literals/var":125,"../parsers/args/argument":127,"../parsers/array":129,"../parsers/custom":130,"../patterns/block":136,"../tok/lex":145,"./return":143}],142:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _expr=require('./expr');var _expr2=_interopRequireDefault(_expr);var _block=require('../patterns/block');var _block2=_interopRequireDefault(_block);var _custom=require('../parsers/custom');var _custom2=_interopRequireDefault(_custom);var _EXPLICIT=require('../patterns/EXPLICIT');var _EXPLICIT2=_interopRequireDefault(_EXPLICIT);var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var StatementIf=function(_CheddarLexer){_inherits(StatementIf,_CheddarLexer);function StatementIf(){_classCallCheck(this,StatementIf);return _possibleConstructorReturn(this,(StatementIf.__proto__||Object.getPrototypeOf(StatementIf)).apply(this,arguments))}_createClass(StatementIf,[{key:'exec',value:function exec(tokenizer){this.open();if(!this.lookAhead('if'))return CheddarError.EXIT_NOTFOUND;this.jumpLiteral('if');var EXPRESSION=(0,_custom2.default)(_expr2.default,true);// Match the `expr { block }` format
+var FORMAT=['(',EXPRESSION,')',(0,_custom2.default)(_block2.default,tokenizer),CheddarError.EXPECTED_BLOCK];// Match initial `if`
+var IF=this.grammar(true,FORMAT);if(IF===CheddarError.EXIT_NOTFOUND)return IF;else if(!(IF instanceof _EXPLICIT2.default))return this.error(IF);while(this.lookAhead('else')){this.jumpLiteral('else');if(this.lookAhead('if')){// else-if Statement
+this.jumpLiteral('if');this.newToken('elif');this.jumpWhite();var OUT=this.grammar(true,FORMAT);if(!OUT instanceof _EXPLICIT2.default)return this.error(OUT)}else{// else Statement
+this.newToken('else');this.jumpWhite();var RUN=this.initParser(_block2.default);var RES=RUN.exec(tokenizer);this.Index=RES.Index||RUN.Index;if(RUN.Errored||!RES instanceof _EXPLICIT2.default)return this.error(RES);this.Tokens=RES}this.jumpWhite()}return this.close()}}]);return StatementIf}(_EXPLICIT2.default);exports.default=StatementIf;module.exports=exports['default'];
+},{"../consts/err":108,"../parsers/custom":130,"../patterns/EXPLICIT":135,"../patterns/block":136,"./expr":139}],143:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _expr=require('./expr');var _expr2=_interopRequireDefault(_expr);var _chars=require('../consts/chars');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var StatementReturn=function(_CheddarLexer){_inherits(StatementReturn,_CheddarLexer);function StatementReturn(){_classCallCheck(this,StatementReturn);return _possibleConstructorReturn(this,(StatementReturn.__proto__||Object.getPrototypeOf(StatementReturn)).apply(this,arguments))}_createClass(StatementReturn,[{key:'exec',value:function exec(){this.open(false);this.jumpWhite();if(!this.jumpLiteral('return'))return CheddarError.EXIT_NOTFOUND;if(_chars.TOKEN_END.indexOf(this.Code[this.Index])>-1)return CheddarError.EXIT_NOTFOUND;this.Tokens='return';var parser=this.initParser(_expr2.default);var res=parser.exec();if(!(res instanceof _lex2.default)){this.Index=parser.Index;return res}this.Index=res.Index;this.Tokens=res;return this.close()}}]);return StatementReturn}(_lex2.default);exports.default=StatementReturn;module.exports=exports['default'];
+},{"../consts/chars":107,"../consts/err":108,"../tok/lex":145,"./expr":139}],144:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _typeof=typeof Symbol==='function'&&typeof Symbol.iterator==='symbol'?function(obj){return typeof obj}:function(obj){return obj&&typeof Symbol==='function'&&obj.constructor===Symbol&&obj!==Symbol.prototype?'symbol':typeof obj};var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _lex=require('./tok/lex');var _lex2=_interopRequireDefault(_lex);var _custom=require('./parsers/custom');var _custom2=_interopRequireDefault(_custom);var _EXPLICIT=require('./patterns/EXPLICIT');var _EXPLICIT2=_interopRequireDefault(_EXPLICIT);var _err=require('./consts/err');var CheddarError=_interopRequireWildcard(_err);var _err_msg=require('./consts/err_msg');var _err_msg2=_interopRequireDefault(_err_msg);var _loc=require('./helpers/loc');var _loc2=_interopRequireDefault(_loc);var _assign=require('./states/assign');var _assign2=_interopRequireDefault(_assign);var _if=require('./states/if');var _if2=_interopRequireDefault(_if);var _for=require('./states/for');var _for2=_interopRequireDefault(_for);var _func=require('./states/func');var _func2=_interopRequireDefault(_func);var _expr=require('./states/expr');var _expr2=_interopRequireDefault(_expr);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i]}return arr2}else{return Array.from(arr)}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}// Global tokenizer
+//  tokenizes expressions and all that great stuff
+var CLOSES='\n;';var VALID_END=function VALID_END(chr){return CLOSES.indexOf(chr)>-1||!chr};var FORMAT_ERROR=function FORMAT_ERROR(TOK,LEXER){return TOK.replace(/\$LOC/,(0,_loc2.default)(LEXER.Code,LEXER.Index).slice(0,2).join(':')).replace(/\$1/,LEXER.Code[LEXER.Index])};var SINGLELINE_WHITESPACE=/[\t\f ]/;var WHITESPACE=/\s/;var NEWLINE=/[\r\n]/;var CheddarTokenize=function(_CheddarLexer){_inherits(CheddarTokenize,_CheddarLexer);function CheddarTokenize(){_classCallCheck(this,CheddarTokenize);return _possibleConstructorReturn(this,(CheddarTokenize.__proto__||Object.getPrototypeOf(CheddarTokenize)).apply(this,arguments))}_createClass(CheddarTokenize,[{key:'exec',value:function exec(){var ENDS=arguments.length>0&&arguments[0]!==undefined?arguments[0]:'';var PARSERS=arguments.length>1&&arguments[1]!==undefined?arguments[1]:[];var MATCH=this.attempt(PARSERS.concat([_assign2.default,_if2.default,_for2.default,_func2.default,_expr2.default]),{tok:this.constructor,args:{ENDS:ENDS,PARSERS:PARSERS}});if(MATCH instanceof _lex2.default&&MATCH.Errored!==true){this.Tokens=MATCH;this.Index=MATCH.Index;// Whether or not it backtracked for a newline
+var backtracked=false;while(SINGLELINE_WHITESPACE.test(this.Code[this.Index])){backtracked=true;this.Index--}if(backtracked){if(NEWLINE.test(this.Code[this.Index-1])){this.Index--}else if(SINGLELINE_WHITESPACE.test(this.Code[this.Index+1])){this.Index++}}while(this.Code[this.Index]&&SINGLELINE_WHITESPACE.test(this.Code[this.Index])||this._jumpComment()){this.Index++}if(ENDS.indexOf(this.Code[this.Index])>-1){return this.close()}if(!(MATCH instanceof _EXPLICIT2.default)&&!VALID_END(this.Code[this.Index])){return this.error(FORMAT_ERROR(_err_msg2.default.get(CheddarError.UNEXPECTED_TOKEN),this))}this.Index++;this.jumpWhite();if(this.Code[this.Index]){var M2=new CheddarTokenize(this.Code,this.Index);var response=M2.exec.apply(M2,arguments);if(response instanceof _lex2.default){var _Tokens;(_Tokens=this._Tokens).push.apply(_Tokens,_toConsumableArray(M2._Tokens));this.Index=M2.Index}else{if(response!==CheddarError.EXIT_NOTFOUND)return this.error(response)}}return this.close()}else{if(MATCH instanceof _lex2.default){return this.error(FORMAT_ERROR(_err_msg2.default.get(CheddarError.UNEXPECTED_TOKEN),this))}else{return this.error(FORMAT_ERROR((typeof MATCH==='undefined'?'undefined':_typeof(MATCH))==='symbol'?_err_msg2.default.get(MATCH):MATCH.toString(),this))}}}}]);return CheddarTokenize}(_lex2.default);exports.default=CheddarTokenize;module.exports=exports['default'];
+},{"./consts/err":108,"./consts/err_msg":109,"./helpers/loc":112,"./parsers/custom":130,"./patterns/EXPLICIT":135,"./states/assign":137,"./states/expr":139,"./states/for":140,"./states/func":141,"./states/if":142,"./tok/lex":145}],145:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _typeof=typeof Symbol==='function'&&typeof Symbol.iterator==='symbol'?function(obj){return typeof obj}:function(obj){return obj&&typeof Symbol==='function'&&obj.constructor===Symbol&&obj!==Symbol.prototype?'symbol':typeof obj};var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break}}catch(err){_d=true;_e=err}finally{try{if(!_n&&_i['return'])_i['return']()}finally{if(_d)throw _e}}return _arr}return function(arr,i){if(Array.isArray(arr)){return arr}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i)}else{throw new TypeError('Invalid attempt to destructure non-iterable instance')}}}();var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i]}return arr2}else{return Array.from(arr)}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}var CheddarLexer=function(){function CheddarLexer(Code,Index){_classCallCheck(this,CheddarLexer);this.isExpression=false;this.Code=Code;this.Index=Index;this._Tokens=[]}_createClass(CheddarLexer,[{key:'toAST',value:function toAST(){var node=this,tokens=this._Tokens;while(tokens.length===1&&tokens[0].isExpression){node=tokens[0];tokens=tokens[0]._Tokens}if(tokens.length===1&&tokens[0]instanceof CheddarLexer){node=tokens[0];tokens=tokens[0]._Tokens}return node.constructor.name.replace(/^Cheddar/g,'')+'\n'+tokens.map(function(t){return typeof t==='string'?'\''+t+'\'':t}).map(function(t){return t.toAST?t.toAST():t.toString()}).join(tokens.every(function(o){return!(o instanceof CheddarLexer)})?' ':'\n').replace(/^/gm,' \u2502').replace(/^ │(?! [└├│┬])/gm,' \u251C ');//.replace(/^((?: [^└├│┬])*)├/gm, '└'); //wait only the last one
+}},{key:'getChar',value:function getChar(){return this.Code[this.Index++]}},{key:'newToken',value:function newToken(){var fill=arguments.length>0&&arguments[0]!==undefined?arguments[0]:'';this._Tokens[this._Tokens.push(fill)-1];return this}},{key:'addToken',value:function addToken(){var char=arguments.length>0&&arguments[0]!==undefined?arguments[0]:'';this._Tokens[this._Tokens.length-1]+=char;return this}},{key:'shift',value:function shift(){return this._Tokens.shift()}},{key:'open',value:function open(forceNot){if(forceNot!==false)this.newToken()}},{key:'close',value:function close(arg){return arg||this}},{key:'error',value:function error(id){this.Errored=true;return id}},{key:'attempt',value:function attempt(){for(var _len=arguments.length,parsers=Array(_len),_key=0;_key<_len;_key++){parsers[_key]=arguments[_key]}var global_tokenizer=void 0;if(Array.isArray(parsers[0])){var _parsers=parsers;var _parsers2=_slicedToArray(_parsers,2);parsers=_parsers2[0];global_tokenizer=_parsers2[1]}var attempt=void 0;var furthest=this.Index;for(var i=0;i<parsers.length;i++){if(parsers[i]instanceof CheddarLexer){parsers[i].Code=this.Code;parsers[i].Index=this.Index;attempt=parsers[i].exec(global_tokenizer)}else{parsers[i]=this.initParser(parsers[i]);attempt=parsers[i].exec(global_tokenizer)}if(attempt instanceof CheddarLexer&&attempt.Errored!==true){this.Index=attempt.Index;return attempt}else if(attempt!==CheddarError.EXIT_NOTFOUND){this.Index=parsers[i].Index;if(attempt instanceof CheddarLexer){return this.error(CheddarError.UNEXPECTED_TOKEN)}else{return this.error(attempt)}}else{furthest=Math.max(furthest,parsers[i].Index)}}this.Index=furthest;return this.error(CheddarError.EXIT_NOTFOUND)}},{key:'initParser',value:function initParser(parseClass){var i=arguments.length>1&&arguments[1]!==undefined?arguments[1]:this.Index;if(parseClass instanceof CheddarLexer){parseClass.Code=this.Code;parseClass.Index=i;return parseClass}else{return new parseClass(this.Code,i)}}},{key:'tok',value:function tok(){var n=arguments.length>0&&arguments[0]!==undefined?arguments[0]:0;return this._Tokens[n]}},{key:'grammar',value:function grammar(whitespace){//TODO: remove unused stuff (if any)
+// defs<Array<CheddarLexer or String>>
+var index=void 0,parser=void 0,result=void 0,tokens=void 0,i=void 0,j=void 0,WDIFF=void 0,LWMIN=void 0,// last whitespcae lower bound
+LWMAX=void 0;// last whitespcae upper bound
+for(var _len2=arguments.length,defs=Array(_len2>1?_len2-1:0),_key2=1;_key2<_len2;_key2++){defs[_key2-1]=arguments[_key2]}main:for(i=0;i<defs.length;i++){index=this.Index;tokens=[];sub:for(j=0;j<defs[i].length;j++){if(whitespace){var oldIndex=this.Index;var deltaIndex=index;this.Index=index;this.jumpWhite();index=this.Index;WDIFF=this.Index-deltaIndex>0;LWMIN=deltaIndex;LWMAX=this.Index;this.Index=oldIndex}if(_typeof(defs[i][j])==='symbol'){continue sub}else if(defs[i][j]instanceof CheddarLexer){parser=defs[i][j];parser.Code=this.Code;parser.Index=index;result=parser.exec();if(result===CheddarError.EXIT_NOTFOUND){continue main}else if(!(result instanceof CheddarLexer)){this.Index=parser.Index;return this.error(result)}index=result.Index;tokens.push(result)}else if(defs[i][j].prototype instanceof CheddarLexer){parser=new defs[i][j](this.Code,index);result=parser.exec();if(!(result instanceof CheddarLexer)&&_typeof(defs[i][j+1])==='symbol'){if(defs[i][j+1]===CheddarError.ALLOW_ERROR){j++;continue main}else{this.Index=Math.max(parser.Index,index);return this.error(defs[i][j+1])}}if(result===CheddarError.EXIT_NOTFOUND){continue main}else if(!(result instanceof CheddarLexer)){this.Index=parser.Index;return this.error(result)}index=parser.Index;// Filters out meaningless data
+if(!((result.constructor.name.endsWith('Alpha')||result.constructor.name.endsWith('Beta'))&&result._Tokens.length===0))tokens.push(result)}else if(defs[i][j]===this.jumpWhite){var _oldIndex=this.Index;this.Index=index;if(whitespace?!WDIFF:!/\s/.test(this.curchar))return this.error(CheddarError.EXIT_NOTFOUND);this.jumpWhite();index=this.Index;this.Index=_oldIndex}else if(defs[i][j]===this.jumpSpace){var _oldIndex2=this.Index;this.Index=index;this.jumpWhite();index=this.Index;this.Index=_oldIndex2}else if(Array.isArray(defs[i][j])){if(defs[i][j].length===1){if(Array.isArray(defs[i][j][0])){var _defs$i;// TODO: not recommended; creates 2^optionals new rules
+//slice(0) clones array
+var def=defs[i].slice(0);def.splice(j,1);defs.splice(i+1,0,def);(_defs$i=defs[i]).splice.apply(_defs$i,[j,1].concat(_toConsumableArray(defs[i][j][0])));i--;continue main}// Optional
+if(typeof defs[i][j][0]==='string'){// If it matches
+if(this.Code.indexOf(defs[i][j][0],index)===index){index+=defs[i][j][0].length;tokens.push(defs[i][j][0])}}else{parser=this.initParser(defs[i][j][0],index);result=parser.exec();if(result!==CheddarError.EXIT_NOTFOUND){if(!(result instanceof CheddarLexer)){return this.error(result)}else{index=result.Index;// Filter
+if(!((result.constructor.name.endsWith('Alpha')||result.constructor.name.endsWith('Beta'))&&result._Tokens.length===0))tokens.push(result)}}}}else{// OR
+var match=void 0;var _oldIndex3=this.Index;var success=false;for(var k=0;k<defs[i][j].length;k++){this.Index=index;if(defs[i][j][k].prototype instanceof CheddarLexer||defs[i][j][k]instanceof CheddarLexer){result=this.initParser(defs[i][j][k]).exec();if(result instanceof CheddarLexer){match=result;index=result.Index;break}if(result!==CheddarError.EXIT_NOTFOUND)return this.error(result)}else{result=this.jumpLiteral(defs[i][j][k]);if(result){success=true;match=defs[i][j][k];index=this.Index;break}}}this.Index=_oldIndex3;if(match||success){if(!((result.constructor.name.endsWith('Alpha')||result.constructor.name.endsWith('Beta'))&&result._Tokens.length===0)){tokens.push(match);continue sub}}else{// this.Index = result.Index;
+if(defs[i][j+1]===CheddarError.ALLOW_ERROR){j++;continue main}else{return this.error(CheddarError.EXIT_NOTFOUND)}}}}else{// It must be a string
+var _oldIndex4=this.Index;this.Index=index;result=this.jumpLiteral(defs[i][j]);if(result)index=this.Index;this.Index=_oldIndex4;if(!result)continue main}}this.Tokens=tokens;this.Index=index;if(LWMAX===this.Index&&LWMIN<LWMAX){this.Index=LWMIN}return this.close()}return this.error(CheddarError.EXIT_NOTFOUND)}/*
+    Whitespace Grammar:
+    W -> w
+         w C1 w
+         w C2 w
+         ... etc
+
+    Right-recursive:
+    W -> w α
+         α
+    α -> C1 W
+         C2 W
+
+    where C1...CN are terminal comment grammars
+    */},{key:'jumpWhite',value:function jumpWhite(){var STARTINDEX=this.Index;while(/\s/.test(this.Code[this.Index])){this.Index++;this._jumpComment()}return this}},{key:'_jumpComment',value:function _jumpComment(){if(this.Code[this.Index]==='/'){switch(this.Code[this.Index+1]){case'*':// match till EOF or '*/'
+this.Index+=2;this._jumpBlockComment();break;case'/':// match till EOF or newline
+this.Index+=2;// jump ahead to the start of the comment
+while(this.curchar&&this.curchar!=='\n'){this.Index++}break;default:return false;}return true}else{return false}// you must of borked something bad if this is executing
+}},{key:'_jumpBlockComment',value:function _jumpBlockComment(){var nextStart=void 0,nextEnd=void 0,depth=1,newIndex=this.Index+2;while(depth){nextStart=this.Code.indexOf('/*',newIndex);nextEnd=this.Code.indexOf('*/',newIndex);if(nextStart<nextEnd){depth++;newIndex=nextStart+2}else{depth--;newIndex=nextEnd+2}if(nextEnd===-1)return this.error(CheddarError.UNEXPECTED_TOKEN)}this.Index=newIndex;return this}},{key:'jumpLiteral',value:function jumpLiteral(l){//TODO: make more efficient
+//downgoat D: this returned first index
+//took me 6 hours to figure out the problem :(
+//D: D: D:
+if(this.Code.indexOf(l,this.Index)===this.Index)this.Index+=l.length;else return false;return this}},{key:'jumpSpace',value:function jumpSpace(){return this.jumpWhite()}},{key:'lookAhead',value:function lookAhead(seq){this.jumpWhite();return this.Code.indexOf(seq,this.Index)===this.Index}},{key:'curchar',get:function get(){return this.Code[this.Index]}},{key:'last',get:function get(){return this._Tokens[this._Tokens.length-1]}},{key:'Tokens',get:function get(){return this._Tokens},set:function set(v){var _Tokens;if(Array.isArray(v))(_Tokens=this._Tokens).push.apply(_Tokens,_toConsumableArray(v));else this._Tokens.push(v)}},{key:'isLast',get:function get(){return!this.Code[this.Index]}},{key:'isPrimitive',get:function get(){return false}}]);return CheddarLexer}();exports.default=CheddarLexer;module.exports=exports['default'];
+},{"../consts/err":108}],146:[function(require,module,exports){
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _op=require('../literals/op');var _op2=_interopRequireDefault(_op);var _ops=require('../consts/ops');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _lex=require('./lex');var _lex2=_interopRequireDefault(_lex);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i]}return arr2}else{return Array.from(arr)}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarShuntingYard=function(_CheddarLexer){_inherits(CheddarShuntingYard,_CheddarLexer);function CheddarShuntingYard(){_classCallCheck(this,CheddarShuntingYard);return _possibleConstructorReturn(this,(CheddarShuntingYard.__proto__||Object.getPrototypeOf(CheddarShuntingYard)).apply(this,arguments))}_createClass(CheddarShuntingYard,[{key:'exec',value:function exec(expression){var _Tokens;if(expression&&expression.Code)this.Code=expression.Code;if(expression&&expression.Index)this.Index=expression.Index;// Flatten the expression
+var current=expression;var tokens=[];if(!current||!current.isExpression||current._Tokens.length>2)return this.close(expression);while(current&&current._Tokens.length===2&&(current.tok(1).isExpression||// prevents import recursion
+current.tok(1)instanceof CheddarShuntingYard)){if(current.tok().isExpression)//TODO: code, index
+tokens.push(new CheddarShuntingYard().exec(current.tok()));else tokens.push(current.tok());if(current.tok(1)instanceof CheddarShuntingYard){tokens.push(current.tok(1));current=null;break}else current=current.tok(1);//TODO: make sure this covers all cases; otherwise, see when this doesn't work
+}if(current&&current._Tokens.length>1){this.Index=current.Index;return this.error(CheddarError.UNEXPECTED_TOKEN)}if(current&&current._Tokens.length===1){if(current.tok().isExpression)tokens.push(new CheddarShuntingYard().exec(current.tok()));else tokens.push(current.tok())}// Reorder tokens
+var operators=[],precedences=[],unary=true;for(var i=0;i<tokens.length;i++){var token=tokens[i],previousPrecedence=0;if(token instanceof CheddarShuntingYard){for(var _i=0;_i<token._Tokens.length;_i++){this.Tokens=token.tok(_i)}unary=false}else if(token instanceof _op2.default){// It's an operator
+if(_ops.RA_PRECEDENCE.has(token.tok(0)))token.Tokens=_ops.TYPE.RTL;else if(unary)token.Tokens=_ops.TYPE.UNARY;else token.Tokens=_ops.TYPE.LTR;var precedence=void 0;switch(token.tok(1)){case _ops.TYPE.RTL:precedence=_ops.RA_PRECEDENCE.get(token.tok());break;case _ops.TYPE.UNARY:precedence=_ops.UNARY_PRECEDENCE.get(token.tok());break;case _ops.TYPE.LTR:precedence=_ops.PRECEDENCE.get(token.tok());break;}var minus=token.tok(1)==_ops.TYPE.RTL?0:1;previousPrecedence=precedences[precedences.length-1];while(precedence-minus<previousPrecedence){this.Tokens=operators.pop();precedences.pop();previousPrecedence=precedences[precedences.length-1]}operators.push(token);precedences.push(precedence);previousPrecedence=precedence;unary=true}else{this.Tokens=token;unary=false}}(_Tokens=this.Tokens).push.apply(_Tokens,_toConsumableArray(operators.reverse()));return this.close()}}]);return CheddarShuntingYard}(_lex2.default);exports.default=CheddarShuntingYard;module.exports=exports['default'];
+},{"../consts/err":108,"../consts/ops":110,"../literals/op":120,"./lex":145}],147:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -10381,7 +6969,189 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require('_process'))
-},{"_process":146}],158:[function(require,module,exports){
+},{"_process":158}],158:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],159:[function(require,module,exports){
 /*!
  * XRegExp.build 3.1.1
  * <xregexp.com>
@@ -10569,7 +7339,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],159:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 /*!
  * XRegExp.matchRecursive 3.1.1
  * <xregexp.com>
@@ -10759,7 +7529,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],160:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 /*!
  * XRegExp Unicode Base 3.1.1
  * <xregexp.com>
@@ -10988,7 +7758,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],161:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 /*!
  * XRegExp Unicode Blocks 3.1.1
  * <xregexp.com>
@@ -12066,7 +8836,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],162:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
 /*!
  * XRegExp Unicode Categories 3.1.1
  * <xregexp.com>
@@ -12304,7 +9074,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],163:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 /*!
  * XRegExp Unicode Properties 3.1.1
  * <xregexp.com>
@@ -12412,7 +9182,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],164:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 /*!
  * XRegExp Unicode Scripts 3.1.1
  * <xregexp.com>
@@ -12974,7 +9744,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],165:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 var XRegExp = require('./xregexp');
 
 require('./addons/build')(XRegExp);
@@ -12987,7 +9757,7 @@ require('./addons/unicode-scripts')(XRegExp);
 
 module.exports = XRegExp;
 
-},{"./addons/build":158,"./addons/matchrecursive":159,"./addons/unicode-base":160,"./addons/unicode-blocks":161,"./addons/unicode-categories":162,"./addons/unicode-properties":163,"./addons/unicode-scripts":164,"./xregexp":166}],166:[function(require,module,exports){
+},{"./addons/build":159,"./addons/matchrecursive":160,"./addons/unicode-base":161,"./addons/unicode-blocks":162,"./addons/unicode-categories":163,"./addons/unicode-properties":164,"./addons/unicode-scripts":165,"./xregexp":167}],167:[function(require,module,exports){
 /*!
  * XRegExp 3.1.1
  * <xregexp.com>
