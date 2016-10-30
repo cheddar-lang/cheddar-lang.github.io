@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":42,"../stdlib/stdlib":104,"cheddar-parser/dist/tok":145,"colors":152,"readline":106}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":43,"../stdlib/stdlib":105,"cheddar-parser/dist/tok":145,"colors":152,"readline":107}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -205,7 +205,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([[_String2.default, 'String'], [_Number2.default, 'Number'], [_Array2.default, 'Array'], [_Bool2.default, 'Bool']]);
 module.exports = exports['default'];
 
-},{"../primitives/Array":21,"../primitives/Bool":22,"../primitives/Number":24,"../primitives/String":26}],6:[function(require,module,exports){
+},{"../primitives/Array":22,"../primitives/Bool":23,"../primitives/Number":25,"../primitives/String":27}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -263,7 +263,7 @@ var PRIMITIVE_LINKS = exports.PRIMITIVE_LINKS = new Map([["CheddarNilToken", _ni
 
 var EVALUATED_LINKS = exports.EVALUATED_LINKS = new Map([["CheddarFunctionizedOperatorToken", _fop2.default], ["CheddarFunctionizedPropertyToken", _fprop2.default]]);
 
-},{"../consts/nil":10,"../env/func":13,"../evaluated/fop":19,"../evaluated/fprop":20,"../primitives/Array":21,"../primitives/Bool":22,"../primitives/Dictionary":23,"../primitives/Number":24,"../primitives/Regex":25,"../primitives/String":26,"../primitives/Symbol":27}],7:[function(require,module,exports){
+},{"../consts/nil":10,"../env/func":13,"../evaluated/fop":20,"../evaluated/fprop":21,"../primitives/Array":22,"../primitives/Bool":23,"../primitives/Dictionary":24,"../primitives/Number":25,"../primitives/Regex":26,"../primitives/String":27,"../primitives/Symbol":28}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -367,7 +367,7 @@ NIL.Name = "nil";
 exports.default = NIL;
 module.exports = exports['default'];
 
-},{"../../../helpers/init":3,"../env/class":11,"../primitives/Bool":22,"../primitives/String":26}],11:[function(require,module,exports){
+},{"../../../helpers/init":3,"../env/class":11,"../primitives/Bool":23,"../primitives/String":27}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -614,7 +614,7 @@ var DEFAULT_CAST = exports.DEFAULT_CAST = new Map([['Bool', function (self) {
 var DEFAULT_RHS_OP = exports.DEFAULT_RHS_OP = new Map();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../../helpers/init":3,"../config/alias":5,"../consts/err":8,"../primitives/Bool":22,"./class":11,"./func":13}],13:[function(require,module,exports){
+},{"../../../helpers/init":3,"../config/alias":5,"../consts/err":8,"../primitives/Bool":23,"./class":11,"./func":13}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -969,7 +969,7 @@ var _initialiseProps = function _initialiseProps() {
 exports.default = CheddarFunction;
 module.exports = exports['default'];
 
-},{"../../../helpers/init":3,"../../signal":44,"../consts/err":8,"../consts/nil":10,"../eval/eval":17,"../primitives/Array":21,"../primitives/Number":24,"./class":11,"./scope":14,"./var":15}],14:[function(require,module,exports){
+},{"../../../helpers/init":3,"../../signal":45,"../consts/err":8,"../consts/nil":10,"../eval/eval":17,"../primitives/Array":22,"../primitives/Number":25,"./class":11,"./scope":14,"./var":15}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1326,6 +1326,10 @@ var _prop = require('./prop');
 
 var _prop2 = _interopRequireDefault(_prop);
 
+var _isliteral = require('./isliteral');
+
+var _isliteral2 = _interopRequireDefault(_isliteral);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1432,17 +1436,17 @@ var CheddarEval = function (_CheddarCallStack) {
             // Expression source
 
             // Handle Operator
-            if (Operation instanceof _op2.default) {
+            if (Operation.constructor.name === "CheddarOperatorToken") {
 
                 var SETSELF = false; // If the operator is a self-asignning operator
 
                 TOKEN = this.shift(); // Get the value to operate upon
 
                 // SPECIAL BEHAVIOR FOR REsASSIGNMENT
-                if (Operation.tok(0) === "=") {
+                if (Operation._Tokens[0] === "=") {
                     DATA = this.shift();
 
-                    if (!(DATA.scope instanceof _scope2.default) || DATA.Reference === null || Operation.tok(1) === _ops.TYPE.UNARY) {
+                    if (!(DATA.scope instanceof _scope2.default) || DATA.Reference === null || Operation._Tokens[1] === _ops.TYPE.UNARY) {
                         return _err_msg2.default.get(_err2.default.NOT_A_REFERENCE);
                     }
 
@@ -1455,11 +1459,11 @@ var CheddarEval = function (_CheddarCallStack) {
                     }
 
                     OPERATOR = TOKEN;
-                } else if (Operation.Tokens[1] === _ops.TYPE.UNARY) {
+                } else if (Operation._Tokens[1] === _ops.TYPE.UNARY) {
                     NAME = TOKEN.Operator;
                     // It is an Unary operator use TOKEN as RHS, null as LHS
-                    if (NAME.has(Operation.Tokens[0])) {
-                        OPERATOR = NAME.get(Operation.Tokens[0])(null, TOKEN);
+                    if (NAME.has(Operation._Tokens[0])) {
+                        OPERATOR = NAME.get(Operation._Tokens[0])(null, TOKEN);
                     } else {
                         OPERATOR = _err2.default.NO_OP_BEHAVIOR;
                     }
@@ -1469,7 +1473,7 @@ var CheddarEval = function (_CheddarCallStack) {
 
                     NAME = DATA.Operator; // Get the list of operators DATA has
 
-                    TARGET = Operation.Tokens[0]; // The operator
+                    TARGET = Operation._Tokens[0]; // The operator
 
                     // Set LHS to LHS * RHS
 
@@ -1489,14 +1493,14 @@ var CheddarEval = function (_CheddarCallStack) {
                 }
 
                 if (OPERATOR === _err2.default.NO_OP_BEHAVIOR) {
-                    return _err_msg2.default.get(OPERATOR).replace(/\$0/g, Operation.Tokens[0]).replace(/\$1/g, TOKEN ? TOKEN.constructor.Name || (TOKEN.prototype instanceof _class2.default ? "Class" : "nil") : "nil").replace(/\$2/g, DATA ? DATA.constructor.Name || (DATA.prototype instanceof _class2.default ? "Class" : "nil") : "nil");
+                    return _err_msg2.default.get(OPERATOR).replace(/\$0/g, Operation._Tokens[0]).replace(/\$1/g, TOKEN ? TOKEN.constructor.Name || (TOKEN.prototype instanceof _class2.default ? "Class" : "nil") : "nil").replace(/\$2/g, DATA ? DATA.constructor.Name || (DATA.prototype instanceof _class2.default ? "Class" : "nil") : "nil");
                 } else if (typeof OPERATOR === 'string') {
                     return OPERATOR;
                 } else {
                     // Perform re-assignment
                     if (SETSELF) {
                         // DATA, TOKEN
-                        if (!(DATA.scope instanceof _scope2.default) || DATA.Reference === null || Operation.tok(1) === _ops.TYPE.UNARY) {
+                        if (!(DATA.scope instanceof _scope2.default) || DATA.Reference === null || Operation._Tokens[1] === _ops.TYPE.UNARY) {
                             return _err_msg2.default.get(_err2.default.NOT_A_REFERENCE);
                         }
 
@@ -1511,7 +1515,7 @@ var CheddarEval = function (_CheddarCallStack) {
 
                     this.put(OPERATOR);
                 }
-            } else if (Operation instanceof _property2.default || Operation instanceof _literal2.default) {
+            } else if (Operation.constructor.name === "CheddarPropertyToken" || _isliteral2.default.indexOf(Operation.constructor.name) > -1) {
                 var res = (0, _prop2.default)(Operation, this.Scope, this.constructor);
                 if (typeof res === 'string' || typeof res === 'boolean' || (typeof res === 'undefined' ? 'undefined' : _typeof(res)) === 'symbol') return res;
 
@@ -1562,7 +1566,16 @@ var CheddarEval = function (_CheddarCallStack) {
 exports.default = CheddarEval;
 module.exports = exports['default'];
 
-},{"../config/link":6,"../consts/err":8,"../consts/err_msg":9,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"./callstack":16,"./prop":18,"cheddar-parser/dist/consts/ops":111,"cheddar-parser/dist/literals/literal":118,"cheddar-parser/dist/literals/op":121,"cheddar-parser/dist/parsers/expr":132,"cheddar-parser/dist/parsers/property":135}],18:[function(require,module,exports){
+},{"../config/link":6,"../consts/err":8,"../consts/err_msg":9,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"./callstack":16,"./isliteral":18,"./prop":19,"cheddar-parser/dist/consts/ops":111,"cheddar-parser/dist/literals/literal":118,"cheddar-parser/dist/literals/op":121,"cheddar-parser/dist/parsers/expr":132,"cheddar-parser/dist/parsers/property":135}],18:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = ["CheddarAnyLiteral", "CheddarFunctionToken"];
+module.exports = exports["default"];
+
+},{}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1599,6 +1612,10 @@ var _err2 = _interopRequireDefault(_err);
 var _err_msg = require('../consts/err_msg');
 
 var _err_msg2 = _interopRequireDefault(_err_msg);
+
+var _isliteral = require('./isliteral');
+
+var _isliteral2 = _interopRequireDefault(_isliteral);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1638,9 +1655,9 @@ function eval_prop(prop, scope, evaluate) {
 
     // Is a primitive
     // this includes `"foo".bar`
-    if (Operation._Tokens[0] instanceof _literal2.default || Operation instanceof _literal2.default) {
+    if (_isliteral2.default.indexOf(Operation._Tokens[0].constructor.name) > -1 || _isliteral2.default.indexOf(Operation.constructor.name) > -1) {
 
-        if (Operation instanceof _literal2.default) {
+        if (_isliteral2.default.indexOf(Operation.constructor.name) > -1) {
             TOKEN = Operation;
         } else {
             // Get the token's value
@@ -1656,20 +1673,20 @@ function eval_prop(prop, scope, evaluate) {
 
             OPERATOR = new OPERATOR(scope);
 
-            if ((TOKEN = (_OPERATOR = OPERATOR).init.apply(_OPERATOR, _toConsumableArray(TOKEN.Tokens))) !== true) {
+            if ((TOKEN = (_OPERATOR = OPERATOR).init.apply(_OPERATOR, _toConsumableArray(TOKEN._Tokens))) !== true) {
                 return TOKEN;
             }
 
             // Exit if it's a raw literal
-            if (Operation instanceof _literal2.default) {
+            if (_isliteral2.default.indexOf(Operation.constructor.name) > -1) {
                 return OPERATOR;
             }
         } else if (OPERATOR = _link.EVALUATED_LINKS.get(TOKEN.constructor.name)) {
-            OPERATOR = OPERATOR.apply(undefined, _toConsumableArray(TOKEN.Tokens));
+            OPERATOR = OPERATOR.apply(undefined, _toConsumableArray(TOKEN._Tokens));
         } else {
             return _err2.default.UNLINKED_CLASS;
         }
-    } else if (Operation._Tokens[0] instanceof _paren_expr2.default) {
+    } else if (Operation._Tokens[0].constructor.name === "CheddarParenthesizedExpressionToken") {
         // Evaluate
         OPERATOR = new CheddarEval(Operation._Tokens[0], scope);
 
@@ -1680,7 +1697,7 @@ function eval_prop(prop, scope, evaluate) {
         }
 
         NAME = OPERATOR.constructor.Name || OPERATOR.Name || "object";
-    } else if (Operation._Tokens[0] instanceof _var2.default) {
+    } else if (Operation._Tokens[0].constructor.name === "CheddarVariableToken") {
         // Lookup variable -> initial variable name
         OPERATOR = scope.accessor(Operation._Tokens[0]._Tokens[0]);
 
@@ -1839,7 +1856,7 @@ function eval_prop(prop, scope, evaluate) {
 }
 module.exports = exports['default'];
 
-},{"../config/link":6,"../consts/err":8,"../consts/err_msg":9,"../env/class":11,"../env/func":13,"cheddar-parser/dist/literals/literal":118,"cheddar-parser/dist/literals/var":126,"cheddar-parser/dist/parsers/paren_expr":134}],19:[function(require,module,exports){
+},{"../config/link":6,"../consts/err":8,"../consts/err_msg":9,"../env/class":11,"../env/func":13,"./isliteral":18,"cheddar-parser/dist/literals/literal":118,"cheddar-parser/dist/literals/var":126,"cheddar-parser/dist/parsers/paren_expr":134}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1900,7 +1917,7 @@ var UNARY_ONLY = _ops.UOP.filter(function (i) {
 
 module.exports = exports['default'];
 
-},{"../consts/err":8,"../consts/err_msg":9,"../consts/nil":10,"../env/class":11,"../env/func":13,"cheddar-parser/dist/consts/ops":111}],20:[function(require,module,exports){
+},{"../consts/err":8,"../consts/err_msg":9,"../consts/nil":10,"../env/class":11,"../env/func":13,"cheddar-parser/dist/consts/ops":111}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1939,7 +1956,7 @@ $0._Tokens = ['$0'];
 
 module.exports = exports['default'];
 
-},{"../env/func":13,"../eval/eval":17,"../eval/prop":18,"cheddar-parser/dist/literals/var":126}],21:[function(require,module,exports){
+},{"../env/func":13,"../eval/eval":17,"../eval/prop":19,"cheddar-parser/dist/literals/var":126}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2100,7 +2117,7 @@ exports.default = CheddarArray;
 CheddarArray.Scope = require('../../../stdlib/primitive/Array/static');
 module.exports = exports['default'];
 
-},{"../../../stdlib/primitive/Array/lib":53,"../../../stdlib/primitive/Array/static":81,"../consts/err":8,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"../eval/eval":17,"./cast/array":28,"./op/array":35}],22:[function(require,module,exports){
+},{"../../../stdlib/primitive/Array/lib":54,"../../../stdlib/primitive/Array/static":82,"../consts/err":8,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"../eval/eval":17,"./cast/array":29,"./op/array":36}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2193,7 +2210,7 @@ CheddarBool.Name = "Boolean";
 exports.default = CheddarBool;
 module.exports = exports['default'];
 
-},{"../env/class":11,"./cast/bool":29,"./op/bool":36}],23:[function(require,module,exports){
+},{"../env/class":11,"./cast/bool":30,"./op/bool":37}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2297,7 +2314,7 @@ CheddarDictionary.Name = "Dictionary";
 exports.default = CheddarDictionary;
 module.exports = exports['default'];
 
-},{"../consts/dict":7,"../env/class":11,"../eval/eval":17,"./cast/dict":30,"./op/dict":37}],24:[function(require,module,exports){
+},{"../consts/dict":7,"../env/class":11,"../eval/eval":17,"./cast/dict":31,"./op/dict":38}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2379,7 +2396,7 @@ CheddarNumber.Name = "Number";
 exports.default = CheddarNumber;
 module.exports = exports['default'];
 
-},{"../../../stdlib/primitive/Number/lib":82,"../env/class":11,"./cast/number":31,"./op/number":38}],25:[function(require,module,exports){
+},{"../../../stdlib/primitive/Number/lib":83,"../env/class":11,"./cast/number":32,"./op/number":39}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2468,7 +2485,8 @@ CheddarRegex.Name = "Regex";
 exports.default = CheddarRegex;
 module.exports = exports['default'];
 
-},{"../env/class":11,"./cast/regex":32,"./op/regex":39,"xregexp":166}],26:[function(require,module,exports){
+},{"../env/class":11,"./cast/regex":33,"./op/regex":40,"xregexp":167}],27:[function(require,module,exports){
+(function (global){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2576,6 +2594,16 @@ var CheddarString = function (_CheddarClass) {
                 return 'accessor must be integer';
             }
         }
+    }, {
+        key: 'Scope',
+        get: function get() {
+            if (global.DISABLE_STDLIB_ITEM !== "String") return require('../../../stdlib/primitive/String/lib');
+        }
+    }], [{
+        key: 'Scope',
+        get: function get() {
+            if (global.DISABLE_STDLIB_ITEM !== "String") return require('../../../stdlib/primitive/String/static');
+        }
     }]);
 
     return CheddarString;
@@ -2583,13 +2611,10 @@ var CheddarString = function (_CheddarClass) {
 
 CheddarString.Name = "String";
 exports.default = CheddarString;
-
-
-CheddarString.Scope = require('../../../stdlib/primitive/String/static');
-CheddarString.prototype.Scope = require('../../../stdlib/primitive/String/lib');
 module.exports = exports['default'];
 
-},{"../../../stdlib/primitive/String/lib":84,"../../../stdlib/primitive/String/static":103,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"./cast/string":33,"./op/string":40}],27:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../../../stdlib/primitive/String/lib":85,"../../../stdlib/primitive/String/static":104,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"./cast/string":34,"./op/string":41}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2656,7 +2681,7 @@ CheddarSymbol.Name = "Symbol";
 exports.default = CheddarSymbol;
 module.exports = exports['default'];
 
-},{"../env/class":11,"./cast/symbol":34,"./op/symbol":41}],28:[function(require,module,exports){
+},{"../env/class":11,"./cast/symbol":35,"./op/symbol":42}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2684,7 +2709,7 @@ exports.default = new Map([['String', function (self) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../String":26}],29:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../String":27}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2714,7 +2739,7 @@ exports.default = new Map([['String', function (RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../consts/err":8,"../Number":24,"../String":26}],30:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":8,"../Number":25,"../String":27}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2734,7 +2759,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../String":26}],31:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../String":27}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2756,7 +2781,7 @@ exports.default = new Map([['String', function (LHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../String":26}],32:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../String":27}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2783,7 +2808,7 @@ exports.default = new Map([['String', function (self) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../consts/err":8,"../String":26}],33:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":8,"../String":27}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2846,7 +2871,7 @@ ITEM  ::= init <codeblock> |
 
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../consts/err":8,"../Number":24,"cheddar-parser/dist/literals/number":120,"cheddar-parser/dist/tok/lex":146}],34:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":8,"../Number":25,"cheddar-parser/dist/literals/number":120,"cheddar-parser/dist/tok/lex":146}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2866,7 +2891,7 @@ exports.default = new Map([['String', function (self) {
 
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../String":26}],35:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../String":27}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2939,7 +2964,7 @@ exports.default = new Map([['!', function (LHS, RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../consts/err":8,"../Array":21,"../Bool":22,"../Number":24,"../String":26}],36:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":8,"../Array":22,"../Bool":23,"../Number":25,"../String":27}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2957,7 +2982,7 @@ exports.default = new Map([['!', function (LHS, RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3}],37:[function(require,module,exports){
+},{"../../../../helpers/init":3}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2979,7 +3004,7 @@ exports.default = new Map([['+', function (LHS, RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3}],38:[function(require,module,exports){
+},{"../../../../helpers/init":3}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3178,7 +3203,7 @@ TODO:
 
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../consts/err":8,"../Array":21,"../Bool":22,"../Number":24,"../String":26}],39:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../consts/err":8,"../Array":22,"../Bool":23,"../Number":25,"../String":27}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3217,7 +3242,7 @@ exports.default = new Map([['repr', function (LHS, RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../String":26,"xregexp":166}],40:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../String":27,"xregexp":167}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3309,7 +3334,7 @@ exports.default = new Map([
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../../../stdlib/api":51,"../../../../stdlib/ns/IO/sprintf":52,"../../consts/err":8,"../Array":21,"../Bool":22,"../Number":24}],41:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../../../stdlib/api":52,"../../../../stdlib/ns/IO/sprintf":53,"../../consts/err":8,"../Array":22,"../Bool":23,"../Number":25}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3318,7 +3343,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = new Map();
 module.exports = exports["default"];
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3327,10 +3352,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _links = require('./links');
-
-var _links2 = _interopRequireDefault(_links);
 
 var _nil = require('./core/consts/nil');
 
@@ -3345,12 +3366,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var CheddarExec = function () {
-    function CheddarExec(exec_stack, scope) {
+    function CheddarExec(exec_stack, scope, filter_item) {
         _classCallCheck(this, CheddarExec);
 
         this.Code = exec_stack._Tokens;
         this._csi = 0;
         this.Scope = scope;
+
+        this.links = require('./links')(filter_item);
 
         this.continue = true;
         this.lrep = new _nil2.default();
@@ -3360,7 +3383,7 @@ var CheddarExec = function () {
         key: 'step',
         value: function step() {
             var item = this.Code[this._csi++];
-            var sproc = _links2.default[item.constructor.name];
+            var sproc = this.links[item.constructor.name];
 
             var proc = new sproc(item, this.Scope);
             var resp = proc.exec();
@@ -3398,7 +3421,7 @@ exports.default = CheddarExec;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./core/consts/nil":10,"./links":43,"./signal":44}],43:[function(require,module,exports){
+},{"./core/consts/nil":10,"./links":44,"./signal":45}],44:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3435,18 +3458,21 @@ var _if2 = _interopRequireDefault(_if);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
-    StatementAssign: _assign2.default,
-    StatementIf: _if2.default,
-    StatementFor: _for2.default,
-    StatementFunc: _func2.default,
-    StatementBreak: _break2.default,
-    StatementReturn: _return2.default,
-    StatementExpression: _eval2.default
+exports.default = function (delay_addition) {
+    return {
+        StatementAssign: _assign2.default,
+        StatementIf: _if2.default,
+        StatementFor: _for2.default,
+        StatementFunc: _func2.default,
+        StatementBreak: _break2.default,
+        StatementReturn: _return2.default,
+        StatementExpression: _eval2.default
+    };
 };
+
 module.exports = exports['default'];
 
-},{"./core/eval/eval":17,"./states/assign":45,"./states/break":46,"./states/for":47,"./states/func":48,"./states/if":49,"./states/return":50}],44:[function(require,module,exports){
+},{"./core/eval/eval":17,"./states/assign":46,"./states/break":47,"./states/for":48,"./states/func":49,"./states/if":50,"./states/return":51}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3491,7 +3517,7 @@ Signal.RETURN = Symbol('RETURN');
 exports.default = Signal;
 module.exports = exports['default'];
 
-},{"./core/consts/nil":10}],45:[function(require,module,exports){
+},{"./core/consts/nil":10}],46:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3524,8 +3550,8 @@ var CheddarAssign = function () {
     function CheddarAssign(tokl, scope, noassign) {
         _classCallCheck(this, CheddarAssign);
 
-        this.assignt = tokl.tok(0); // assignment type
-        this.assignl = tokl.tok(1); // name & type?
+        this.assignt = tokl._Tokens[0]; // assignment type
+        this.assignl = tokl._Tokens[1]; // name & type?
         this.toks = tokl;
 
         this.scope = scope;
@@ -3536,14 +3562,14 @@ var CheddarAssign = function () {
     _createClass(CheddarAssign, [{
         key: 'exec',
         value: function exec() {
-            var varname = this.assignl.tok(0)._Tokens[0];
+            var varname = this.assignl._Tokens[0]._Tokens[0];
             if (this.scope.has(varname)) {
                 // ERROR INTEGRATE
                 return varname + ' has already been defined';
             }
 
             // Strict typing
-            var stricttype = this.assignl.tok(1) ? this.assignl.tok(1)._Tokens[0] : null;
+            var stricttype = this.assignl._Tokens[1] ? this.assignl._Tokens[1]._Tokens[0] : null;
 
             if (stricttype && this.scope.has(stricttype) && !((stricttype = this.scope.accessor(stricttype).Value).prototype instanceof _class2.default)) {
                 return stricttype + ' is not a class';
@@ -3552,12 +3578,12 @@ var CheddarAssign = function () {
             var res = void 0,
                 value = void 0;
 
-            if (this.toks.tok(2)) {
+            if (this.toks._Tokens[2]) {
 
-                var val = new _eval2.default({ _Tokens: [this.toks.tok(3)] }, this.scope);
+                var val = new _eval2.default({ _Tokens: [this.toks._Tokens[3]] }, this.scope);
                 if (!((val = val.exec()) instanceof _class2.default || val.prototype instanceof _class2.default)) return val;
 
-                if (this.toks.tok(2) === ':=') {
+                if (this.toks._Tokens[2] === ':=') {
                     stricttype = val.constructor;
                 }
 
@@ -3588,7 +3614,7 @@ var CheddarAssign = function () {
             }
 
             if (res !== true) {
-                return '`' + this.assignl.tok(0) + '` is a reserved keyword';
+                return '`' + this.assignl._Tokens[0] + '` is a reserved keyword';
             }
         }
     }]);
@@ -3599,7 +3625,7 @@ var CheddarAssign = function () {
 exports.default = CheddarAssign;
 module.exports = exports['default'];
 
-},{"../core/consts/nil":10,"../core/env/class":11,"../core/env/var":15,"../core/eval/eval":17}],46:[function(require,module,exports){
+},{"../core/consts/nil":10,"../core/env/class":11,"../core/env/var":15,"../core/eval/eval":17}],47:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3637,7 +3663,7 @@ var CheddarAssign = function () {
 exports.default = CheddarAssign;
 module.exports = exports['default'];
 
-},{"../signal":44}],47:[function(require,module,exports){
+},{"../signal":45}],48:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3864,7 +3890,7 @@ var CheddarFor = function () {
 exports.default = CheddarFor;
 module.exports = exports['default'];
 
-},{"../../helpers/init":3,"../core/consts/nil":10,"../core/env/scope":14,"../core/env/var":15,"../core/eval/eval":17,"../core/primitives/Bool":22,"../core/primitives/String":26,"../exec":42,"../signal":44,"./assign":45}],48:[function(require,module,exports){
+},{"../../helpers/init":3,"../core/consts/nil":10,"../core/env/scope":14,"../core/env/var":15,"../core/eval/eval":17,"../core/primitives/Bool":23,"../core/primitives/String":27,"../exec":43,"../signal":45,"./assign":46}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3916,7 +3942,7 @@ var CheddarFunc = function () {
 exports.default = CheddarFunc;
 module.exports = exports['default'];
 
-},{"../core/env/func":13,"../core/env/var":15}],49:[function(require,module,exports){
+},{"../core/env/func":13,"../core/env/var":15}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4020,7 +4046,7 @@ var CheddarIf = function () {
 exports.default = CheddarIf;
 module.exports = exports['default'];
 
-},{"../core/consts/err":8,"../core/consts/err_msg":9,"../core/consts/nil":10,"../core/env/scope":14,"../core/eval/eval":17,"../core/primitives/Bool":22,"../exec":42}],50:[function(require,module,exports){
+},{"../core/consts/err":8,"../core/consts/err_msg":9,"../core/consts/nil":10,"../core/env/scope":14,"../core/eval/eval":17,"../core/primitives/Bool":23,"../exec":43}],51:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4068,7 +4094,8 @@ var CheddarBreak = function () {
 exports.default = CheddarBreak;
 module.exports = exports['default'];
 
-},{"../core/eval/eval":17,"../signal":44}],51:[function(require,module,exports){
+},{"../core/eval/eval":17,"../signal":45}],52:[function(require,module,exports){
+(function (global){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4167,6 +4194,28 @@ var API = {
         return new _var3.default(val.apply(undefined, [API].concat(args)), { Writeable: false });
     },
 
+    // Run from source CST
+    // Use with compile-cheddar plugin
+    src: function src(CST, stdlibItem) {
+        var scope = new _scope2.default(null);
+        delete require.cache[require.resolve('./stdlib')];
+        scope.Scope = new Map(require('./stdlib'));
+
+        global.DISABLE_STDLIB_ITEM = stdlibItem;
+        var interpreter = require('../interpreter/exec');
+        global.DISABLE_STDLIB_ITEM = undefined;
+
+        var exec = new interpreter(CST, scope);
+        var res = exec.exec(global.CHEDDAR_OPTS);
+
+        if (typeof res === "string") {
+            throw new Error(res);
+        }
+
+        if (!CST.PreCompiledNodeName) throw new Error("No nametag given");
+        return [CST.PreCompiledNodeName, scope.accessor('main')];
+    },
+
     // Make a property (getters & setters)
     prop: function prop() {
         var getter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -4207,7 +4256,8 @@ var API = {
 exports.default = API;
 module.exports = exports['default'];
 
-},{"../helpers/init":3,"../interpreter/core/consts/err":8,"../interpreter/core/consts/nil":10,"../interpreter/core/env/class":11,"../interpreter/core/env/func":13,"../interpreter/core/env/scope":14,"../interpreter/core/env/var":15,"../interpreter/core/primitives/Array":21,"../interpreter/core/primitives/Bool":22,"../interpreter/core/primitives/Number":24,"../interpreter/core/primitives/Regex":25,"../interpreter/core/primitives/String":26,"../interpreter/core/primitives/Symbol":27}],52:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../helpers/init":3,"../interpreter/core/consts/err":8,"../interpreter/core/consts/nil":10,"../interpreter/core/env/class":11,"../interpreter/core/env/func":13,"../interpreter/core/env/scope":14,"../interpreter/core/env/var":15,"../interpreter/core/primitives/Array":22,"../interpreter/core/primitives/Bool":23,"../interpreter/core/primitives/Number":25,"../interpreter/core/primitives/Regex":26,"../interpreter/core/primitives/String":27,"../interpreter/core/primitives/Symbol":28,"../interpreter/exec":43,"./stdlib":105}],53:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4392,7 +4442,7 @@ module.exports = exports['default']; /**
                                       *  c      char, first char of string
                                       **/
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4408,7 +4458,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([require('./lib/rand')(_api2.default), require('./lib/max')(_api2.default), require('./lib/min')(_api2.default), require('./lib/len')(_api2.default), require('./lib/turn')(_api2.default), require('./lib/fuse')(_api2.default), require('./lib/vfuse')(_api2.default), require('./lib/join')(_api2.default), require('./lib/each')(_api2.default), require('./lib/map')(_api2.default), require('./lib/cycle')(_api2.default), require('./lib/shift')(_api2.default), require('./lib/all')(_api2.default), require('./lib/any')(_api2.default), require('./lib/filter')(_api2.default), require('./lib/sorted')(_api2.default), require('./lib/chunk')(_api2.default), require('./lib/rev')(_api2.default), require('./lib/unshift')(_api2.default), require('./lib/head')(_api2.default), require('./lib/tail')(_api2.default), require('./lib/index')(_api2.default), require('./lib/slice')(_api2.default), require('./lib/sum')(_api2.default), require('./lib/pop')(_api2.default), require('./lib/reduce')(_api2.default), require('./lib/push')(_api2.default)]);
 module.exports = exports['default'];
 
-},{"../../api":51,"./lib/all":54,"./lib/any":55,"./lib/chunk":56,"./lib/cycle":57,"./lib/each":58,"./lib/filter":59,"./lib/fuse":60,"./lib/head":61,"./lib/index":62,"./lib/join":63,"./lib/len":64,"./lib/map":65,"./lib/max":66,"./lib/min":67,"./lib/pop":68,"./lib/push":69,"./lib/rand":70,"./lib/reduce":71,"./lib/rev":72,"./lib/shift":73,"./lib/slice":74,"./lib/sorted":75,"./lib/sum":76,"./lib/tail":77,"./lib/turn":78,"./lib/unshift":79,"./lib/vfuse":80}],54:[function(require,module,exports){
+},{"../../api":52,"./lib/all":55,"./lib/any":56,"./lib/chunk":57,"./lib/cycle":58,"./lib/each":59,"./lib/filter":60,"./lib/fuse":61,"./lib/head":62,"./lib/index":63,"./lib/join":64,"./lib/len":65,"./lib/map":66,"./lib/max":67,"./lib/min":68,"./lib/pop":69,"./lib/push":70,"./lib/rand":71,"./lib/reduce":72,"./lib/rev":73,"./lib/shift":74,"./lib/slice":75,"./lib/sorted":76,"./lib/sum":77,"./lib/tail":78,"./lib/turn":79,"./lib/unshift":80,"./lib/vfuse":81}],55:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4446,7 +4496,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4484,7 +4534,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4522,7 +4572,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports["default"];
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4565,7 +4615,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4595,7 +4645,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4634,7 +4684,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4670,7 +4720,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4690,7 +4740,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4718,7 +4768,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4758,7 +4808,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4774,7 +4824,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4807,7 +4857,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4829,7 +4879,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4851,7 +4901,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4866,7 +4916,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4883,7 +4933,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4899,7 +4949,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4931,7 +4981,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4948,7 +4998,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4963,7 +5013,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4986,7 +5036,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5041,7 +5091,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5062,7 +5112,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5082,7 +5132,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5145,7 +5195,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5162,7 +5212,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5198,7 +5248,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5214,7 +5264,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map();
 module.exports = exports['default'];
 
-},{"../../api":51}],82:[function(require,module,exports){
+},{"../../api":52}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5230,7 +5280,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([require('./lib/tobase')(_api2.default)]);
 module.exports = exports['default'];
 
-},{"../../api":51,"./lib/tobase":83}],83:[function(require,module,exports){
+},{"../../api":52,"./lib/tobase":84}],84:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5300,7 +5350,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{"bases":105}],84:[function(require,module,exports){
+},{"bases":106}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5313,10 +5363,547 @@ var _api2 = _interopRequireDefault(_api);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new Map([require('./lib/slice')(_api2.default), require('./lib/bytes')(_api2.default), require('./lib/lines')(_api2.default), require('./lib/count')(_api2.default), require('./lib/upper')(_api2.default), require('./lib/lower')(_api2.default), require('./lib/split')(_api2.default), require('./lib/ord')(_api2.default), require('./lib/len')(_api2.default), require('./lib/rev')(_api2.default), require('./lib/chars')(_api2.default), require('./lib/head')(_api2.default), require('./lib/tail')(_api2.default), require('./lib/sub')(_api2.default), require('./lib/index')(_api2.default), require('./lib/chunk')(_api2.default), require('./lib/test')(_api2.default), require('./lib/match')(_api2.default)]);
+exports.default = new Map([require('./lib/slice')(_api2.default), require('./lib/bytes')(_api2.default), require('./lib/lines')(_api2.default), require('./lib/count')(_api2.default), require('./lib/upper')(_api2.default), require('./lib/lower')(_api2.default), require('./lib/split')(_api2.default), require('./lib/ord')(_api2.default), require('./lib/len')(_api2.default), require('./lib/rev')(_api2.default), require('./lib/chars')(_api2.default), require('./lib/head')(_api2.default), require('./lib/tail')(_api2.default), require('./lib/sub')(_api2.default), require('./lib/index')(_api2.default), require('./lib/chunk')(_api2.default), require('./lib/test')(_api2.default), require('./lib/match')(_api2.default), _api2.default.src({
+    isExpression: false,
+    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+    Index: 116,
+    _Tokens: [{
+        isExpression: false,
+        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+        Index: 115,
+        _Tokens: [{
+            isExpression: false,
+            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+            Index: 10,
+            _Tokens: ['main'],
+            'constructor': {
+                'name': 'CheddarVariableToken'
+            }
+        }, {
+            isExpression: false,
+            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+            Index: 51,
+            _Tokens: [{
+                isExpression: false,
+                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                Index: 30,
+                _Tokens: [{
+                    isExpression: false,
+                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                    Index: 30,
+                    _Tokens: [{
+                        isExpression: false,
+                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                        Index: 22,
+                        _Tokens: ['totalLength'],
+                        'constructor': {
+                            'name': 'CheddarVariableToken'
+                        }
+                    }, {
+                        isExpression: false,
+                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                        Index: 30,
+                        _Tokens: ['number'],
+                        'constructor': {
+                            'name': 'CheddarLiteral'
+                        }
+                    }],
+                    'constructor': {
+                        'name': 'CheddarTypedVariableToken'
+                    }
+                }],
+                'constructor': {
+                    'name': 'CheddarArgumentToken'
+                }
+            }, {
+                isExpression: false,
+                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                Index: 50,
+                _Tokens: [{
+                    isExpression: false,
+                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                    Index: 44,
+                    _Tokens: [{
+                        isExpression: false,
+                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                        Index: 36,
+                        _Tokens: ['fill'],
+                        'constructor': {
+                            'name': 'CheddarVariableToken'
+                        }
+                    }, {
+                        isExpression: false,
+                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                        Index: 44,
+                        _Tokens: ['string'],
+                        'constructor': {
+                            'name': 'CheddarLiteral'
+                        }
+                    }],
+                    'constructor': {
+                        'name': 'CheddarTypedVariableToken'
+                    }
+                }, {
+                    isExpression: false,
+                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                    Index: 50,
+                    _Tokens: [{
+                        isExpression: true,
+                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                        Index: 50,
+                        _Tokens: [{
+                            isExpression: true,
+                            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                            Index: 50,
+                            _Tokens: [{
+                                isExpression: false,
+                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                Index: 50,
+                                _Tokens: [{
+                                    isExpression: false,
+                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                    Index: 50,
+                                    _Tokens: [{
+                                        isExpression: false,
+                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                        Index: 50,
+                                        _Tokens: [' '],
+                                        'constructor': {
+                                            'name': 'CheddarStringToken'
+                                        }
+                                    }],
+                                    'constructor': {
+                                        'name': 'CheddarAnyLiteral'
+                                    }
+                                }],
+                                Type: {
+                                    'constructor': {
+                                        'name': 'Symbol'
+                                    }
+                                },
+                                'constructor': {
+                                    'name': 'CheddarPropertyToken'
+                                }
+                            }],
+                            'constructor': {
+                                'name': 'CheddarExpressionTokenAlpha'
+                            }
+                        }],
+                        'constructor': {
+                            'name': 'CheddarExpressionToken'
+                        }
+                    }],
+                    'constructor': {
+                        'name': 'StatementExpression'
+                    }
+                }],
+                'constructor': {
+                    'name': 'CheddarArgumentToken'
+                }
+            }],
+            'constructor': {
+                'name': 'CheddarArrayToken'
+            }
+        }, {
+            isExpression: false,
+            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+            Index: 115,
+            _Tokens: [{
+                isExpression: false,
+                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                Index: 114,
+                _Tokens: [{
+                    isExpression: false,
+                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                    Index: 112,
+                    _Tokens: ['return', {
+                        isExpression: false,
+                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                        Index: 112,
+                        _Tokens: [{
+                            isExpression: true,
+                            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                            Index: 112,
+                            _Tokens: [{
+                                isExpression: true,
+                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                Index: 105,
+                                _Tokens: [{
+                                    isExpression: false,
+                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                    Index: 105,
+                                    _Tokens: [{
+                                        isExpression: false,
+                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                        Index: 105,
+                                        _Tokens: [{
+                                            isExpression: true,
+                                            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                            Index: 105,
+                                            _Tokens: [{
+                                                isExpression: true,
+                                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                Index: 97,
+                                                _Tokens: [{
+                                                    isExpression: false,
+                                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                    Index: 97,
+                                                    _Tokens: [{
+                                                        isExpression: false,
+                                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                        Index: 93,
+                                                        _Tokens: [{
+                                                            isExpression: false,
+                                                            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                            Index: 93,
+                                                            _Tokens: [{
+                                                                isExpression: true,
+                                                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                Index: 68,
+                                                                _Tokens: [{
+                                                                    isExpression: true,
+                                                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                    Index: 68,
+                                                                    _Tokens: [{
+                                                                        isExpression: false,
+                                                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                        Index: 68,
+                                                                        _Tokens: [{
+                                                                            isExpression: false,
+                                                                            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                            Index: 68,
+                                                                            _Tokens: [{
+                                                                                isExpression: false,
+                                                                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                                Index: 68,
+                                                                                _Tokens: [10, 0, '0'],
+                                                                                'constructor': {
+                                                                                    'name': 'CheddarNumberToken'
+                                                                                }
+                                                                            }],
+                                                                            'constructor': {
+                                                                                'name': 'CheddarAnyLiteral'
+                                                                            }
+                                                                        }],
+                                                                        Type: {
+                                                                            'constructor': {
+                                                                                'name': 'Symbol'
+                                                                            }
+                                                                        },
+                                                                        'constructor': {
+                                                                            'name': 'CheddarPropertyToken'
+                                                                        }
+                                                                    }],
+                                                                    'constructor': {
+                                                                        'name': 'CheddarExpressionTokenAlpha'
+                                                                    }
+                                                                }],
+                                                                'constructor': {
+                                                                    'name': 'CheddarExpressionToken'
+                                                                }
+                                                            }, {
+                                                                isExpression: true,
+                                                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                Index: 92,
+                                                                _Tokens: [{
+                                                                    isExpression: true,
+                                                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                    Index: 81,
+                                                                    _Tokens: [{
+                                                                        isExpression: false,
+                                                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                        Index: 81,
+                                                                        _Tokens: [{
+                                                                            isExpression: false,
+                                                                            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                            Index: 81,
+                                                                            _Tokens: ['totalLength'],
+                                                                            'constructor': {
+                                                                                'name': 'CheddarVariableToken'
+                                                                            }
+                                                                        }],
+                                                                        Type: {
+                                                                            'constructor': {
+                                                                                'name': 'Symbol'
+                                                                            }
+                                                                        },
+                                                                        'constructor': {
+                                                                            'name': 'CheddarPropertyToken'
+                                                                        }
+                                                                    }],
+                                                                    'constructor': {
+                                                                        'name': 'CheddarExpressionTokenAlpha'
+                                                                    }
+                                                                }, {
+                                                                    isExpression: true,
+                                                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                    Index: 92,
+                                                                    _Tokens: [{
+                                                                        isExpression: false,
+                                                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                        Index: 83,
+                                                                        _Tokens: ['-'],
+                                                                        'constructor': {
+                                                                            'name': 'CheddarOperatorToken'
+                                                                        }
+                                                                    }, {
+                                                                        isExpression: true,
+                                                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                        Index: 92,
+                                                                        _Tokens: [{
+                                                                            isExpression: true,
+                                                                            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                            Index: 92,
+                                                                            _Tokens: [{
+                                                                                isExpression: false,
+                                                                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                                Index: 92,
+                                                                                _Tokens: [{
+                                                                                    isExpression: false,
+                                                                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                                    Index: 88,
+                                                                                    _Tokens: ['self'],
+                                                                                    'constructor': {
+                                                                                        'name': 'CheddarVariableToken'
+                                                                                    }
+                                                                                }, {
+                                                                                    isExpression: false,
+                                                                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                                    Index: 92,
+                                                                                    _Tokens: ['len'],
+                                                                                    'constructor': {
+                                                                                        'name': 'CheddarVariableToken'
+                                                                                    }
+                                                                                }],
+                                                                                Type: {
+                                                                                    'constructor': {
+                                                                                        'name': 'Symbol'
+                                                                                    }
+                                                                                },
+                                                                                'constructor': {
+                                                                                    'name': 'CheddarPropertyToken'
+                                                                                }
+                                                                            }],
+                                                                            'constructor': {
+                                                                                'name': 'CheddarExpressionTokenAlpha'
+                                                                            }
+                                                                        }],
+                                                                        'constructor': {
+                                                                            'name': 'CheddarExpressionToken'
+                                                                        }
+                                                                    }],
+                                                                    'constructor': {
+                                                                        'name': 'CheddarExpressionTokenBeta'
+                                                                    }
+                                                                }],
+                                                                'constructor': {
+                                                                    'name': 'CheddarExpressionToken'
+                                                                }
+                                                            }],
+                                                            'constructor': {
+                                                                'name': 'CheddarArrayToken'
+                                                            }
+                                                        }],
+                                                        'constructor': {
+                                                            'name': 'CheddarAnyLiteral'
+                                                        }
+                                                    }, {
+                                                        isExpression: false,
+                                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                        Index: 97,
+                                                        _Tokens: ['max'],
+                                                        'constructor': {
+                                                            'name': 'CheddarVariableToken'
+                                                        }
+                                                    }],
+                                                    Type: {
+                                                        'constructor': {
+                                                            'name': 'Symbol'
+                                                        }
+                                                    },
+                                                    'constructor': {
+                                                        'name': 'CheddarPropertyToken'
+                                                    }
+                                                }],
+                                                'constructor': {
+                                                    'name': 'CheddarExpressionTokenAlpha'
+                                                }
+                                            }, {
+                                                isExpression: true,
+                                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                Index: 104,
+                                                _Tokens: [{
+                                                    isExpression: false,
+                                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                    Index: 99,
+                                                    _Tokens: ['*'],
+                                                    'constructor': {
+                                                        'name': 'CheddarOperatorToken'
+                                                    }
+                                                }, {
+                                                    isExpression: true,
+                                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                    Index: 104,
+                                                    _Tokens: [{
+                                                        isExpression: true,
+                                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                        Index: 104,
+                                                        _Tokens: [{
+                                                            isExpression: false,
+                                                            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                            Index: 104,
+                                                            _Tokens: [{
+                                                                isExpression: false,
+                                                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                                Index: 104,
+                                                                _Tokens: ['fill'],
+                                                                'constructor': {
+                                                                    'name': 'CheddarVariableToken'
+                                                                }
+                                                            }],
+                                                            Type: {
+                                                                'constructor': {
+                                                                    'name': 'Symbol'
+                                                                }
+                                                            },
+                                                            'constructor': {
+                                                                'name': 'CheddarPropertyToken'
+                                                            }
+                                                        }],
+                                                        'constructor': {
+                                                            'name': 'CheddarExpressionTokenAlpha'
+                                                        }
+                                                    }],
+                                                    'constructor': {
+                                                        'name': 'CheddarExpressionToken'
+                                                    }
+                                                }],
+                                                'constructor': {
+                                                    'name': 'CheddarExpressionTokenBeta'
+                                                }
+                                            }],
+                                            'constructor': {
+                                                'name': 'CheddarExpressionToken'
+                                            }
+                                        }],
+                                        'constructor': {
+                                            'name': 'CheddarParenthesizedExpressionToken'
+                                        }
+                                    }],
+                                    Type: {
+                                        'constructor': {
+                                            'name': 'Symbol'
+                                        }
+                                    },
+                                    'constructor': {
+                                        'name': 'CheddarPropertyToken'
+                                    }
+                                }],
+                                'constructor': {
+                                    'name': 'CheddarExpressionTokenAlpha'
+                                }
+                            }, {
+                                isExpression: true,
+                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                Index: 112,
+                                _Tokens: [{
+                                    isExpression: false,
+                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                    Index: 107,
+                                    _Tokens: ['+'],
+                                    'constructor': {
+                                        'name': 'CheddarOperatorToken'
+                                    }
+                                }, {
+                                    isExpression: true,
+                                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                    Index: 112,
+                                    _Tokens: [{
+                                        isExpression: true,
+                                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                        Index: 112,
+                                        _Tokens: [{
+                                            isExpression: false,
+                                            Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                            Index: 112,
+                                            _Tokens: [{
+                                                isExpression: false,
+                                                Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                                                Index: 112,
+                                                _Tokens: ['self'],
+                                                'constructor': {
+                                                    'name': 'CheddarVariableToken'
+                                                }
+                                            }],
+                                            Type: {
+                                                'constructor': {
+                                                    'name': 'Symbol'
+                                                }
+                                            },
+                                            'constructor': {
+                                                'name': 'CheddarPropertyToken'
+                                            }
+                                        }],
+                                        'constructor': {
+                                            'name': 'CheddarExpressionTokenAlpha'
+                                        }
+                                    }],
+                                    'constructor': {
+                                        'name': 'CheddarExpressionToken'
+                                    }
+                                }],
+                                'constructor': {
+                                    'name': 'CheddarExpressionTokenBeta'
+                                }
+                            }],
+                            'constructor': {
+                                'name': 'CheddarExpressionToken'
+                            }
+                        }],
+                        'constructor': {
+                            'name': 'StatementExpression'
+                        }
+                    }],
+                    'constructor': {
+                        'name': 'StatementReturn'
+                    }
+                }, {
+                    isExpression: false,
+                    Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                    Index: 114,
+                    _Tokens: [{
+                        isExpression: true,
+                        Code: '\nfunc main(totalLength: number, fill: string = " ") {\n    return ([0, totalLength - self.len].max * fill) + self;\n}',
+                        Index: 114,
+                        _Tokens: [],
+                        'constructor': {
+                            'name': 'CheddarExpressionToken'
+                        }
+                    }],
+                    'constructor': {
+                        'name': 'StatementExpression'
+                    }
+                }],
+                'constructor': {
+                    'name': 'CheddarTokenize'
+                }
+            }],
+            'constructor': {
+                'name': 'CheddarCodeblock'
+            }
+        }],
+        'constructor': {
+            'name': 'StatementFunc'
+        }
+    }],
+    PreCompiledNodeName: 'padLeft',
+    'constructor': {
+        'name': 'CheddarTokenize'
+    }
+})]);
 module.exports = exports['default'];
 
-},{"../../api":51,"./lib/bytes":85,"./lib/chars":86,"./lib/chunk":87,"./lib/count":88,"./lib/head":89,"./lib/index":90,"./lib/len":91,"./lib/lines":92,"./lib/lower":93,"./lib/match":94,"./lib/ord":95,"./lib/rev":96,"./lib/slice":97,"./lib/split":98,"./lib/sub":99,"./lib/tail":100,"./lib/test":101,"./lib/upper":102}],85:[function(require,module,exports){
+},{"../../api":52,"./lib/bytes":86,"./lib/chars":87,"./lib/chunk":88,"./lib/count":89,"./lib/head":90,"./lib/index":91,"./lib/len":92,"./lib/lines":93,"./lib/lower":94,"./lib/match":95,"./lib/ord":96,"./lib/rev":97,"./lib/slice":98,"./lib/split":99,"./lib/sub":100,"./lib/tail":101,"./lib/test":102,"./lib/upper":103}],86:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5335,7 +5922,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],86:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5354,7 +5941,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],87:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5392,7 +5979,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports["default"];
 
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5445,7 +6032,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports["default"];
 
-},{}],89:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5463,7 +6050,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5480,7 +6067,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],91:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5496,7 +6083,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5515,7 +6102,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],93:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5530,7 +6117,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5557,7 +6144,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{"xregexp":166}],95:[function(require,module,exports){
+},{"xregexp":167}],96:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5594,7 +6181,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],96:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5609,7 +6196,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],97:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5630,7 +6217,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5651,7 +6238,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5732,7 +6319,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports['default'];
 
-},{"xregexp":166}],100:[function(require,module,exports){
+},{"xregexp":167}],101:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5750,7 +6337,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],101:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5773,7 +6360,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{"xregexp":166}],102:[function(require,module,exports){
+},{"xregexp":167}],103:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5788,7 +6375,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],103:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5820,7 +6407,7 @@ exports.default = new Map([["letters", { Value: _init2.default.apply(undefined, 
     })))) }], ["dquo", { Value: (0, _init2.default)(_String2.default, '"') }], ["squo", { Value: (0, _init2.default)(_String2.default, "'") }]]);
 module.exports = exports['default'];
 
-},{"../../../helpers/init":3,"../../../interpreter/core/primitives/Array":21,"../../../interpreter/core/primitives/String":26}],104:[function(require,module,exports){
+},{"../../../helpers/init":3,"../../../interpreter/core/primitives/Array":22,"../../../interpreter/core/primitives/String":27}],105:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -5838,7 +6425,7 @@ var STDLIB = new Map();
 STDLIB.Item = function (Name) {
     var NOT_SAFE = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-    if (NOT_SAFE && global.SAFE_MODE) {
+    if (NOT_SAFE && global.SAFE_MODE || global.DISABLE_STDLIB_ITEM === Name) {
         return;
     } else {
         STDLIB.set(Name, _api2.default.var(require("./ns/" + Name)(_api2.default)));
@@ -5872,7 +6459,7 @@ exports.default = STDLIB;
 module.exports = exports["default"];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./api":51}],105:[function(require,module,exports){
+},{"./api":52}],106:[function(require,module,exports){
 // bases.js
 // Utility for converting numbers to/from different bases/alphabets.
 // See README.md for details.
@@ -5988,189 +6575,7 @@ bases.fromBase = function (str, base) {
     return bases.fromAlphabet(str, bases.KNOWN_ALPHABETS[base]);
 };
 
-},{}],106:[function(require,module,exports){
-
 },{}],107:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
 
 },{}],108:[function(require,module,exports){
 'use strict';Object.defineProperty(exports,'__esModule',{value:true});/*
@@ -6395,7 +6800,7 @@ IFT,IFF];this._Tokens=[Ternary];return this.close()}else{return expression}};exp
 
          */var grammar=this.grammar(true,[[A,_argument2.default,''],[_var2.default],'->',[_block2.default,ExpressionToken]]);return grammar}}]);return CheddarFunctionToken}(_primitive2.default);exports.default=CheddarFunctionToken;module.exports=exports['default'];
 },{"../literals/primitive":122,"../literals/var":126,"../patterns/block":137,"../states/expr":140,"./args/argument":128,"./array":130,"./custom":131}],134:[function(require,module,exports){
-'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _expr=require('./expr');var _expr2=_interopRequireDefault(_expr);var _custom=require('./custom');var _custom2=_interopRequireDefault(_custom);var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var expr=(0,_custom2.default)(_expr2.default,true);var CheddarParenthesizedExpression=function(_CheddarLexer){_inherits(CheddarParenthesizedExpression,_CheddarLexer);function CheddarParenthesizedExpression(){_classCallCheck(this,CheddarParenthesizedExpression);return _possibleConstructorReturn(this,(CheddarParenthesizedExpression.__proto__||Object.getPrototypeOf(CheddarParenthesizedExpression)).apply(this,arguments))}_createClass(CheddarParenthesizedExpression,[{key:'exec',value:function exec(){this.open(false);var resp=this.grammar(true,['(',expr,')']);if(resp instanceof _lex2.default){resp._Tokens[0].Index=resp.Index;return this.close()}else{return this.error(resp)}/*
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _custom=require('./custom');var _custom2=_interopRequireDefault(_custom);var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarParenthesizedExpressionToken=function(_CheddarLexer){_inherits(CheddarParenthesizedExpressionToken,_CheddarLexer);function CheddarParenthesizedExpressionToken(){_classCallCheck(this,CheddarParenthesizedExpressionToken);return _possibleConstructorReturn(this,(CheddarParenthesizedExpressionToken.__proto__||Object.getPrototypeOf(CheddarParenthesizedExpressionToken)).apply(this,arguments))}_createClass(CheddarParenthesizedExpressionToken,[{key:'exec',value:function exec(){this.open(false);var resp=this.grammar(true,['(',(0,_custom2.default)(require('./expr'),true),')']);if(resp instanceof _lex2.default){resp._Tokens[0].Index=resp.Index;return this.close()}else{return this.error(resp)}/*
         // @Downgoat you change it if it works
         if (this.getChar() !== '(')
             this.error(CheddarError.EXIT_NOTFOUND);
@@ -6414,7 +6819,7 @@ IFT,IFF];this._Tokens=[Ternary];return this.close()}else{return expression}};exp
         if (this.getChar() !== ')')
             this.error(CheddarError.UNMATCHED_DELIMITER);
 
-        return this.close(attempt);*/}}]);return CheddarParenthesizedExpression}(_lex2.default);exports.default=CheddarParenthesizedExpression;module.exports=exports['default'];
+        return this.close(attempt);*/}}]);return CheddarParenthesizedExpressionToken}(_lex2.default);exports.default=CheddarParenthesizedExpressionToken;module.exports=exports['default'];
 },{"../tok/lex":146,"./custom":131,"./expr":132}],135:[function(require,module,exports){
 'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _paren_expr=require('./paren_expr');var _paren_expr2=_interopRequireDefault(_paren_expr);var _var=require('../literals/var');var _var2=_interopRequireDefault(_var);var _types=require('../consts/types');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _array=require('./array');var _array2=_interopRequireDefault(_array);var _any=require('./any');var _any2=_interopRequireDefault(_any);var _lex=require('../tok/lex');var _lex2=_interopRequireDefault(_lex);var _primitive=require('../literals/primitive');var _primitive2=_interopRequireDefault(_primitive);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var ARGLISTS=new Map([['(',')'],['{','}']]);var MATCHBODY=new Set('([');var CheddarPropertyToken=function(_CheddarLexer){_inherits(CheddarPropertyToken,_CheddarLexer);function CheddarPropertyToken(){_classCallCheck(this,CheddarPropertyToken);return _possibleConstructorReturn(this,(CheddarPropertyToken.__proto__||Object.getPrototypeOf(CheddarPropertyToken)).apply(this,arguments))}_createClass(CheddarPropertyToken,[{key:'exec',value:function exec(){var Initial=arguments.length>0&&arguments[0]!==undefined?arguments[0]:false;this.open(false);this.Type=_types.PropertyType.Property;var NOVAR=false;// Plans for property parsing:
 //  1. Match <variable> ("." | end)
@@ -6492,12 +6897,12 @@ while(this.curchar&&this.curchar!=='\n'){this.Index++}break;default:return false
 if(this.Code.indexOf(l,this.Index)===this.Index)this.Index+=l.length;else return false;return this}},{key:'jumpSpace',value:function jumpSpace(){return this.jumpWhite()}},{key:'lookAhead',value:function lookAhead(seq){this.jumpWhite();return this.Code.indexOf(seq,this.Index)===this.Index}},{key:'curchar',get:function get(){return this.Code[this.Index]}},{key:'last',get:function get(){return this._Tokens[this._Tokens.length-1]}},{key:'Tokens',get:function get(){return this._Tokens},set:function set(v){var _Tokens;if(Array.isArray(v))(_Tokens=this._Tokens).push.apply(_Tokens,_toConsumableArray(v));else this._Tokens.push(v)}},{key:'isLast',get:function get(){return!this.Code[this.Index]}},{key:'isPrimitive',get:function get(){return false}}]);return CheddarLexer}();exports.default=CheddarLexer;module.exports=exports['default'];
 },{"../consts/err":109}],147:[function(require,module,exports){
 'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if('value'in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor}}();var _op=require('../literals/op');var _op2=_interopRequireDefault(_op);var _ops=require('../consts/ops');var _err=require('../consts/err');var CheddarError=_interopRequireWildcard(_err);var _lex=require('./lex');var _lex2=_interopRequireDefault(_lex);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key]}}newObj.default=obj;return newObj}}function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i]}return arr2}else{return Array.from(arr)}}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function')}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called')}return call&&(typeof call==='object'||typeof call==='function')?call:self}function _inherits(subClass,superClass){if(typeof superClass!=='function'&&superClass!==null){throw new TypeError('Super expression must either be null or a function, not '+typeof superClass)}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass}var CheddarShuntingYard=function(_CheddarLexer){_inherits(CheddarShuntingYard,_CheddarLexer);function CheddarShuntingYard(){_classCallCheck(this,CheddarShuntingYard);return _possibleConstructorReturn(this,(CheddarShuntingYard.__proto__||Object.getPrototypeOf(CheddarShuntingYard)).apply(this,arguments))}_createClass(CheddarShuntingYard,[{key:'exec',value:function exec(expression){var _Tokens;if(expression&&expression.Code)this.Code=expression.Code;if(expression&&expression.Index)this.Index=expression.Index;// Flatten the expression
-var current=expression;var tokens=[];if(!current||!current.isExpression||current._Tokens.length>2)return this.close(expression);while(current&&current._Tokens.length===2&&(current.tok(1).isExpression||// prevents import recursion
-current.tok(1)instanceof CheddarShuntingYard)){if(current.tok().isExpression)//TODO: code, index
-tokens.push(new CheddarShuntingYard().exec(current.tok()));else tokens.push(current.tok());if(current.tok(1)instanceof CheddarShuntingYard){tokens.push(current.tok(1));current=null;break}else current=current.tok(1);//TODO: make sure this covers all cases; otherwise, see when this doesn't work
-}if(current&&current._Tokens.length>1){this.Index=current.Index;return this.error(CheddarError.UNEXPECTED_TOKEN)}if(current&&current._Tokens.length===1){if(current.tok().isExpression)tokens.push(new CheddarShuntingYard().exec(current.tok()));else tokens.push(current.tok())}// Reorder tokens
-var operators=[],precedences=[],unary=true;for(var i=0;i<tokens.length;i++){var token=tokens[i],previousPrecedence=0;if(token instanceof CheddarShuntingYard){for(var _i=0;_i<token._Tokens.length;_i++){this.Tokens=token.tok(_i)}unary=false}else if(token instanceof _op2.default){// It's an operator
-if(_ops.RA_PRECEDENCE.has(token.tok(0)))token.Tokens=_ops.TYPE.RTL;else if(unary)token.Tokens=_ops.TYPE.UNARY;else token.Tokens=_ops.TYPE.LTR;var precedence=void 0;switch(token.tok(1)){case _ops.TYPE.RTL:precedence=_ops.RA_PRECEDENCE.get(token.tok());break;case _ops.TYPE.UNARY:precedence=_ops.UNARY_PRECEDENCE.get(token.tok());break;case _ops.TYPE.LTR:precedence=_ops.PRECEDENCE.get(token.tok());break;}var minus=token.tok(1)==_ops.TYPE.RTL?0:1;previousPrecedence=precedences[precedences.length-1];while(precedence-minus<previousPrecedence){this.Tokens=operators.pop();precedences.pop();previousPrecedence=precedences[precedences.length-1]}operators.push(token);precedences.push(precedence);previousPrecedence=precedence;unary=true}else{this.Tokens=token;unary=false}}(_Tokens=this.Tokens).push.apply(_Tokens,_toConsumableArray(operators.reverse()));return this.close()}}]);return CheddarShuntingYard}(_lex2.default);exports.default=CheddarShuntingYard;module.exports=exports['default'];
+var current=expression;var tokens=[];if(!current||!current.isExpression||current._Tokens.length>2)return this.close(expression);while(current&&current._Tokens.length===2&&(current._Tokens[1].isExpression||// prevents import recursion
+current._Tokens[1]instanceof CheddarShuntingYard)){if(current._Tokens[0].isExpression)//TODO: code, index
+tokens.push(new CheddarShuntingYard().exec(current._Tokens[0]));else tokens.push(current._Tokens[0]);if(current._Tokens[1]instanceof CheddarShuntingYard){tokens.push(current._Tokens[1]);current=null;break}else current=current._Tokens[1];//TODO: make sure this covers all cases; otherwise, see when this doesn't work
+}if(current&&current._Tokens.length>1){this.Index=current.Index;return this.error(CheddarError.UNEXPECTED_TOKEN)}if(current&&current._Tokens.length===1){if(current._Tokens[0].isExpression)tokens.push(new CheddarShuntingYard().exec(current._Tokens[0]));else tokens.push(current._Tokens[0])}// Reorder tokens
+var operators=[],precedences=[],unary=true;for(var i=0;i<tokens.length;i++){var token=tokens[i],previousPrecedence=0;if(token instanceof CheddarShuntingYard){for(var _i=0;_i<token._Tokens.length;_i++){this.Tokens=token._Tokens[_i]}unary=false}else if(token.constructor.name==='CheddarOperatorToken'){// It's an operator
+if(_ops.RA_PRECEDENCE.has(token._Tokens[0]))token.Tokens=_ops.TYPE.RTL;else if(unary)token.Tokens=_ops.TYPE.UNARY;else token.Tokens=_ops.TYPE.LTR;var precedence=void 0;switch(token._Tokens[1]){case _ops.TYPE.RTL:precedence=_ops.RA_PRECEDENCE.get(token._Tokens[0]);break;case _ops.TYPE.UNARY:precedence=_ops.UNARY_PRECEDENCE.get(token._Tokens[0]);break;case _ops.TYPE.LTR:precedence=_ops.PRECEDENCE.get(token._Tokens[0]);break;}var minus=token._Tokens[1]==_ops.TYPE.RTL?0:1;previousPrecedence=precedences[precedences.length-1];while(precedence-minus<previousPrecedence){this.Tokens=operators.pop();precedences.pop();previousPrecedence=precedences[precedences.length-1]}operators.push(token);precedences.push(precedence);previousPrecedence=precedence;unary=true}else{this.Tokens=token;unary=false}}(_Tokens=this.Tokens).push.apply(_Tokens,_toConsumableArray(operators.reverse()));return this.close()}}]);return CheddarShuntingYard}(_lex2.default);exports.default=CheddarShuntingYard;module.exports=exports['default'];
 },{"../consts/err":109,"../consts/ops":111,"../literals/op":121,"./lex":146}],148:[function(require,module,exports){
 /*
 
@@ -7151,7 +7556,189 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require('_process'))
-},{"_process":107}],159:[function(require,module,exports){
+},{"_process":159}],159:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],160:[function(require,module,exports){
 /*!
  * XRegExp.build 3.1.1
  * <xregexp.com>
@@ -7339,7 +7926,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],160:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 /*!
  * XRegExp.matchRecursive 3.1.1
  * <xregexp.com>
@@ -7529,7 +8116,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],161:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 /*!
  * XRegExp Unicode Base 3.1.1
  * <xregexp.com>
@@ -7758,7 +8345,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],162:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
 /*!
  * XRegExp Unicode Blocks 3.1.1
  * <xregexp.com>
@@ -8836,7 +9423,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],163:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 /*!
  * XRegExp Unicode Categories 3.1.1
  * <xregexp.com>
@@ -9074,7 +9661,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],164:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 /*!
  * XRegExp Unicode Properties 3.1.1
  * <xregexp.com>
@@ -9182,7 +9769,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],165:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 /*!
  * XRegExp Unicode Scripts 3.1.1
  * <xregexp.com>
@@ -9744,7 +10331,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],166:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 var XRegExp = require('./xregexp');
 
 require('./addons/build')(XRegExp);
@@ -9757,7 +10344,7 @@ require('./addons/unicode-scripts')(XRegExp);
 
 module.exports = XRegExp;
 
-},{"./addons/build":159,"./addons/matchrecursive":160,"./addons/unicode-base":161,"./addons/unicode-blocks":162,"./addons/unicode-categories":163,"./addons/unicode-properties":164,"./addons/unicode-scripts":165,"./xregexp":167}],167:[function(require,module,exports){
+},{"./addons/build":160,"./addons/matchrecursive":161,"./addons/unicode-base":162,"./addons/unicode-blocks":163,"./addons/unicode-categories":164,"./addons/unicode-properties":165,"./addons/unicode-scripts":166,"./xregexp":168}],168:[function(require,module,exports){
 /*!
  * XRegExp 3.1.1
  * <xregexp.com>
