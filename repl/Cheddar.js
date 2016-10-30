@@ -83,7 +83,7 @@ windw.Chedz = function input(STDIN) {
 	}
 };
 
-},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":43,"../stdlib/stdlib":106,"cheddar-parser/dist/tok":155,"colors":162,"readline":108}],2:[function(require,module,exports){
+},{"../helpers/caret":2,"../interpreter/core/consts/nil":10,"../interpreter/core/env/scope":14,"../interpreter/exec":43,"../stdlib/stdlib":107,"cheddar-parser/dist/tok":155,"colors":162,"readline":109}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2129,7 +2129,7 @@ exports.default = CheddarArray;
 CheddarArray.Scope = require('../../../stdlib/primitive/Array/static');
 module.exports = exports['default'];
 
-},{"../../../stdlib/primitive/Array/lib":55,"../../../stdlib/primitive/Array/static":83,"../consts/err":8,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"../eval/eval":17,"./cast/array":29,"./op/array":36}],23:[function(require,module,exports){
+},{"../../../stdlib/primitive/Array/lib":56,"../../../stdlib/primitive/Array/static":84,"../consts/err":8,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"../eval/eval":17,"./cast/array":29,"./op/array":36}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2408,7 +2408,7 @@ CheddarNumber.Name = "Number";
 exports.default = CheddarNumber;
 module.exports = exports['default'];
 
-},{"../../../stdlib/primitive/Number/lib":84,"../env/class":11,"./cast/number":32,"./op/number":39}],26:[function(require,module,exports){
+},{"../../../stdlib/primitive/Number/lib":85,"../env/class":11,"./cast/number":32,"./op/number":39}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2497,7 +2497,7 @@ CheddarRegex.Name = "Regex";
 exports.default = CheddarRegex;
 module.exports = exports['default'];
 
-},{"../env/class":11,"./cast/regex":33,"./op/regex":40,"xregexp":176}],27:[function(require,module,exports){
+},{"../env/class":11,"./cast/regex":33,"./op/regex":40,"xregexp":177}],27:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2626,7 +2626,7 @@ exports.default = CheddarString;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../../stdlib/primitive/String/lib":86,"../../../stdlib/primitive/String/static":105,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"./cast/string":34,"./op/string":41}],28:[function(require,module,exports){
+},{"../../../stdlib/primitive/String/lib":87,"../../../stdlib/primitive/String/static":106,"../consts/nil":10,"../env/class":11,"../env/scope":14,"../env/var":15,"./cast/string":34,"./op/string":41}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3254,7 +3254,7 @@ exports.default = new Map([['repr', function (LHS, RHS) {
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../String":27,"xregexp":176}],41:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../String":27,"xregexp":177}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3346,7 +3346,7 @@ exports.default = new Map([
 }]]);
 module.exports = exports['default'];
 
-},{"../../../../helpers/init":3,"../../../../stdlib/api":53,"../../../../stdlib/ns/IO/sprintf":54,"../../consts/err":8,"../Array":22,"../Bool":23,"../Number":25}],42:[function(require,module,exports){
+},{"../../../../helpers/init":3,"../../../../stdlib/api":54,"../../../../stdlib/ns/IO/sprintf":55,"../../consts/err":8,"../Array":22,"../Bool":23,"../Number":25}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3469,6 +3469,10 @@ var _for = require('./states/for');
 
 var _for2 = _interopRequireDefault(_for);
 
+var _op = require('./states/op');
+
+var _op2 = _interopRequireDefault(_op);
+
 var _if = require('./states/if');
 
 var _if2 = _interopRequireDefault(_if);
@@ -3479,6 +3483,7 @@ exports.default = function (delay_addition) {
     return {
         StatementAssign: _assign2.default,
         StatementIf: _if2.default,
+        StatementOp: _op2.default,
         StatementFor: _for2.default,
         StatementFunc: _func2.default,
         StatementClass: _class2.default,
@@ -3490,7 +3495,7 @@ exports.default = function (delay_addition) {
 
 module.exports = exports['default'];
 
-},{"./core/eval/eval":17,"./states/assign":46,"./states/break":47,"./states/class":48,"./states/for":49,"./states/func":50,"./states/if":51,"./states/return":52}],45:[function(require,module,exports){
+},{"./core/eval/eval":17,"./states/assign":46,"./states/break":47,"./states/class":48,"./states/for":49,"./states/func":50,"./states/if":51,"./states/op":52,"./states/return":53}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4461,6 +4466,33 @@ exports.default = CheddarIf;
 module.exports = exports['default'];
 
 },{"../core/consts/err":8,"../core/consts/err_msg":9,"../core/consts/nil":10,"../core/env/scope":14,"../core/eval/eval":17,"../core/primitives/Bool":23,"../exec":43}],52:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CheddarOp = function () {
+    function CheddarOp() {
+        _classCallCheck(this, CheddarOp);
+    }
+
+    _createClass(CheddarOp, [{
+        key: "exec",
+        value: function exec() {}
+    }]);
+
+    return CheddarOp;
+}();
+
+exports.default = CheddarOp;
+module.exports = exports["default"];
+
+},{}],53:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4508,7 +4540,7 @@ var CheddarBreak = function () {
 exports.default = CheddarBreak;
 module.exports = exports['default'];
 
-},{"../core/eval/eval":17,"../signal":45}],53:[function(require,module,exports){
+},{"../core/eval/eval":17,"../signal":45}],54:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -4671,7 +4703,7 @@ exports.default = API;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../helpers/init":3,"../interpreter/core/consts/err":8,"../interpreter/core/consts/nil":10,"../interpreter/core/env/class":11,"../interpreter/core/env/func":13,"../interpreter/core/env/scope":14,"../interpreter/core/env/var":15,"../interpreter/core/primitives/Array":22,"../interpreter/core/primitives/Bool":23,"../interpreter/core/primitives/Number":25,"../interpreter/core/primitives/Regex":26,"../interpreter/core/primitives/String":27,"../interpreter/core/primitives/Symbol":28,"../interpreter/exec":43,"./stdlib":106}],54:[function(require,module,exports){
+},{"../helpers/init":3,"../interpreter/core/consts/err":8,"../interpreter/core/consts/nil":10,"../interpreter/core/env/class":11,"../interpreter/core/env/func":13,"../interpreter/core/env/scope":14,"../interpreter/core/env/var":15,"../interpreter/core/primitives/Array":22,"../interpreter/core/primitives/Bool":23,"../interpreter/core/primitives/Number":25,"../interpreter/core/primitives/Regex":26,"../interpreter/core/primitives/String":27,"../interpreter/core/primitives/Symbol":28,"../interpreter/exec":43,"./stdlib":107}],55:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4856,7 +4888,7 @@ module.exports = exports['default']; /**
                                       *  c      char, first char of string
                                       **/
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4872,7 +4904,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([require('./lib/rand')(_api2.default), require('./lib/max')(_api2.default), require('./lib/min')(_api2.default), require('./lib/len')(_api2.default), require('./lib/turn')(_api2.default), require('./lib/fuse')(_api2.default), require('./lib/vfuse')(_api2.default), require('./lib/join')(_api2.default), require('./lib/each')(_api2.default), require('./lib/map')(_api2.default), require('./lib/cycle')(_api2.default), require('./lib/shift')(_api2.default), require('./lib/all')(_api2.default), require('./lib/any')(_api2.default), require('./lib/filter')(_api2.default), require('./lib/sorted')(_api2.default), require('./lib/chunk')(_api2.default), require('./lib/rev')(_api2.default), require('./lib/unshift')(_api2.default), require('./lib/head')(_api2.default), require('./lib/tail')(_api2.default), require('./lib/index')(_api2.default), require('./lib/slice')(_api2.default), require('./lib/sum')(_api2.default), require('./lib/pop')(_api2.default), require('./lib/reduce')(_api2.default), require('./lib/push')(_api2.default)]);
 module.exports = exports['default'];
 
-},{"../../api":53,"./lib/all":56,"./lib/any":57,"./lib/chunk":58,"./lib/cycle":59,"./lib/each":60,"./lib/filter":61,"./lib/fuse":62,"./lib/head":63,"./lib/index":64,"./lib/join":65,"./lib/len":66,"./lib/map":67,"./lib/max":68,"./lib/min":69,"./lib/pop":70,"./lib/push":71,"./lib/rand":72,"./lib/reduce":73,"./lib/rev":74,"./lib/shift":75,"./lib/slice":76,"./lib/sorted":77,"./lib/sum":78,"./lib/tail":79,"./lib/turn":80,"./lib/unshift":81,"./lib/vfuse":82}],56:[function(require,module,exports){
+},{"../../api":54,"./lib/all":57,"./lib/any":58,"./lib/chunk":59,"./lib/cycle":60,"./lib/each":61,"./lib/filter":62,"./lib/fuse":63,"./lib/head":64,"./lib/index":65,"./lib/join":66,"./lib/len":67,"./lib/map":68,"./lib/max":69,"./lib/min":70,"./lib/pop":71,"./lib/push":72,"./lib/rand":73,"./lib/reduce":74,"./lib/rev":75,"./lib/shift":76,"./lib/slice":77,"./lib/sorted":78,"./lib/sum":79,"./lib/tail":80,"./lib/turn":81,"./lib/unshift":82,"./lib/vfuse":83}],57:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4910,7 +4942,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4948,7 +4980,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4986,7 +5018,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports["default"];
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5029,7 +5061,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5059,7 +5091,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5098,7 +5130,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5134,7 +5166,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5154,7 +5186,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5182,7 +5214,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5222,7 +5254,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5238,7 +5270,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5271,7 +5303,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5293,7 +5325,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5315,7 +5347,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5330,7 +5362,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5347,7 +5379,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5363,7 +5395,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5395,7 +5427,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5412,7 +5444,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5427,7 +5459,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5450,7 +5482,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5505,7 +5537,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5526,7 +5558,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5546,7 +5578,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5609,7 +5641,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5626,7 +5658,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5662,7 +5694,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5678,7 +5710,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map();
 module.exports = exports['default'];
 
-},{"../../api":53}],84:[function(require,module,exports){
+},{"../../api":54}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5694,7 +5726,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new Map([require('./lib/tobase')(_api2.default)]);
 module.exports = exports['default'];
 
-},{"../../api":53,"./lib/tobase":85}],85:[function(require,module,exports){
+},{"../../api":54,"./lib/tobase":86}],86:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5764,7 +5796,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{"bases":107}],86:[function(require,module,exports){
+},{"bases":108}],87:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6317,7 +6349,7 @@ exports.default = new Map([require('./lib/slice')(_api2.default), require('./lib
 })]);
 module.exports = exports['default'];
 
-},{"../../api":53,"./lib/bytes":87,"./lib/chars":88,"./lib/chunk":89,"./lib/count":90,"./lib/head":91,"./lib/index":92,"./lib/len":93,"./lib/lines":94,"./lib/lower":95,"./lib/match":96,"./lib/ord":97,"./lib/rev":98,"./lib/slice":99,"./lib/split":100,"./lib/sub":101,"./lib/tail":102,"./lib/test":103,"./lib/upper":104}],87:[function(require,module,exports){
+},{"../../api":54,"./lib/bytes":88,"./lib/chars":89,"./lib/chunk":90,"./lib/count":91,"./lib/head":92,"./lib/index":93,"./lib/len":94,"./lib/lines":95,"./lib/lower":96,"./lib/match":97,"./lib/ord":98,"./lib/rev":99,"./lib/slice":100,"./lib/split":101,"./lib/sub":102,"./lib/tail":103,"./lib/test":104,"./lib/upper":105}],88:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6336,7 +6368,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6355,7 +6387,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],89:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6393,7 +6425,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports["default"];
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6446,7 +6478,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports["default"];
 
-},{}],91:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6464,7 +6496,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6481,7 +6513,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],93:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6497,7 +6529,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6516,7 +6548,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],95:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6531,7 +6563,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],96:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6558,7 +6590,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{"xregexp":176}],97:[function(require,module,exports){
+},{"xregexp":177}],98:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6595,7 +6627,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6610,7 +6642,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6631,7 +6663,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],100:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6652,7 +6684,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],101:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6733,7 +6765,7 @@ exports.default = function (cheddar) {
 
 module.exports = exports['default'];
 
-},{"xregexp":176}],102:[function(require,module,exports){
+},{"xregexp":177}],103:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6751,7 +6783,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],103:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6774,7 +6806,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{"xregexp":176}],104:[function(require,module,exports){
+},{"xregexp":177}],105:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6789,7 +6821,7 @@ exports.default = function (api) {
 
 module.exports = exports["default"];
 
-},{}],105:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6821,7 +6853,7 @@ exports.default = new Map([["letters", { Value: _init2.default.apply(undefined, 
     })))) }], ["dquo", { Value: (0, _init2.default)(_String2.default, '"') }], ["squo", { Value: (0, _init2.default)(_String2.default, "'") }]]);
 module.exports = exports['default'];
 
-},{"../../../helpers/init":3,"../../../interpreter/core/primitives/Array":22,"../../../interpreter/core/primitives/String":27}],106:[function(require,module,exports){
+},{"../../../helpers/init":3,"../../../interpreter/core/primitives/Array":22,"../../../interpreter/core/primitives/String":27}],107:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -6873,7 +6905,7 @@ exports.default = STDLIB;
 module.exports = exports["default"];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./api":53}],107:[function(require,module,exports){
+},{"./api":54}],108:[function(require,module,exports){
 // bases.js
 // Utility for converting numbers to/from different bases/alphabets.
 // See README.md for details.
@@ -6989,189 +7021,7 @@ bases.fromBase = function (str, base) {
     return bases.fromAlphabet(str, bases.KNOWN_ALPHABETS[base]);
 };
 
-},{}],108:[function(require,module,exports){
-
 },{}],109:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
 
 },{}],110:[function(require,module,exports){
 'use strict';Object.defineProperty(exports,'__esModule',{value:true});/*
@@ -8170,7 +8020,189 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require('_process'))
-},{"_process":109}],169:[function(require,module,exports){
+},{"_process":169}],169:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],170:[function(require,module,exports){
 /*!
  * XRegExp.build 3.1.1
  * <xregexp.com>
@@ -8358,7 +8390,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],170:[function(require,module,exports){
+},{}],171:[function(require,module,exports){
 /*!
  * XRegExp.matchRecursive 3.1.1
  * <xregexp.com>
@@ -8548,7 +8580,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],171:[function(require,module,exports){
+},{}],172:[function(require,module,exports){
 /*!
  * XRegExp Unicode Base 3.1.1
  * <xregexp.com>
@@ -8777,7 +8809,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],172:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 /*!
  * XRegExp Unicode Blocks 3.1.1
  * <xregexp.com>
@@ -9855,7 +9887,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],173:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 /*!
  * XRegExp Unicode Categories 3.1.1
  * <xregexp.com>
@@ -10093,7 +10125,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],174:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 /*!
  * XRegExp Unicode Properties 3.1.1
  * <xregexp.com>
@@ -10201,7 +10233,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],175:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 /*!
  * XRegExp Unicode Scripts 3.1.1
  * <xregexp.com>
@@ -10763,7 +10795,7 @@ module.exports = function(XRegExp) {
 
 };
 
-},{}],176:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 var XRegExp = require('./xregexp');
 
 require('./addons/build')(XRegExp);
@@ -10776,7 +10808,7 @@ require('./addons/unicode-scripts')(XRegExp);
 
 module.exports = XRegExp;
 
-},{"./addons/build":169,"./addons/matchrecursive":170,"./addons/unicode-base":171,"./addons/unicode-blocks":172,"./addons/unicode-categories":173,"./addons/unicode-properties":174,"./addons/unicode-scripts":175,"./xregexp":177}],177:[function(require,module,exports){
+},{"./addons/build":170,"./addons/matchrecursive":171,"./addons/unicode-base":172,"./addons/unicode-blocks":173,"./addons/unicode-categories":174,"./addons/unicode-properties":175,"./addons/unicode-scripts":176,"./xregexp":178}],178:[function(require,module,exports){
 /*!
  * XRegExp 3.1.1
  * <xregexp.com>
