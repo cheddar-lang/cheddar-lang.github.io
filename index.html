@@ -15,6 +15,17 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/railscasts.min.css">
         <script src="assets/js/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
+        
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        
+          ga('create', 'UA-78953317-2', 'auto');
+          ga('send', 'pageview');
+        
+        </script>
 
         <link rel="stylesheet" href="assets/css/main.css" />
         <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -94,15 +105,23 @@
                         <section class="spotlight">
                             <div class="image">
                                 <div>
-                                    <pre><code class="cheddar">let inc = (+) & 1
-class Incrementer(start: Number = 0) {
-    prop value -> self.start
-    inc -> inc(self)
+                                    <pre><code class="cheddar">class Greeter(name: tuple&lt;string, string&gt;, age: number) {
+    getName () -&gt; self.name.join(" ")
+    addAge (text) -&gt; "%s! You are %d years old." % self.age
+    greet (text) -&gt; greeting -&gt; "%s, %s" % (greeting, text)
 }
 
-let foo: Incrementer = Incrementer { 5 }
-foo.inc()
-print "Incrementer is at: %s" % foo // 6</code></pre>
+let SayHi: Greeter = Greeter {
+    Tuple::IO.prompt(
+        [
+            "First", "Last",
+        ].map(@.append(" Name? "))
+    ),
+    Number::IO.prompt("Age? ")
+}
+
+print (SayHi.greet + SayHi.addAge + SayHi.getName)("Hello")
+</code></pre>
                                 </div>
                             </div><div class="content">
                                 <h2>Freedom.<br/>Flexiblity.</h2>
@@ -159,14 +178,14 @@ bash &lt;(curl -fsSL cheddar.vihan.org/i/nix/cheddar)</code></pre></p>
                                 <li class="icon fa-user">
                                     <h3>Manual Install</h3>
                                     <p>If you which to install a development version or just want to manually install, run the following code:
-                                    <pre><code class="bash def">git clone http://github.com/cheddar-lang/Cheddar.git
+                                    <pre><code class="def no-highlight">git clone http://github.com/cheddar-lang/Cheddar.git
 cd Cheddar
 npm install
 node ./dist/cli/cheddar.js</code></pre></p>
                                 </li>
                                 <li class="icon fa-question-circle">
                                     <h3>Other?</h3>
-                                    <p>Chances are that you are on a *nix system and you don't know it. If you're sure, then <a href="https://github.com/cheddar-lang/Cheddar/issues/new">leave an issue</a> on the <a href="https://github.com">GitHub</a></p>.
+                                    <p>Chances are that you are on a *nix system and you don't know it. If you're sure, then <a href="https://github.com/cheddar-lang/Cheddar/issues/new">leave an issue</a> on the <a href="https://github.com">GitHub</a>.</p>
                                     Additionally, attempt a manual install.
                                 </li><Paste>
                             </ul>
