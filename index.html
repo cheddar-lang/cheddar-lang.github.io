@@ -21,6 +21,15 @@
         <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
     </head>
     <body class="landing">
+        <!-- Changelog -->
+        <script>
+          var HW_config = {
+            selector: "#hw_badge", // CSS selector where to inject the badge
+            account: "0xWo6x" // your account ID
+          };
+        </script>
+        <script async src="//cdn.headwayapp.co/widget.js"></script>
+        <div id="hw_badge" style="position: fixed; top: 1em; left: 1em; z-index: 1;"></div>
 
         <!-- Page Wrapper -->
             <div id="page-wrapper">
@@ -85,24 +94,15 @@
                         <section class="spotlight">
                             <div class="image">
                                 <div>
-                                    <pre><code class="cheddar">IO.printf("Hello, %s!",
-  IO.prompt(
-    "Name:",
-    "Please enter your name"
-  )
-)</code></pre>
-                                </div>
-                                <div>
-                                    <pre><code class="cheddar">class Greeter(String: name?) {
-  ask -> self.name = IO.prompt("Name:", true)
-  say -> IO.printf("Hello, %s!", self.name)
+                                    <pre><code class="cheddar">let inc = (+) & 1
+class Incrementer(start: Number = 0) {
+    prop value -> self.start
+    inc -> inc(self)
 }
 
-export main() {
-  const Hello := Greeter::()
-  Hello.ask(true)
-  Hello.say()
-}</code></pre>
+let foo: Incrementer = Incrementer { 5 }
+foo.inc()
+print "Incrementer is at: %s" % foo // 6</code></pre>
                                 </div>
                             </div><div class="content">
                                 <h2>Freedom.<br/>Flexiblity.</h2>
